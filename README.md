@@ -8,6 +8,7 @@ Numero|Nome|email|Github ID
 80934|João Arbues Moreira|joao123moreira@gmail.com|JotaMoreira
 62511|João Ricardo Matos|joao.r.matos@ist.utl.pt|joaormatos
 78076|André Fernandes|andre.diegues.f@gmail.com|Dieguesist
+64710|Afonso Águas|afonsoaguas@gmail.com|Jackpothead
 
 To run tests execute: mvn clean install
  
