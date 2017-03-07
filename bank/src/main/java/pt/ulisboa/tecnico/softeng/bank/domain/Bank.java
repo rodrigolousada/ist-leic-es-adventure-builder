@@ -19,17 +19,34 @@ public class Bank {
 	private final List<Operation> log = new ArrayList<>();
 
 	public Bank(String name, String code) {
+		if(name == null || code == null) {
+			throw new BankException("null argument");
+		}
+
 		checkCode(code);
+		checkName(name);
 
 		this.name = name;
 		this.code = code;
 
-		Bank.banks.add(this);
+		if (!Bank.banks.add(this)){
+			throw new BankException("Duplicate bank code: " + code);
+		}
+
 	}
 
 	private void checkCode(String code) {
+		if (code.trim().length() == 0){
+			throw new BankException("Invalid bank code (only whitespace)");
+		}
 		if (code.length() != Bank.CODE_SIZE) {
-			throw new BankException();
+			throw new BankException("Invalid bank code length (must be " + Bank.CODE_SIZE + " characters long)");
+		}
+	}
+
+	private void checkName(String name) {
+		if (name.trim().length() == 0) {
+			throw new BankException("No bank name");
 		}
 	}
 
@@ -90,6 +107,26 @@ public class Bank {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.code.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null){
+			return false;
+		}
+		if (!Bank.class.isAssignableFrom(obj.getClass())) {
+			return false;
+		}
+
+		final Bank other = (Bank) obj;
+
+		// Banks are considered equal if they have the same code
+		return this.code.equals(other.code);
 	}
 
 }
