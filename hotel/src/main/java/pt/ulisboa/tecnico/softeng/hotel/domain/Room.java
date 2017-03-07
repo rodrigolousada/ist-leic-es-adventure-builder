@@ -23,10 +23,29 @@ public class Room {
 
 	public Room(Hotel hotel, String number, Type type) {
 		this.hotel = hotel;
+		
+		checkNumber(number);
 		this.number = number;
 		this.type = type;
 
 		this.hotel.addRoom(this);
+	}
+	
+	private void checkNumber(String number) {
+		if (number == null || number.trim().length() == 0) {
+			throw new HotelException();
+		}
+
+		for (char n : number.toCharArray()) {
+			if (!Character.isDigit(n)) {
+				throw new HotelException();
+			}
+		}
+		for (Room room : this.hotel.getRooms()) {
+			if (room.getNumber().equals(number)) {
+				throw new HotelException();
+			}
+		}
 	}
 
 	Hotel getHotel() {

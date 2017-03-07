@@ -46,6 +46,10 @@ public class Hotel {
 	String getName() {
 		return this.name;
 	}
+	
+	Set<Room> getRooms(){
+		return this.rooms;
+	}
 
 	void addRoom(Room room) {
 		this.rooms.add(room);
