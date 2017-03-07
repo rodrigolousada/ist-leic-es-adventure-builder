@@ -25,8 +25,13 @@ public class Hotel {
 	}
 
 	private void checkCode(String code) {
-		if (code.length() != Hotel.CODE_SIZE) {
-			throw new HotelException();
+		if (code == null || code.trim().length() == 0 || code.length() != Hotel.CODE_SIZE) {
+			throw new HotelException();				
+		}
+		for(Hotel hotel : Hotel.hotels) {
+			if(hotel.getCode().equals(code)) {
+				throw new HotelException();
+			}
 		}
 	}
 

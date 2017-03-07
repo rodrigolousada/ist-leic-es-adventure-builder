@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class HotelConstructorTest {
 
@@ -21,6 +22,61 @@ public class HotelConstructorTest {
 		Assert.assertEquals(0, hotel.getNumberOfRooms());
 		Assert.assertEquals(1, Hotel.hotels.size());
 	}
+	
+	@Test
+	public void nullCode() {
+		try {
+			new Hotel(null, "Londres");
+			Assert.fail();
+		} catch (HotelException he) {
+			Assert.assertEquals(0, Hotel.hotels.size());
+		}
+	}
+
+	@Test
+	public void emptyCode() {
+		try {
+			new Hotel("       ", "Londres");
+			Assert.fail();
+		} catch (HotelException he) {
+			Assert.assertEquals(0, Hotel.hotels.size());
+		}
+	}
+	
+	@Test
+	public void oversizedCode() {
+		try {
+			new Hotel("XPT01234","Londres");
+			Assert.fail();
+		}
+		catch(HotelException he) {
+			Assert.assertEquals(0, Hotel.hotels.size());
+		}
+	}
+	
+	@Test
+	public void undersizedCode() {
+		try {
+			new Hotel("XPT012","Londres");
+			Assert.fail();
+		}
+		catch(HotelException he) {
+			Assert.assertEquals(0, Hotel.hotels.size());
+		}
+	}
+	
+	@Test
+	public void uniqueCode() {
+		Hotel hotel = new Hotel("XPTO123", "Londres");
+		try {
+			new Hotel("XPTO123", "Paris");
+			Assert.fail();
+		}
+		catch(HotelException he) {
+			Assert.assertEquals(1, Hotel.hotels.size());
+			Assert.assertTrue(Hotel.hotels.contains(hotel));
+		}
+	}
 
 	@After
 	public void tearDown() {
@@ -28,3 +84,4 @@ public class HotelConstructorTest {
 	}
 
 }
+	
