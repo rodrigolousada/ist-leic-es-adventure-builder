@@ -21,6 +21,8 @@ public class ActivityMatchAgeMethodTest {
 	@Test
 	public void successIn() {
 		Assert.assertTrue(this.activity.matchAge(50));
+		Assert.assertTrue(this.activity.matchAge(18));
+		Assert.assertTrue(this.activity.matchAge(80));
 	}
 
 	@After
