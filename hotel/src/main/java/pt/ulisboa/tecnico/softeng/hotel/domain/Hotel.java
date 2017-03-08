@@ -34,8 +34,16 @@ public class Hotel {
 			}
 		}
 	}
+	
+	private void checkNullVacancy(Room.Type type, LocalDate arrival, LocalDate departure) {
+		if (type == null || arrival == null || departure == null) {
+			throw new HotelException();				
+		}
+	}
 
 	public Room hasVacancy(Room.Type type, LocalDate arrival, LocalDate departure) {
+		checkNullVacancy(type, arrival, departure);
+		
 		for (Room room : this.rooms) {
 			if (room.isFree(type, arrival, departure)) {
 				return room;
