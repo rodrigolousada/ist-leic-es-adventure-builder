@@ -18,20 +18,26 @@ public class Hotel {
 
 	public Hotel(String code, String name) {
 		checkCode(code);
-
+		checkName(name);
 		this.code = code;
 		this.name = name;
 		Hotel.hotels.add(this);
 	}
 
 	private void checkCode(String code) {
-		if (code == null || code.trim().length() == 0 || code.length() != Hotel.CODE_SIZE) {
+		if (code == null || code.trim().length() != Hotel.CODE_SIZE) {
 			throw new HotelException();				
 		}
 		for(Hotel hotel : Hotel.hotels) {
 			if(hotel.getCode().equals(code)) {
 				throw new HotelException();
 			}
+		}
+	}
+	
+	private void checkName(String name) {
+		if(name == null || name.trim().length() == 0) {
+			throw new HotelException();
 		}
 	}
 	

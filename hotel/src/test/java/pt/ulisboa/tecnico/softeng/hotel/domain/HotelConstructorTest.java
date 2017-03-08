@@ -32,11 +32,41 @@ public class HotelConstructorTest {
 			Assert.assertEquals(0, Hotel.hotels.size());
 		}
 	}
+	
+	@Test
+	public void nullName() {
+		try {
+			new Hotel("XPT0123", null);
+			Assert.fail();
+		} catch (HotelException he) {
+			Assert.assertEquals(0, Hotel.hotels.size());
+		}
+	}
 
 	@Test
 	public void emptyCode() {
 		try {
 			new Hotel("       ", "Londres");
+			Assert.fail();
+		} catch (HotelException he) {
+			Assert.assertEquals(0, Hotel.hotels.size());
+		}
+	}
+	
+	@Test
+	public void emptyName() {
+		try {
+			new Hotel("XPT0123", "    ");
+			Assert.fail();
+		} catch (HotelException he) {
+			Assert.assertEquals(0, Hotel.hotels.size());
+		}
+	}
+	
+	@Test
+	public void spacesCode() {
+		try {
+			new Hotel("  XP   ", "Londres");
 			Assert.fail();
 		} catch (HotelException he) {
 			Assert.assertEquals(0, Hotel.hotels.size());
