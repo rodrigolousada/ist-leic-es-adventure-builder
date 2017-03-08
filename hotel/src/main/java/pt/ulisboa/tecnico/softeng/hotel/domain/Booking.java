@@ -12,15 +12,15 @@ public class Booking {
 	private final LocalDate departure;
 
 	Booking(Hotel hotel, LocalDate arrival, LocalDate departure) {
-		this.reference = hotel.getCode() + Integer.toString(++Booking.counter);
-		
 		checkDate(arrival,departure);
+		this.reference = hotel.getCode() + Integer.toString(++Booking.counter);
+
 		this.arrival = arrival;
 		this.departure = departure;
 	}
 
 	private void checkDate(LocalDate arrival, LocalDate departure){
-		if (departure.isBefore(arrival)){
+		if (departure.isBefore(arrival) || departure.isEqual(arrival)){
 			throw new HotelException();
 		}
 	}
