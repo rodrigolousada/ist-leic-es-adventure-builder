@@ -71,7 +71,7 @@ public class HotelHasVacancyMethodTest {
 	}
 	
 	@Test
-	public void sameVancancy() {
+	public void hasNoVacancy1() {
 		LocalDate arrival = new LocalDate(2016, 12, 19);
 		LocalDate departure = new LocalDate(2016, 12, 21);
 
@@ -82,7 +82,7 @@ public class HotelHasVacancyMethodTest {
 	}
 	
 	@Test
-	public void previousVacancyTaken() {
+	public void hasNoVacancy2() {
 		LocalDate arrival1 = new LocalDate(2016, 12, 19);
 		LocalDate departure1 = new LocalDate(2016, 12, 21);
 		LocalDate arrival2 = new LocalDate(2016, 12, 18);
@@ -95,7 +95,7 @@ public class HotelHasVacancyMethodTest {
 	}
 	
 	@Test
-	public void nextVacancyTaken() {
+	public void hasNoVacancy3() {
 		LocalDate arrival1 = new LocalDate(2016, 12, 19);
 		LocalDate departure1 = new LocalDate(2016, 12, 21);
 		LocalDate arrival2 = new LocalDate(2016, 12, 20);
@@ -105,6 +105,96 @@ public class HotelHasVacancyMethodTest {
 		
 		Room room = this.hotel.hasVacancy(Type.DOUBLE, arrival2, departure2);
 		Assert.assertNull(room);
+	}
+	
+	@Test
+	public void hasNoVacancy4() {
+		LocalDate arrival1 = new LocalDate(2016, 12, 19);
+		LocalDate departure1 = new LocalDate(2016, 12, 21);
+		LocalDate arrival2 = new LocalDate(2016, 12, 19);
+		LocalDate departure2 = new LocalDate(2016, 12, 20); 
+		
+		Hotel.reserveHotel(Type.DOUBLE, arrival1, departure1);
+		
+		Room room = this.hotel.hasVacancy(Type.DOUBLE, arrival2, departure2);
+		Assert.assertNull(room);
+	}
+	
+	@Test
+	public void hasNoVacancy5() {
+		LocalDate arrival1 = new LocalDate(2016, 12, 19);
+		LocalDate departure1 = new LocalDate(2016, 12, 21);
+		LocalDate arrival2 = new LocalDate(2016, 12, 19);
+		LocalDate departure2 = new LocalDate(2016, 12, 22); 
+		
+		Hotel.reserveHotel(Type.DOUBLE, arrival1, departure1);
+		
+		Room room = this.hotel.hasVacancy(Type.DOUBLE, arrival2, departure2);
+		Assert.assertNull(room);
+	}
+	
+	@Test
+	public void hasNoVacancy6() {
+		LocalDate arrival1 = new LocalDate(2016, 12, 19);
+		LocalDate departure1 = new LocalDate(2016, 12, 21);
+		LocalDate arrival2 = new LocalDate(2016, 12, 18);
+		LocalDate departure2 = new LocalDate(2016, 12, 21); 
+		
+		Hotel.reserveHotel(Type.DOUBLE, arrival1, departure1);
+		
+		Room room = this.hotel.hasVacancy(Type.DOUBLE, arrival2, departure2);
+		Assert.assertNull(room);
+	}
+	
+	@Test
+	public void hasNoVacancy7() {
+		LocalDate arrival1 = new LocalDate(2016, 12, 19);
+		LocalDate departure1 = new LocalDate(2016, 12, 21);
+		LocalDate arrival2 = new LocalDate(2016, 12, 20);
+		LocalDate departure2 = new LocalDate(2016, 12, 21); 
+		
+		Hotel.reserveHotel(Type.DOUBLE, arrival1, departure1);
+		
+		Room room = this.hotel.hasVacancy(Type.DOUBLE, arrival2, departure2);
+		Assert.assertNull(room);
+	}
+	
+	@Test
+	public void hasNoVacancy8() {
+		LocalDate arrival1 = new LocalDate(2016, 12, 19);
+		LocalDate departure1 = new LocalDate(2016, 12, 21);
+		LocalDate arrival2 = new LocalDate(2016, 12, 18);
+		LocalDate departure2 = new LocalDate(2016, 12, 22); 
+		
+		Hotel.reserveHotel(Type.DOUBLE, arrival1, departure1);
+		
+		Room room = this.hotel.hasVacancy(Type.DOUBLE, arrival2, departure2);
+		Assert.assertNull(room);
+	}
+	
+	@Test
+	public void hasNoVacancy9() {
+		LocalDate arrival1 = new LocalDate(2016, 12, 19);
+		LocalDate departure1 = new LocalDate(2016, 12, 22);
+		LocalDate arrival2 = new LocalDate(2016, 12, 20);
+		LocalDate departure2 = new LocalDate(2016, 12, 21); 
+		
+		Hotel.reserveHotel(Type.DOUBLE, arrival1, departure1);
+		
+		Room room = this.hotel.hasVacancy(Type.DOUBLE, arrival2, departure2);
+		Assert.assertNull(room);
+	}
+	
+	@Test
+	public void departureBeforeArrival() {
+		LocalDate arrival = new LocalDate(2016, 12, 22);
+		LocalDate departure = new LocalDate(2016, 12, 19);
+		
+		try {
+			this.hotel.hasVacancy(Type.DOUBLE, arrival, departure);
+			Assert.fail();
+		}
+		catch(HotelException he) {}
 	}
 	
 	@After

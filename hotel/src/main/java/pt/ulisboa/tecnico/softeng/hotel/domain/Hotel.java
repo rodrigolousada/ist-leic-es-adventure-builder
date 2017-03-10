@@ -41,14 +41,14 @@ public class Hotel {
 		}
 	}
 	
-	private void checkNullVacancy(Room.Type type, LocalDate arrival, LocalDate departure) {
-		if (type == null || arrival == null || departure == null) {
+	private void checkVacancy(Room.Type type, LocalDate arrival, LocalDate departure) {
+		if (type == null || arrival == null || departure == null || departure.isBefore(arrival)) {
 			throw new HotelException();				
 		}
 	}
 
 	public Room hasVacancy(Room.Type type, LocalDate arrival, LocalDate departure) {
-		checkNullVacancy(type, arrival, departure);
+		checkVacancy(type, arrival, departure);
 		
 		for (Room room : this.rooms) {
 			if (room.isFree(type, arrival, departure)) {
