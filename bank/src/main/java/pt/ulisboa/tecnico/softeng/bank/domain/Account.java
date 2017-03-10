@@ -11,6 +11,14 @@ public class Account {
 	private int balance;
 
 	public Account(Bank bank, Client client) {
+		if(bank == null || client == null) {
+			throw new BankException("null argument");
+		}
+
+		if(!bank.hasClient(client)){
+			throw new BankException("client doesn't belong to bank");
+		}
+
 		this.bank = bank;
 		this.IBAN = bank.getCode() + Integer.toString(++Account.counter);
 		this.client = client;
