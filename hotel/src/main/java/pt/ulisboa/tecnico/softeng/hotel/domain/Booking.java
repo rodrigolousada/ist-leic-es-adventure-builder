@@ -20,7 +20,7 @@ public class Booking {
 	}
 
 	private void checkDate(LocalDate arrival, LocalDate departure){
-		if (departure.isBefore(arrival) || departure.isEqual(arrival)){
+		if (departure.isBefore(arrival)){
 			throw new HotelException();
 		}
 	}
