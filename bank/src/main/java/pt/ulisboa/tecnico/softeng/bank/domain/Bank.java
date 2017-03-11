@@ -83,12 +83,18 @@ public class Bank {
 	}
 
 	public Account getAccount(String IBAN) {
+		if (IBAN == null) {
+			throw new BankException("null argument");
+		}
+		if (this.accounts.isEmpty()) {
+			throw new BankException("there are no accounts yet");
+		}
 		for (Account account : this.accounts) {
 			if (account.getIBAN().equals(IBAN)) {
 				return account;
 			}
 		}
-		throw new BankException();
+		throw new BankException("account not found: " + IBAN);
 	}
 
 	public Operation getOperation(String reference) {
