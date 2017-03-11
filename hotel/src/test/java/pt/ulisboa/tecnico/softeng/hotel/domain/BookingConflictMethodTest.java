@@ -34,6 +34,83 @@ public class BookingConflictMethodTest {
 		Assert.assertFalse(this.booking.conflict(arrival, departure));
 	}
 
+	// Cases where arrival is before the already booked arrival
+	@Test
+	public void conflictArrivalBeforeArrival_DepartureBetweenArrivalAndDeparture() {
+		LocalDate arrival = new LocalDate(2016, 12, 17);
+		LocalDate departure = new LocalDate(2016, 12, 20);
+
+		Assert.assertTrue(this.booking.conflict(arrival, departure));
+	}
+
+	@Test
+	public void conflictArrivalBeforeArrival_DepartureAfterDeparture() {
+		LocalDate arrival = new LocalDate(2016, 12, 15);
+		LocalDate departure = new LocalDate(2016, 12, 26);
+
+		Assert.assertTrue(this.booking.conflict(arrival, departure));
+
+	}
+
+	@Test
+	public void conflictArrivalBeforeArrival_DepartureOverlap() {
+		LocalDate arrival = new LocalDate(2016, 12, 20);
+		LocalDate departure = new LocalDate(2016, 12, 24);
+
+		Assert.assertTrue(this.booking.conflict(arrival, departure));
+	}
+
+	// Cases with arrival between the already booked arrival and departure
+	@Test
+	public void conflictArrivalAfterArrival_DepartureBeforeDeparture() {
+		LocalDate arrival = new LocalDate(2016, 12, 20);
+		LocalDate departure = new LocalDate(2016, 12, 20);
+
+		Assert.assertTrue(this.booking.conflict(arrival, departure));
+	}
+
+	@Test
+	public void conflictArrivalAfterArrival_DepartureAfterDeparture() {
+		LocalDate arrival = new LocalDate(2016, 12, 20);
+		LocalDate departure = new LocalDate(2016, 12, 26);
+
+		Assert.assertTrue(this.booking.conflict(arrival, departure));
+
+	}
+
+	@Test
+	public void conflictArrivalAfterArrival_DepartureOverlap() {
+		LocalDate arrival = new LocalDate(2016, 12, 20);
+		LocalDate departure = new LocalDate(2016, 12, 24);
+
+		Assert.assertTrue(this.booking.conflict(arrival, departure));
+	}
+
+	// Cases with arrival overlapping the already booked arrival
+	@Test
+	public void conflictArrivalOverlap_DepartureBeforeDeparture() {
+		LocalDate arrival = new LocalDate(2016, 12, 19);
+		LocalDate departure = new LocalDate(2016, 12, 20);
+
+		Assert.assertTrue(this.booking.conflict(arrival, departure));
+	}
+
+	@Test
+	public void conflictArrivalOverlap_DepartureAfterDeparture() {
+		LocalDate arrival = new LocalDate(2016, 12, 19);
+		LocalDate departure = new LocalDate(2016, 12, 26);
+
+		Assert.assertTrue(this.booking.conflict(arrival, departure));
+	}
+
+	@Test
+	public void conflictArrivalAndDepartureOverlap() {
+		LocalDate arrival = new LocalDate(2016, 12, 19);
+		LocalDate departure = new LocalDate(2016, 12, 24);
+
+		Assert.assertTrue(this.booking.conflict(arrival, departure));
+	}
+
 	@After
 	public void tearDown() {
 		Hotel.hotels.clear();
