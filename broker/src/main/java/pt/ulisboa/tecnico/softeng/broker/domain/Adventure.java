@@ -9,6 +9,8 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
 
+import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
+
 public class Adventure {
 	private static Logger logger = LoggerFactory.getLogger(Adventure.class);
 
@@ -26,6 +28,21 @@ public class Adventure {
 	private String activityBooking;
 
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
+
+		if (broker == null || begin == null || end == null || IBAN == null) {
+			throw new BrokerException("null argument");
+		}
+		if (age < 0) {
+			throw new BrokerException("negative age");
+		}
+		if (amount < 0) {
+			throw new BrokerException("negative amount");
+		}
+
+		if (end.isBefore(begin)) {
+			throw new BrokerException("end is before beginning");
+		}
+
 		this.ID = broker.getCode() + Integer.toString(++counter);
 		this.broker = broker;
 		this.begin = begin;
