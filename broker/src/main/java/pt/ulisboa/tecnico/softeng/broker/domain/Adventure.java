@@ -27,16 +27,22 @@ public class Adventure {
 	private String roomBooking;
 	private String activityBooking;
 
+	public final static int MIN_AGE = 18;
+	public final static int MAX_AGE = 99;
+
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
 
 		if (broker == null || begin == null || end == null || IBAN == null) {
 			throw new BrokerException("null argument");
 		}
-		if (age < 0) {
-			throw new BrokerException("negative age");
+		if (age < this.MIN_AGE) {
+			throw new BrokerException("age below minimum of " + this.MIN_AGE);
 		}
-		if (amount < 0) {
-			throw new BrokerException("negative amount");
+		if (age > this.MAX_AGE) {
+			throw new BrokerException("age above maximum of " + this.MAX_AGE);
+		}
+		if (amount <= 0) {
+			throw new BrokerException("invalid amount");
 		}
 
 		if (end.isBefore(begin)) {

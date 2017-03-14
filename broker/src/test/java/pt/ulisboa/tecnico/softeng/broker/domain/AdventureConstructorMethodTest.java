@@ -68,8 +68,24 @@ public class AdventureConstructorMethodTest {
 	}
 
 	@Test(expected = BrokerException.class)
-	public void negativeAge() {
-		Adventure adventure = new Adventure(this.broker, this.begin, this.end, -1, "BK011234567", 300);
+	public void underAge() {
+		Adventure adventure = new Adventure(this.broker, this.begin, this.end, 17, "BK011234567", 300);
+	}
+
+	@Test(expected = BrokerException.class)
+	public void overAge() {
+		Adventure adventure = new Adventure(this.broker, this.begin, this.end, 100, "BK011234567", 300);
+	}
+
+	@Test
+	public void edgeAges() {
+		int low = 18;
+		int high = 99;
+
+		Adventure adventure1 = new Adventure(this.broker, this.begin, this.end, low, "BK011234567", 300);
+		Adventure adventure2 = new Adventure(this.broker, this.begin, this.end, high, "BK011234567", 300);
+		Assert.assertEquals(low, adventure1.getAge());
+		Assert.assertEquals(high, adventure2.getAge());
 	}
 
 	@Test(expected = BrokerException.class)
@@ -78,8 +94,16 @@ public class AdventureConstructorMethodTest {
 	}
 
 	@Test(expected = BrokerException.class)
-	public void negativeAmount() {
-		Adventure adventure = new Adventure(this.broker, this.begin, this.end, 20, "BK011234567", -1);
+	public void badAmount() {
+		int amount = 0;
+		Adventure adventure = new Adventure(this.broker, this.begin, this.end, 20, "BK011234567", amount);
+	}
+
+	@Test
+	public void edgeAmount() {
+		int amount = 1;
+		Adventure adventure = new Adventure(this.broker, this.begin, this.end, 20, "BK011234567", amount);
+		Assert.assertEquals(amount, adventure.getAmount());
 	}
 
 	@After
