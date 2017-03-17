@@ -30,24 +30,36 @@ public class ActivityConstructorMethodTest {
 	}
 	
 	@Test (expected = ActivityException.class)
+	public void null_provider(){
+		new Activity(null, "test", 18, 80, 25);
+		
+	}
+	
+	@Test (expected = ActivityException.class)
+	public void null_name(){
+		new Activity(this.provider, null, 18, 80, 25);
+		
+	}	
+	
+	@Test (expected = ActivityException.class)
 	public void under_age(){
-		new Activity(this.provider, "test", 17, 80, 25);
+		new Activity(this.provider, "test4", 17, 80, 25);
 		
 	}
 	
 	@Test (expected = ActivityException.class)
 	public void over_age(){
-		new Activity(this.provider, "test1", 18, 100, 25);
+		new Activity(this.provider, "test5", 18, 100, 25);
 		
 	}
 	@Test (expected = ActivityException.class)
 	public void capacity_zero(){
-		new Activity(this.provider, "test2", 20, 80, 0);
+		new Activity(this.provider, "test6", 20, 80, 0);
 	}
 	
 	@Test (expected = ActivityException.class)
 	public void under_age_over_age(){
-		new Activity(this.provider, "test3", 80, 20, 23);
+		new Activity(this.provider, "test7", 80, 20, 23);
 	}
 
 	@After

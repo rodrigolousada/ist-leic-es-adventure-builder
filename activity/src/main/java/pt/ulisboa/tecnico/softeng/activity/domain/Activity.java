@@ -18,7 +18,7 @@ public class Activity {
 	private final Set<ActivityOffer> offers = new HashSet<>();
 
 	public Activity(ActivityProvider provider, String name, int minAge, int maxAge, int capacity) {
-		verify(minAge, maxAge, capacity);
+		verify(provider, name, minAge, maxAge, capacity);
 		this.code = provider.getCode() + Integer.toString(++Activity.counter);
 		this.name = name;
 		this.minAge = minAge;
@@ -28,7 +28,15 @@ public class Activity {
 		provider.addActivity(this);
 	}
 
-	private void verify(int min_age, int max_age, int cap){
+	private void verify(ActivityProvider provider, String name, int min_age, int max_age, int cap){
+		
+		if(provider==null){
+			throw new ActivityException("Provider must not be null");
+		}
+		
+		if(name==null){
+			throw new ActivityException("Name must not be null");
+		}
 		
 		if( min_age < 18 || max_age > 99 || min_age > max_age){
 			throw new ActivityException("Minimum age is 18, max age is 99, and min age must be lower than max age");
