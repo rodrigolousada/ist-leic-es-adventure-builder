@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.activity.domain.exception.ActivityException;
+
 public class ActivityMatchAgeMethodTest {
 	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
@@ -21,7 +23,18 @@ public class ActivityMatchAgeMethodTest {
 	@Test
 	public void successIn() {
 		Assert.assertTrue(this.activity.matchAge(50));
+		Assert.assertTrue(this.activity.matchAge(18));
+		Assert.assertTrue(this.activity.matchAge(80));
 	}
+	
+	@Test
+	public void notsucess() {
+		Assert.assertFalse(this.activity.matchAge(17));
+		Assert.assertFalse(this.activity.matchAge(81));
+		Assert.assertFalse(this.activity.matchAge(100));
+	}
+	
+	
 
 	@After
 	public void tearDown() {
@@ -29,4 +42,3 @@ public class ActivityMatchAgeMethodTest {
 	}
 
 }
-
