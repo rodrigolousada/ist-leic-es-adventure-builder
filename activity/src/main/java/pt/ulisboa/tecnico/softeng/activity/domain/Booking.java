@@ -8,6 +8,7 @@ public class Booking {
 	private final String reference;
 
 	public Booking(ActivityProvider provider, ActivityOffer offer) {
+		verify(provider, offer);
 		this.reference = provider.getCode() + Integer.toString(++Booking.counter);
 		checkCapacity(offer);
 		offer.addBooking(this);
@@ -20,5 +21,15 @@ public class Booking {
 
 	public String getReference() {
 		return this.reference;
+	}
+private void verify(ActivityProvider provider, ActivityOffer offer){
+		
+		if(provider==null){
+			throw new ActivityException("Provider must not be null");
+		}
+		
+		if (offer==null){
+			throw new ActivityException("Offer must not be null");
+		}
 	}
 }
