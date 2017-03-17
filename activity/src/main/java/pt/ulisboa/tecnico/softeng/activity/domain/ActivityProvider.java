@@ -63,7 +63,10 @@ public class ActivityProvider {
 		this.activities.add(activity);
 	}
 
-	public Set<ActivityOffer> findOffer(LocalDate begin, LocalDate end, int age) {
+	public Set<ActivityOffer> findOffer(LocalDate begin, LocalDate end, int age) throws ActivityException {
+		if(begin==null || end==null || end.isBefore(begin )){
+			throw new ActivityException();
+		}
 		Set<ActivityOffer> result = new HashSet<>();
 		for (Activity activity : this.activities) {
 			result.addAll(activity.getOffers(begin, end, age));
