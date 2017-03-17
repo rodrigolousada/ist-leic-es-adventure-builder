@@ -16,6 +16,20 @@ public class AccountWithdrawMethodTest {
 		this.account = new Account(this.bank, client);
 		this.account.deposit(100);
 	}
+	
+	// Invalid value
+	@Test(expected = BankException.class)
+	public void invalidValue1() {
+		String reference = this.account.withdraw(0);
+	}
+	@Test(expected = BankException.class)
+	public void invalidValue2() {
+		String reference = this.account.withdraw(-40);
+	}
+	@Test(expected = BankException.class)
+	public void invalidValue3() {
+		String reference = this.account.withdraw(this.account.getBalance()+10);
+	}
 
 	@Test
 	public void success() {
