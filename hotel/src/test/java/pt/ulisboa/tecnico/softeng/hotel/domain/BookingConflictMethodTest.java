@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+
 public class BookingConflictMethodTest {
 	Booking booking;
 
@@ -35,7 +37,7 @@ public class BookingConflictMethodTest {
 	}
 
 	// Cases where arrival is before the already booked arrival
-	@Test
+	@Test(expected = HotelException.class)
 	public void conflictArrivalBeforeArrival_DepartureBetweenArrivalAndDeparture() {
 		LocalDate arrival = new LocalDate(2016, 12, 17);
 		LocalDate departure = new LocalDate(2016, 12, 20);
@@ -43,7 +45,7 @@ public class BookingConflictMethodTest {
 		Assert.assertTrue(this.booking.conflict(arrival, departure));
 	}
 
-	@Test
+	@Test(expected = HotelException.class)
 	public void conflictArrivalBeforeArrival_DepartureAfterDeparture() {
 		LocalDate arrival = new LocalDate(2016, 12, 15);
 		LocalDate departure = new LocalDate(2016, 12, 26);
@@ -52,7 +54,7 @@ public class BookingConflictMethodTest {
 
 	}
 
-	@Test
+	@Test(expected = HotelException.class)
 	public void conflictArrivalBeforeArrival_DepartureOverlap() {
 		LocalDate arrival = new LocalDate(2016, 12, 20);
 		LocalDate departure = new LocalDate(2016, 12, 24);
@@ -61,7 +63,7 @@ public class BookingConflictMethodTest {
 	}
 
 	// Cases with arrival between the already booked arrival and departure
-	@Test
+	@Test(expected = HotelException.class)
 	public void conflictArrivalAfterArrival_DepartureBeforeDeparture() {
 		LocalDate arrival = new LocalDate(2016, 12, 20);
 		LocalDate departure = new LocalDate(2016, 12, 20);
@@ -69,7 +71,7 @@ public class BookingConflictMethodTest {
 		Assert.assertTrue(this.booking.conflict(arrival, departure));
 	}
 
-	@Test
+	@Test(expected = HotelException.class)
 	public void conflictArrivalAfterArrival_DepartureAfterDeparture() {
 		LocalDate arrival = new LocalDate(2016, 12, 20);
 		LocalDate departure = new LocalDate(2016, 12, 26);
@@ -78,7 +80,7 @@ public class BookingConflictMethodTest {
 
 	}
 
-	@Test
+	@Test(expected = HotelException.class)
 	public void conflictArrivalAfterArrival_DepartureOverlap() {
 		LocalDate arrival = new LocalDate(2016, 12, 20);
 		LocalDate departure = new LocalDate(2016, 12, 24);
@@ -87,7 +89,7 @@ public class BookingConflictMethodTest {
 	}
 
 	// Cases with arrival overlapping the already booked arrival
-	@Test
+	@Test(expected = HotelException.class)
 	public void conflictArrivalOverlap_DepartureBeforeDeparture() {
 		LocalDate arrival = new LocalDate(2016, 12, 19);
 		LocalDate departure = new LocalDate(2016, 12, 20);
@@ -95,7 +97,7 @@ public class BookingConflictMethodTest {
 		Assert.assertTrue(this.booking.conflict(arrival, departure));
 	}
 
-	@Test
+	@Test(expected = HotelException.class)
 	public void conflictArrivalOverlap_DepartureAfterDeparture() {
 		LocalDate arrival = new LocalDate(2016, 12, 19);
 		LocalDate departure = new LocalDate(2016, 12, 26);
@@ -103,7 +105,7 @@ public class BookingConflictMethodTest {
 		Assert.assertTrue(this.booking.conflict(arrival, departure));
 	}
 
-	@Test
+	@Test(expected = HotelException.class)
 	public void conflictArrivalAndDepartureOverlap() {
 		LocalDate arrival = new LocalDate(2016, 12, 19);
 		LocalDate departure = new LocalDate(2016, 12, 24);
