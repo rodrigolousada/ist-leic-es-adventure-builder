@@ -37,7 +37,7 @@ public class BookingConflictMethodTest {
 	}
 
 	// Cases where arrival is before the already booked arrival
-	@Test(expected = HotelException.class)
+	@Test
 	public void conflictArrivalBeforeArrival_DepartureBetweenArrivalAndDeparture() {
 		LocalDate arrival = new LocalDate(2016, 12, 17);
 		LocalDate departure = new LocalDate(2016, 12, 20);
@@ -111,6 +111,15 @@ public class BookingConflictMethodTest {
 		LocalDate departure = new LocalDate(2016, 12, 24);
 
 		Assert.assertTrue(this.booking.conflict(arrival, departure));
+	}
+
+	// case where arrival provided is after departure
+	@Test(expected = HotelException.class)
+	public void conflictDepartureBeforeArrival() {
+		LocalDate arrival = new LocalDate(2016, 12, 10);
+		LocalDate departure = new LocalDate(2016, 12, 8);
+
+		this.booking.conflict(arrival, departure);
 	}
 
 	@After
