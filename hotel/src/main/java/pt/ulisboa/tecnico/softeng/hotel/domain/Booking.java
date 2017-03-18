@@ -12,19 +12,19 @@ public class Booking {
 	private final LocalDate departure;
 
 	Booking(Hotel hotel, LocalDate arrival, LocalDate departure) {
-		checkDate(arrival,departure);
+		checkDate(arrival, departure);
 		this.reference = hotel.getCode() + Integer.toString(++Booking.counter);
 
 		this.arrival = arrival;
 		this.departure = departure;
 	}
 
-	private void checkDate(LocalDate arrival, LocalDate departure){
-		if (departure.isBefore(arrival)){
+	private void checkDate(LocalDate arrival, LocalDate departure) {
+		if (departure.isBefore(arrival)) {
 			throw new HotelException();
 		}
 	}
-	
+
 	public String getReference() {
 		return this.reference;
 	}
@@ -38,6 +38,9 @@ public class Booking {
 	}
 
 	boolean conflict(LocalDate arrival, LocalDate departure) {
+
+		checkDate(arrival, departure);
+
 		if (arrival.isAfter(this.arrival) && arrival.isBefore(this.departure)) {
 			return true;
 		}
@@ -49,19 +52,19 @@ public class Booking {
 		if (arrival.isBefore(this.arrival) && departure.isAfter(this.departure)) {
 			return true;
 		}
-		
-		if(arrival.isEqual(this.arrival) && departure.isAfter(this.arrival)) {
+
+		if (arrival.isEqual(this.arrival) && departure.isAfter(this.arrival)) {
 			return true;
 		}
-		
-		if(arrival.isBefore(this.departure) && departure.isEqual(this.departure)) {
+
+		if (arrival.isBefore(this.departure) && departure.isEqual(this.departure)) {
 			return true;
 		}
-		
-		if(arrival.isEqual(this.arrival) && departure.isEqual(this.departure)) {
+
+		if (arrival.isEqual(this.arrival) && departure.isEqual(this.departure)) {
 			return true;
 		}
-		
+
 		return false;
 	}
 

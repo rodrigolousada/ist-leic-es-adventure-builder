@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+
 public class BookingConflictMethodTest {
 	Booking booking;
 
@@ -109,6 +111,15 @@ public class BookingConflictMethodTest {
 		LocalDate departure = new LocalDate(2016, 12, 24);
 
 		Assert.assertTrue(this.booking.conflict(arrival, departure));
+	}
+
+	// case where arrival provided is after departure
+	@Test(expected = HotelException.class)
+	public void conflictDepartureBeforeArrival() {
+		LocalDate arrival = new LocalDate(2016, 12, 10);
+		LocalDate departure = new LocalDate(2016, 12, 8);
+
+		this.booking.conflict(arrival, departure);
 	}
 
 	@After

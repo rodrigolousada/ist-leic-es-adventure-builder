@@ -17,6 +17,7 @@ public class ActivityProvider {
 	private final Set<Activity> activities = new HashSet<>();
 
 	public ActivityProvider(String code, String name) {
+		verify(code,name);
 		checkCode(code); 
 		this.code = code;
 		checkName(name);
@@ -62,7 +63,10 @@ public class ActivityProvider {
 		this.activities.add(activity);
 	}
 
-	public Set<ActivityOffer> findOffer(LocalDate begin, LocalDate end, int age) {
+	public Set<ActivityOffer> findOffer(LocalDate begin, LocalDate end, int age) throws ActivityException {
+		if(begin==null || end==null || end.isBefore(begin )){
+			throw new ActivityException();
+		}
 		Set<ActivityOffer> result = new HashSet<>();
 		for (Activity activity : this.activities) {
 			result.addAll(activity.getOffers(begin, end, age));
@@ -81,6 +85,16 @@ public class ActivityProvider {
 			}
 		}
 		return null;
+	}
+private void verify(String code, String name){
+		
+		if(code==null){
+			throw new ActivityException("Code must not be null");
+		}
+		
+		if (name==null){
+			throw new ActivityException("Name must not be null");
+		}
 	}
 
 }
