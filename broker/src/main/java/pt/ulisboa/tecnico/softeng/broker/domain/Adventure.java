@@ -208,8 +208,11 @@ public class Adventure {
 			} catch (BankException be) {
 				setState(State.CANCELLED);
 			} catch (RemoteAccessException rae) {
-				// TODO: counts the number of consecutive RemoteAccessException
-				// failures, when it is 3 changes the state to UNDO
+				// increment number of errors
+				// if (number of errors == 3) {
+				// setState(State.CANCELLED);
+				// }
+				return;
 			}
 
 			setState(State.RESERVE_ACTIVITY);
@@ -221,8 +224,11 @@ public class Adventure {
 			} catch (ActivityException ae) {
 				setState(State.UNDO);
 			} catch (RemoteAccessException rae) {
-				// TODO: counts the number of consecutive RemoteAccessException
-				// failures, when it is 5 changes the state to UNDO
+				// increment number of errors
+				// if (number of errors == 5) {
+				// adventure.setState(State.UNDO);
+				// }
+				// return;
 			}
 
 			if (this.begin.equals(this.end)) {
@@ -238,8 +244,11 @@ public class Adventure {
 			} catch (HotelException rae) {
 				setState(State.UNDO);
 			} catch (RemoteAccessException rae) {
-				// TODO: counts the number of consecutive RemoteAccessException
-				// failures, when it is 10 changes the state to UNDO
+				// increment number of errors
+				// if (number of errors == 10) {
+				// adventure.setState(State.UNDO);
+				// }
+				// return;
 			}
 
 			setState(State.CONFIRMED);
@@ -279,32 +288,50 @@ public class Adventure {
 			try {
 				operation = BankInterface.getOperationData(getPaymentConfirmation());
 			} catch (BankException be) {
-				// TODO: counts the number of consecutive BankException
-				// failures, when is 5
-				// changes the state to UNDO
+				// increment number of errors
+				// if (number of errors == 5) {
+				// adventure.setState(State.UNDO);
+				// }
+				// return;
 			} catch (RemoteAccessException rae) {
-				// TODO: counts the number of consecutive RemoteAccessException
-				// failures, when it is 20 changes the state to UNDO
+				// increment number of errors
+				// if (number of errors == 20) {
+				// adventure.setState(State.UNDO);
+				// }
+				// return;
 			}
+			// reset number of errors
 
 			ActivityReservationData reservation;
 			try {
 				reservation = ActivityInterface.getActivityReservationData(getActivityConfirmation());
 			} catch (ActivityException ae) {
 				setState(State.UNDO);
+				return;
 			} catch (RemoteAccessException rae) {
-				// TODO: counts the number of consecutive RemoteAccessException
-				// failures, when it is 20 changes the state to UNDO
+				// increment number of errors
+				// if (number of errors == 20) {
+				// adventure.setState(State.UNDO);
+				// }
+				// return;
 			}
+			// reset number of errors
 
-			RoomBookingData booking;
-			try {
-				booking = HotelInterface.getRoomBookingData(getRoomConfirmation());
-			} catch (HotelException he) {
-				setState(State.UNDO);
-			} catch (RemoteAccessException rae) {
-				// TODO: counts the number of consecutive RemoteAccessException
-				// failures, when it is 20 changes the state to UNDO
+			if (getRoomConfirmation() != null) {
+				RoomBookingData booking;
+				try {
+					booking = HotelInterface.getRoomBookingData(getRoomConfirmation());
+				} catch (HotelException he) {
+					setState(State.UNDO);
+					return;
+				} catch (RemoteAccessException rae) {
+					// increment number of errors
+					// if (number of errors == 20) {
+					// adventure.setState(State.UNDO);
+					// }
+					// return;
+				}
+				// reset number of errors
 			}
 
 			// TODO: prints the complete Adventure file, the info in operation,

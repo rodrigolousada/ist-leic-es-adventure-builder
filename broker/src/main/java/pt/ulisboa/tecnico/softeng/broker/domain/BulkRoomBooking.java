@@ -8,7 +8,6 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
-import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class BulkRoomBooking {
@@ -47,29 +46,46 @@ public class BulkRoomBooking {
 
 		try {
 			this.references.addAll(HotelInterface.bulkBooking(this.number, this.arrival, this.departure));
+			// this.numberOfHotelExceptions = 0;
+			// this.numberOfRemoteErrors = 0;
+			return;
 		} catch (HotelException he) {
-			// TODO: tries 3 consecutive times before become cancelled, it is
-			// reset if it is not consecutive
+			// this.numberOfHotelExceptions++;
+			// if (this.numberOfHotelExceptions == MAX_HOTEL_EXCEPTIONS) {
+			// this.cancelled = true;
+			// }
+			// this.numberOfRemoteErrors = 0;
+			return;
 		} catch (RemoteAccessException rae) {
-			// TODO: tries 10 consecutive times before become cancelled, it is
-			// reset if it is not consecutive
+			// this.numberOfRemoteErrors++;
+			// if (this.numberOfRemoteErrors == MAX_REMOTE_ERRORS) {
+			// this.cancelled = true;
+			// }
+			// this.numberOfHotelExceptions = 0;
+			return;
 		}
 	}
 
-	public String getReference(Type type) {
-		int numOfErrors = 0;
+	public String getReference(String type) {
+		if (this.cancelled) {
+			return null;
+		}
+
 		for (String reference : this.references) {
 			RoomBookingData data = null;
 			try {
 				data = HotelInterface.getRoomBookingData(reference);
+				// this.numberOfRemoteErrors = 0;
 			} catch (HotelException he) {
-				// do nothing
+				// this.numberOfRemoteErrors = 0;
 			} catch (RemoteAccessException rae) {
-				// TODO: if fails 10 consecutive times returns null, it is
-				// reset if it is not consecutive
+				// this.numberOfRemoteErrors++;
+				// if (this.numberOfRemoteErrors == MAX_REMOTE_ERRORS) {
+				// this.cancelled = true;
+				// }
 			}
 
-			if (data != null && data.getRoomType().equals(type.name())) {
+			if (data != null && data.getRoomType().equals(type)) {
 				this.references.remove(reference);
 				return reference;
 			}
