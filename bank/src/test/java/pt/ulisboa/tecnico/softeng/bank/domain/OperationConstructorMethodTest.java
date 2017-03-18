@@ -21,30 +21,7 @@ public class OperationConstructorMethodTest {
 		Client client = new Client(this.bank, "António");
 		this.account = new Account(this.bank, client);
 	}
-	
-	// Invalid Type
-	@Test(expected = BankException.class)
-	public void invalidType1() {
-		Operation operation = new Operation(null, this.account, 1000);
-	}
 
-	// Invalid Account
-	@Test(expected = BankException.class)
-	public void invalidAccount1() {
-		Operation operation = new Operation(Type.WITHDRAW, null, 1000);
-	}
-	
-	// Invalid Value
-	@Test(expected = BankException.class)
-	public voi invalidValue1() {
-		Operation operation = new Operation(Type.DEPOSIT, this.account, null);
-	}
-	
-	@Test(expected = BankException.class)
-	public voi invalidValue2() {
-		Operation operation = new Operation(Type.DEPOSIT, this.account, -1000);
-	}
-	
 	@Test
 	public void success() {
 		Operation operation = new Operation(Type.DEPOSIT, this.account, 1000);
