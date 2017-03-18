@@ -41,16 +41,18 @@ public class BulkRoomBooking {
 	}
 
 	public void processBooking() {
-		if (this.references.size() > 0 || this.cancelled) {
+		if (this.cancelled) {
 			return;
 		}
 
 		try {
 			this.references.addAll(HotelInterface.bulkBooking(this.number, this.arrival, this.departure));
 		} catch (HotelException he) {
-			// TODO: tries 3 consecutive times before cancelled
+			// TODO: tries 3 consecutive times before become cancelled, it is
+			// reset if it is not consecutive
 		} catch (RemoteAccessException rae) {
-			// TODO: tries 10 consecutive times before become cancelled
+			// TODO: tries 10 consecutive times before become cancelled, it is
+			// reset if it is not consecutive
 		}
 	}
 
@@ -63,7 +65,8 @@ public class BulkRoomBooking {
 			} catch (HotelException he) {
 				// do nothing
 			} catch (RemoteAccessException rae) {
-				// TODO: if fails 10 consecutive times returns null
+				// TODO: if fails 10 consecutive times returns null, it is
+				// reset if it is not consecutive
 			}
 
 			if (data != null && data.getRoomType().equals(type.name())) {
