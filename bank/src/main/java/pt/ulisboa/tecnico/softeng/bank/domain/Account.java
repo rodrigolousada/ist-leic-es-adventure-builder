@@ -55,8 +55,8 @@ public class Account {
 	}
 
 	public String withdraw(int amount) {
-		if (amount > this.balance) {
-			throw new BankException();
+		if (amount > this.balance || amount <= 0) {
+			throw new BankException("Invalid value");
 		}
 
 		this.balance = this.balance - amount;
