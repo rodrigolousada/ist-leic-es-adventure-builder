@@ -15,16 +15,6 @@ public class AccountDepositMethodTest {
 		Client client = new Client(this.bank, "António");
 		this.account = new Account(this.bank, client);
 	}
-	
-	// Invalid value
-	@Test(expected = BankException.class)
-	public void invalidValue1() {
-		String reference = this.account.deposit(0);
-	}
-	@Test(expected = BankException.class)
-	public void invalidValue2() {
-		String reference = this.account.deposit(-50);
-	}
 
 	@Test
 	public void success() {
