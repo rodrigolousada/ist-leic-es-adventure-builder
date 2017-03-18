@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation.Type;
 
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+
 public class OperationConstructorMethodTest {
 	private final Logger logger = LoggerFactory.getLogger(OperationConstructorMethodTest.class);
 
@@ -20,6 +22,29 @@ public class OperationConstructorMethodTest {
 		this.bank = new Bank("Money", "BK01");
 		Client client = new Client(this.bank, "António");
 		this.account = new Account(this.bank, client);
+	}
+
+	// Invalid Type
+	@Test(expected = BankException.class)
+	public void invalidType1() {
+		Operation operation = new Operation(null, this.account, 1000);
+	}
+
+	// Invalid Account
+	@Test(expected = BankException.class)
+	public void invalidAccount1() {
+		Operation operation = new Operation(Type.WITHDRAW, null, 1000);
+	}
+
+	// Invalid Value
+	@Test(expected = BankException.class)
+	public void invalidValue1() {
+		Operation operation = new Operation(Type.DEPOSIT, this.account, 0);
+	}
+
+	@Test(expected = BankException.class)
+	public void invalidValue2() {
+		Operation operation = new Operation(Type.DEPOSIT, this.account, -1000);
 	}
 
 	@Test
