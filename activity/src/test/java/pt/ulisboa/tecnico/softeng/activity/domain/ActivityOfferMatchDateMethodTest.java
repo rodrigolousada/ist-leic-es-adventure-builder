@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.activity.domain.exception.ActivityException;
+
 public class ActivityOfferMatchDateMethodTest {
 	private ActivityOffer offer;
 
@@ -23,6 +25,14 @@ public class ActivityOfferMatchDateMethodTest {
 	@Test
 	public void success() {
 		Assert.assertTrue(this.offer.matchDate(new LocalDate(2016, 12, 19), new LocalDate(2016, 12, 21)));
+	}
+	
+	@Test (expected = ActivityException.class)
+	public void failDate(){
+		LocalDate begin = new LocalDate(2016,12,20);
+		LocalDate end = new LocalDate(2016,12,19);
+		
+		this.offer.checkDate(begin, end);
 	}
 
 	@After
