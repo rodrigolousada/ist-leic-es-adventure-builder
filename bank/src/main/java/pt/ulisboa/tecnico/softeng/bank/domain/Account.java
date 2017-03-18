@@ -44,6 +44,10 @@ public class Account {
 	}
 
 	public String deposit(int amount) {
+		if (amount <= 0) {
+			throw new BankException("Invalid value");
+		}
+
 		this.balance = this.balance + amount;
 
 		Operation operation = new Operation(Operation.Type.DEPOSIT, this, amount);
