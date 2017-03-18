@@ -102,9 +102,36 @@ public class Adventure {
 
 	public void process() {
 		logger.debug("process ID:{} ", this.ID);
-		this.bankPayment = BankInterface.processPayment(this.IBAN, this.amount);
-		this.roomBooking = HotelInterface.reserveHotel(Room.Type.SINGLE, this.begin, this.end);
-		this.activityBooking = ActivityInterface.reserveActivity(this.begin, this.end, this.age);
+
+		try {
+			this.bankPayment = BankInterface.processPayment(this.IBAN, this.amount);
+		} catch (RuntimeException e) {
+			throw new BrokerException("Bank payment failed: " + e);
+		}
+
+		if (this.bankPayment == null) {
+			throw new BrokerException("Bank payment failed.");
+		}
+
+		try {
+			this.roomBooking = HotelInterface.reserveHotel(Room.Type.SINGLE, this.begin, this.end);
+		} catch (RuntimeException e) {
+			throw new BrokerException("Room booking failed: " + e);
+		}
+
+		if (this.roomBooking == null) {
+			throw new BrokerException("Room booking failed.");
+		}
+
+		try {
+			this.activityBooking = ActivityInterface.reserveActivity(this.begin, this.end, this.age);
+		} catch (RuntimeException e) {
+			throw new BrokerException("Activity booking failed: " + e);
+		}
+
+		if (this.activityBooking == null) {
+			throw new BrokerException("Activity Booking failed.");
+		}
 	}
 
 }
