@@ -11,11 +11,11 @@ public class Account {
 	private int balance;
 
 	public Account(Bank bank, Client client) {
-		if(bank == null || client == null) {
+		if (bank == null || client == null) {
 			throw new BankException("null argument");
 		}
 
-		if(!bank.hasClient(client)){
+		if (!bank.hasClient(client)) {
 			throw new BankException("client doesn't belong to bank");
 		}
 

@@ -19,7 +19,7 @@ public class Bank {
 	private final List<Operation> log = new ArrayList<>();
 
 	public Bank(String name, String code) {
-		if(name == null || code == null) {
+		if (name == null || code == null) {
 			throw new BankException("null argument");
 		}
 
@@ -29,14 +29,14 @@ public class Bank {
 		this.name = name;
 		this.code = code;
 
-		if (!Bank.banks.add(this)){
+		if (!Bank.banks.add(this)) {
 			throw new BankException("Duplicate bank code: " + code);
 		}
 
 	}
 
 	private void checkCode(String code) {
-		if (code.trim().length() == 0){
+		if (code.trim().length() == 0) {
 			throw new BankException("Invalid bank code (only whitespace)");
 		}
 		if (code.length() != Bank.CODE_SIZE) {
@@ -122,7 +122,7 @@ public class Bank {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null){
+		if (obj == null) {
 			return false;
 		}
 		if (!Bank.class.isAssignableFrom(obj.getClass())) {

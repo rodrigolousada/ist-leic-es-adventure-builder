@@ -19,10 +19,12 @@ public class BankConstructorTest {
 	public void invalidName1() {
 		Bank bank = new Bank(null, "BK01");
 	}
+
 	@Test(expected = BankException.class)
 	public void invalidName2() {
 		Bank bank = new Bank("", "BK01");
 	}
+
 	@Test(expected = BankException.class)
 	public void invalidName3() {
 		Bank bank = new Bank("\t\n  ", "BK01");
@@ -33,14 +35,17 @@ public class BankConstructorTest {
 	public void invalidCode1() {
 		Bank bank = new Bank("Money", null);
 	}
+
 	@Test(expected = BankException.class)
 	public void invalidCode2() {
 		Bank bank = new Bank("Money", "    ");
 	}
+
 	@Test(expected = BankException.class)
 	public void invalidCode3() {
 		Bank bank = new Bank("Money", "");
 	}
+
 	@Test(expected = BankException.class)
 	public void invalidCode4() {
 		Bank bank = new Bank("Money", "BK026");
