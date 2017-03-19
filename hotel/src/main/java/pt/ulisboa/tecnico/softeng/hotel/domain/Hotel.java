@@ -26,30 +26,30 @@ public class Hotel {
 
 	private void checkCode(String code) {
 		if (code == null || code.trim().length() != Hotel.CODE_SIZE) {
-			throw new HotelException();				
+			throw new HotelException();
 		}
-		for(Hotel hotel : Hotel.hotels) {
-			if(hotel.getCode().equals(code)) {
+		for (Hotel hotel : Hotel.hotels) {
+			if (hotel.getCode().equals(code)) {
 				throw new HotelException();
 			}
 		}
 	}
-	
+
 	private void checkName(String name) {
-		if(name == null || name.trim().length() == 0) {
+		if (name == null || name.trim().length() == 0) {
 			throw new HotelException();
 		}
 	}
-	
+
 	private void checkVacancy(Room.Type type, LocalDate arrival, LocalDate departure) {
 		if (type == null || arrival == null || departure == null || departure.isBefore(arrival)) {
-			throw new HotelException();				
+			throw new HotelException();
 		}
 	}
 
 	public Room hasVacancy(Room.Type type, LocalDate arrival, LocalDate departure) {
 		checkVacancy(type, arrival, departure);
-		
+
 		for (Room room : this.rooms) {
 			if (room.isFree(type, arrival, departure)) {
 				return room;
@@ -65,8 +65,8 @@ public class Hotel {
 	String getName() {
 		return this.name;
 	}
-	
-	Set<Room> getRooms(){
+
+	Set<Room> getRooms() {
 		return this.rooms;
 	}
 

@@ -22,7 +22,7 @@ public class HotelConstructorTest {
 		Assert.assertEquals(0, hotel.getNumberOfRooms());
 		Assert.assertEquals(1, Hotel.hotels.size());
 	}
-	
+
 	@Test
 	public void nullCode() {
 		try {
@@ -32,7 +32,7 @@ public class HotelConstructorTest {
 			Assert.assertEquals(0, Hotel.hotels.size());
 		}
 	}
-	
+
 	@Test
 	public void nullName() {
 		try {
@@ -52,7 +52,7 @@ public class HotelConstructorTest {
 			Assert.assertEquals(0, Hotel.hotels.size());
 		}
 	}
-	
+
 	@Test
 	public void emptyName() {
 		try {
@@ -62,7 +62,7 @@ public class HotelConstructorTest {
 			Assert.assertEquals(0, Hotel.hotels.size());
 		}
 	}
-	
+
 	@Test
 	public void spacesCode() {
 		try {
@@ -72,37 +72,34 @@ public class HotelConstructorTest {
 			Assert.assertEquals(0, Hotel.hotels.size());
 		}
 	}
-	
+
 	@Test
 	public void oversizedCode() {
 		try {
-			new Hotel("XPT01234","Londres");
+			new Hotel("XPT01234", "Londres");
 			Assert.fail();
-		}
-		catch(HotelException he) {
+		} catch (HotelException he) {
 			Assert.assertEquals(0, Hotel.hotels.size());
 		}
 	}
-	
+
 	@Test
 	public void undersizedCode() {
 		try {
-			new Hotel("XPT012","Londres");
+			new Hotel("XPT012", "Londres");
 			Assert.fail();
-		}
-		catch(HotelException he) {
+		} catch (HotelException he) {
 			Assert.assertEquals(0, Hotel.hotels.size());
 		}
 	}
-	
+
 	@Test
 	public void uniqueCode() {
 		Hotel hotel = new Hotel("XPTO123", "Londres");
 		try {
 			new Hotel("XPTO123", "Paris");
 			Assert.fail();
-		}
-		catch(HotelException he) {
+		} catch (HotelException he) {
 			Assert.assertEquals(1, Hotel.hotels.size());
 			Assert.assertTrue(Hotel.hotels.contains(hotel));
 		}
@@ -114,4 +111,3 @@ public class HotelConstructorTest {
 	}
 
 }
-	

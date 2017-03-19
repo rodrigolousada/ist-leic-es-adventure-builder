@@ -23,14 +23,14 @@ public class Room {
 
 	public Room(Hotel hotel, String number, Type type) {
 		this.hotel = hotel;
-		
+
 		checkNumber(number);
 		this.number = number;
 		this.type = type;
 
 		this.hotel.addRoom(this);
 	}
-	
+
 	private void checkNumber(String number) {
 		if (number == null || number.trim().length() == 0) {
 			throw new HotelException();

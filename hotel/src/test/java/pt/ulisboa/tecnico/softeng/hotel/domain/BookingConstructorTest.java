@@ -24,14 +24,14 @@ public class BookingConstructorTest {
 		Assert.assertEquals(departure, booking.getDeparture());
 	}
 
-	@Test (expected = HotelException.class)
-	public void date_failure(){
+	@Test(expected = HotelException.class)
+	public void date_failure() {
 		Hotel hotel = new Hotel("XPTO123", "Londres");
 		LocalDate arrival = new LocalDate(2016, 12, 19);
 		LocalDate departure = new LocalDate(2016, 12, 16);
 		new Booking(hotel, arrival, departure);
 	}
-	
+
 	@After
 	public void tearDown() {
 		Hotel.hotels.clear();
