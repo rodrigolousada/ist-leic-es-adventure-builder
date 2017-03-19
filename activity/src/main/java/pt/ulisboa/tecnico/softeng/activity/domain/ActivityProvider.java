@@ -17,8 +17,8 @@ public class ActivityProvider {
 	private final Set<Activity> activities = new HashSet<>();
 
 	public ActivityProvider(String code, String name) {
-		verify(code,name);
-		checkCode(code); 
+		verify(code, name);
+		checkCode(code);
 		this.code = code;
 		checkName(name);
 		this.name = name;
@@ -30,15 +30,16 @@ public class ActivityProvider {
 		if (code.length() != ActivityProvider.CODE_SIZE) {
 			throw new ActivityException();
 		}
-		for(ActivityProvider provider: ActivityProvider.providers){
-			if (provider.getCode().equals(code)){
+		for (ActivityProvider provider : ActivityProvider.providers) {
+			if (provider.getCode().equals(code)) {
 				throw new ActivityException();
 			}
 		}
 	}
+
 	private void checkName(String name) {
-		for(ActivityProvider provider: ActivityProvider.providers){
-			if (provider.getName().equals(name)){
+		for (ActivityProvider provider : ActivityProvider.providers) {
+			if (provider.getName().equals(name)) {
 				throw new ActivityException();
 			}
 		}
@@ -55,6 +56,7 @@ public class ActivityProvider {
 	int getNumberOfActivities() {
 		return this.activities.size();
 	}
+
 	static int getNumberOfProviders() {
 		return ActivityProvider.providers.size();
 	}
@@ -64,7 +66,7 @@ public class ActivityProvider {
 	}
 
 	public Set<ActivityOffer> findOffer(LocalDate begin, LocalDate end, int age) throws ActivityException {
-		if(begin==null || end==null || end.isBefore(begin )){
+		if (begin == null || end == null || end.isBefore(begin)) {
 			throw new ActivityException();
 		}
 		Set<ActivityOffer> result = new HashSet<>();
@@ -86,13 +88,14 @@ public class ActivityProvider {
 		}
 		return null;
 	}
-private void verify(String code, String name){
-		
-		if(code==null){
+
+	private void verify(String code, String name) {
+
+		if (code == null) {
 			throw new ActivityException("Code must not be null");
 		}
-		
-		if (name==null){
+
+		if (name == null) {
 			throw new ActivityException("Name must not be null");
 		}
 	}

@@ -28,26 +28,25 @@ public class Activity {
 		provider.addActivity(this);
 	}
 
-	private void verify(ActivityProvider provider, String name, int min_age, int max_age, int cap){
-		
-		if(provider==null){
+	private void verify(ActivityProvider provider, String name, int min_age, int max_age, int cap) {
+
+		if (provider == null) {
 			throw new ActivityException("Provider must not be null");
 		}
-		
-		if(name==null){
+
+		if (name == null) {
 			throw new ActivityException("Name must not be null");
 		}
-		
-		if( min_age < 18 || max_age > 99 || min_age > max_age){
+
+		if (min_age < 18 || max_age > 99 || min_age > max_age) {
 			throw new ActivityException("Minimum age is 18, max age is 99, and min age must be lower than max age");
 		}
-		
-		if (cap <= 0){
+
+		if (cap <= 0) {
 			throw new ActivityException("Capacity must be higher than 0");
 		}
 	}
-	
-	
+
 	String getName() {
 		return this.name;
 	}

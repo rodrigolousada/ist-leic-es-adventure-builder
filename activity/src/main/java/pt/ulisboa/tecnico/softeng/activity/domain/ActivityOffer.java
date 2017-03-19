@@ -14,8 +14,8 @@ public class ActivityOffer {
 	private final Set<Booking> bookings = new HashSet<>();
 
 	public ActivityOffer(Activity activity, LocalDate begin, LocalDate end) {
-		verify(activity,begin,end);
-		checkDate(begin,end);
+		verify(activity, begin, end);
+		checkDate(begin, end);
 		this.begin = begin;
 		this.end = end;
 		this.capacity = activity.getCapacity();
@@ -30,17 +30,17 @@ public class ActivityOffer {
 	LocalDate getEnd() {
 		return this.end;
 	}
-	
-	public void verify(Activity activity, LocalDate begin, LocalDate end){
-		if(activity == null){
+
+	public void verify(Activity activity, LocalDate begin, LocalDate end) {
+		if (activity == null) {
 			throw new ActivityException("Activity can't be null");
-		} 
-		
-		if(begin == null){
+		}
+
+		if (begin == null) {
 			throw new ActivityException("Begin date can't be null");
-		} 
-		
-		if(end == null){
+		}
+
+		if (end == null) {
 			throw new ActivityException("End date can't be null");
 		}
 	}
@@ -62,7 +62,7 @@ public class ActivityOffer {
 		if (begin == null) {
 			throw new ActivityException("Begin date can't be null.");
 		}
-		if(end == null){
+		if (end == null) {
 			throw new ActivityException("End date can't be null");
 		}
 
@@ -72,9 +72,9 @@ public class ActivityOffer {
 	boolean hasVacancy() {
 		return this.capacity > getNumberOfBookings();
 	}
-	
-	public void checkDate(LocalDate begin, LocalDate end){
-		if(end.isBefore(begin)){
+
+	public void checkDate(LocalDate begin, LocalDate end) {
+		if (end.isBefore(begin)) {
 			throw new ActivityException("Begin date must be before end date");
 		}
 	}
