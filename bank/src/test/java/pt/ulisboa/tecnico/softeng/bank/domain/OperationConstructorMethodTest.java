@@ -48,6 +48,12 @@ public class OperationConstructorMethodTest {
 	}
 
 	@Test
+	public void smallestValidValue() {
+		Operation operation = new Operation(Type.DEPOSIT, this.account, 1);
+		Assert.assertEquals(1, operation.getValue());
+	}
+
+	@Test
 	public void success() {
 		Operation operation = new Operation(Type.DEPOSIT, this.account, 1000);
 
