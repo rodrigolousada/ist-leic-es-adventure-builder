@@ -48,6 +48,26 @@ public class ActivityOfferConstructorMethodTest {
 		new ActivityOffer(this.activity,new LocalDate(2016, 12, 19),null);
 	}
 
+	// One-day activity
+	@Test
+	public void oneDayActivity() {
+		LocalDate date = new LocalDate(2016, 12, 19);
+
+		ActivityOffer offer = new ActivityOffer(this.activity, date, date);
+
+		Assert.assertEquals(date, offer.getBegin());
+		Assert.assertEquals(date, offer.getEnd());
+	}
+
+	// Invalid activity range: end before beginning
+	@Test(expected = ActivityException.class)
+	public void endBeforeBeginning() {
+		LocalDate begin = new LocalDate(2016, 12, 19);
+		LocalDate end = new LocalDate(2016, 12, 18);
+
+		new ActivityOffer(this.activity, begin, end);
+	}
+
 	@After
 	public void tearDown() {
 		ActivityProvider.providers.clear();
