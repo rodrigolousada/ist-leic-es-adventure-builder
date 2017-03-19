@@ -22,13 +22,15 @@ public class BookingContructorMethodTest {
 		LocalDate end = new LocalDate(2016, 12, 21);
 		this.offer = new ActivityOffer(activity, begin, end);
 	}
-	@Test (expected = ActivityException.class)
-	public void null_provider(){
-		new Booking(null,this.offer);
+
+	@Test(expected = ActivityException.class)
+	public void nullProvider() {
+		new Booking(null, this.offer);
 	}
-	@Test (expected = ActivityException.class)
-	public void null_offer(){
-		new Booking(this.provider,null);
+
+	@Test(expected = ActivityException.class)
+	public void nullOffer() {
+		new Booking(this.provider, null);
 	}
 
 	@Test
@@ -41,15 +43,15 @@ public class BookingContructorMethodTest {
 	}
 
 	@Test
-	public void capacity_failure() {
+	public void capacityFailure() {
 		LocalDate begin = new LocalDate(2016, 12, 19);
 		LocalDate end = new LocalDate(2016, 12, 21);
 		this.offer = new ActivityOffer(activity, begin, end);
 		new Booking(this.provider, this.offer);
 		try {
-			new Booking(this.provider,this.offer);
+			new Booking(this.provider, this.offer);
 			Assert.fail();
-		} catch (ActivityException e){
+		} catch (ActivityException e) {
 			Assert.assertEquals(1, this.activity.getCapacity());
 		}
 	}
