@@ -34,30 +34,33 @@ public class ActivityProviderFindOfferMethodTest {
 
 		Assert.assertEquals(1, offers.size());
 		Assert.assertTrue(offers.contains(this.offer));
-	}	
+	}
+
 	@Test
-	public void date_failure() {
+	public void dateFailure() {
 		LocalDate end = new LocalDate(2016, 12, 19);
 		LocalDate begin = new LocalDate(2016, 12, 21);
 		Set<ActivityOffer> offers = new HashSet<>();
 		try {
-		 offers = this.provider.findOffer(begin, end, 40);
+			offers = this.provider.findOffer(begin, end, 40);
 			Assert.fail();
-		} catch (ActivityException e){
+		} catch (ActivityException e) {
 			Assert.assertEquals(0, offers.size());
 		}
 	}
-	@Test (expected = ActivityException.class)
-	public void null_begin(){
+
+	@Test(expected = ActivityException.class)
+	public void nullBegin() {
 		LocalDate end = new LocalDate(2016, 12, 19);
-		 this.provider.findOffer(null, end, 40);
+		this.provider.findOffer(null, end, 40);
 	}
-	@Test (expected = ActivityException.class)
-	public void null_end(){
+
+	@Test(expected = ActivityException.class)
+	public void nullEnd() {
 		LocalDate begin = new LocalDate(2016, 12, 19);
-		 this.provider.findOffer(begin, null, 40);
+		this.provider.findOffer(begin, null, 40);
 	}
-	
+
 	@After
 	public void tearDown() {
 		ActivityProvider.providers.clear();
