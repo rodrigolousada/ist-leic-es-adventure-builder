@@ -30,6 +30,12 @@ public class AccountDepositMethodTest {
 	}
 
 	@Test
+	public void smallestValidValue() {
+		String reference = this.account.deposit(1);
+		Assert.assertEquals(1, this.account.getBalance());
+	}
+
+	@Test
 	public void success() {
 		String reference = this.account.deposit(50);
 
