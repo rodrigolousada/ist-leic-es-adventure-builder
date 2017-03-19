@@ -1,8 +1,10 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.joda.time.LocalDate;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +20,7 @@ import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 
 public class AdventureProcessMethodTest {
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
-	private final LocalDate end = new LocalDate(2016, 12, 19);
+	private final LocalDate end = new LocalDate(2016, 12, 21);
 	private Broker broker;
 	private String IBAN;
 
@@ -36,8 +38,9 @@ public class AdventureProcessMethodTest {
 		new Room(hotel, "01", Type.SINGLE);
 
 		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure");
-		Activity activity = new Activity(provider, "Bush Walking", 18, 80, 3);
+		Activity activity = new Activity(provider, "Bush Walking", 18, 80, 10);
 		new ActivityOffer(activity, this.begin, this.end);
+		new ActivityOffer(activity, this.begin, this.begin);
 	}
 
 	@Test
@@ -45,10 +48,25 @@ public class AdventureProcessMethodTest {
 		Adventure adventure = new Adventure(this.broker, this.begin, this.end, 20, this.IBAN, 300);
 
 		adventure.process();
+		adventure.process();
+		adventure.process();
 
-		Assert.assertNotNull(adventure.getBankPayment());
-		Assert.assertNotNull(adventure.getRoomBooking());
-		Assert.assertNotNull(adventure.getActivityBooking());
+		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
+		assertNotNull(adventure.getPaymentConfirmation());
+		assertNotNull(adventure.getRoomConfirmation());
+		assertNotNull(adventure.getActivityConfirmation());
+	}
+
+	@Test
+	public void successNoHotelBooking() {
+		Adventure adventure = new Adventure(this.broker, this.begin, this.begin, 20, this.IBAN, 300);
+
+		adventure.process();
+		adventure.process();
+
+		assertEquals(Adventure.State.CONFIRMED, adventure.getState());
+		assertNotNull(adventure.getPaymentConfirmation());
+		assertNotNull(adventure.getActivityConfirmation());
 	}
 
 	@After

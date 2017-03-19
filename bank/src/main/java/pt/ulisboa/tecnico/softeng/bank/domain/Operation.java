@@ -1,9 +1,11 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
-import java.time.LocalDateTime;
+import org.joda.time.LocalDateTime;
 
-class Operation {
-	static enum Type {
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+
+public class Operation {
+	public static enum Type {
 		DEPOSIT, WITHDRAW
 	};
 
@@ -15,7 +17,9 @@ class Operation {
 	private final int value;
 	private final LocalDateTime time;
 
-	Operation(Type type, Account account, int value) {
+	public Operation(Type type, Account account, int value) {
+		checkArguments(type, account, value);
+
 		this.reference = account.getBank().getCode() + Integer.toString(++Operation.counter);
 		this.type = type;
 		this.account = account;
@@ -25,23 +29,29 @@ class Operation {
 		account.getBank().addLog(this);
 	}
 
-	String getReference() {
+	private void checkArguments(Type type, Account account, int value) {
+		if (type == null || account == null || value <= 0) {
+			throw new BankException();
+		}
+	}
+
+	public String getReference() {
 		return this.reference;
 	}
 
-	Type getType() {
+	public Type getType() {
 		return this.type;
 	}
 
-	Account getAccount() {
+	public Account getAccount() {
 		return this.account;
 	}
 
-	int getValue() {
+	public int getValue() {
 		return this.value;
 	}
 
-	LocalDateTime getTime() {
+	public LocalDateTime getTime() {
 		return this.time;
 	}
 

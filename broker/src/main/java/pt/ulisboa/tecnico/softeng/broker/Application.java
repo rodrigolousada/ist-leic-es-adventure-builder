@@ -22,7 +22,7 @@ public class Application {
 
 		adventure.process();
 
-		System.out.println("Your payment reference is " + adventure.getBankPayment() + " and you have "
+		System.out.println("Your payment reference is " + adventure.getPaymentConfirmation() + " and you have "
 				+ account.getBalance() + " euros left in your account");
 	}
 

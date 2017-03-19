@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.softeng.broker.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,7 @@ public class Broker {
 	private final String code;
 	private final String name;
 	private final Set<Adventure> adventures = new HashSet<>();
+	private final Set<BulkRoomBooking> bulkBookings = new HashSet<>();
 
 	public Broker(String code, String name) {
 		checkCode(code);
@@ -63,6 +65,12 @@ public class Broker {
 
 	public boolean hasAdventure(Adventure adventure) {
 		return this.adventures.contains(adventure);
+	}
+
+	public void bulkBooking(int number, LocalDate arrival, LocalDate departure) {
+		BulkRoomBooking bulkBooking = new BulkRoomBooking(number, arrival, departure);
+		this.bulkBookings.add(bulkBooking);
+		bulkBooking.processBooking();
 	}
 
 }

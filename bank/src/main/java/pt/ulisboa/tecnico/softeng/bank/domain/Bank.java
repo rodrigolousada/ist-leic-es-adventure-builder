@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
 public class Bank {
@@ -19,7 +20,7 @@ public class Bank {
 	private final List<Operation> log = new ArrayList<>();
 
 	public Bank(String name, String code) {
-		checkCode(code);
+		checkArguments(name, code);
 
 		this.name = name;
 		this.code = code;
@@ -27,9 +28,19 @@ public class Bank {
 		Bank.banks.add(this);
 	}
 
-	private void checkCode(String code) {
+	private void checkArguments(String name, String code) {
+		if (name == null || code == null || name.trim().equals("") || code.trim().equals("")) {
+			throw new BankException();
+		}
+
 		if (code.length() != Bank.CODE_SIZE) {
 			throw new BankException();
+		}
+
+		for (Bank bank : banks) {
+			if (bank.getCode().equals(code)) {
+				throw new BankException();
+			}
 		}
 	}
 
@@ -89,7 +100,17 @@ public class Bank {
 				return bank.getAccount(IBAN).withdraw(amount);
 			}
 		}
-		return null;
+		throw new BankException();
+	}
+
+	public static String cancelPayment(String reference) {
+		// TODO implement
+		throw new BankException();
+	}
+
+	public static BankOperationData getOperationData(String reference) {
+		// TODO implement
+		throw new BankException();
 	}
 
 }

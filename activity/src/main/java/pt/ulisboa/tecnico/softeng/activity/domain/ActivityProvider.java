@@ -1,11 +1,14 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.activity.domain.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
+import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityProvider {
 	public static Set<ActivityProvider> providers = new HashSet<>();
@@ -17,7 +20,7 @@ public class ActivityProvider {
 	private final Set<Activity> activities = new HashSet<>();
 
 	public ActivityProvider(String code, String name) {
-		checkCode(code);
+		checkArguments(code, name);
 
 		this.code = code;
 		this.name = name;
@@ -25,9 +28,19 @@ public class ActivityProvider {
 		ActivityProvider.providers.add(this);
 	}
 
-	private void checkCode(String code) {
+	private void checkArguments(String code, String name) {
+		if (code == null || name == null || code.trim().equals("") || name.trim().equals("")) {
+			throw new ActivityException();
+		}
+
 		if (code.length() != ActivityProvider.CODE_SIZE) {
 			throw new ActivityException();
+		}
+
+		for (ActivityProvider activityProvider : providers) {
+			if (activityProvider.getCode().equals(code) || activityProvider.getName().equals(name)) {
+				throw new ActivityException();
+			}
 		}
 	}
 
@@ -47,8 +60,8 @@ public class ActivityProvider {
 		this.activities.add(activity);
 	}
 
-	public Set<ActivityOffer> findOffer(LocalDate begin, LocalDate end, int age) {
-		Set<ActivityOffer> result = new HashSet<>();
+	public List<ActivityOffer> findOffer(LocalDate begin, LocalDate end, int age) {
+		List<ActivityOffer> result = new ArrayList<>();
 		for (Activity activity : this.activities) {
 			result.addAll(activity.getOffers(begin, end, age));
 		}
@@ -56,16 +69,24 @@ public class ActivityProvider {
 	}
 
 	public static String reserveActivity(LocalDate begin, LocalDate end, int age) {
-		Set<ActivityOffer> offers;
+		List<ActivityOffer> offers;
 		for (ActivityProvider provider : ActivityProvider.providers) {
 			offers = provider.findOffer(begin, end, age);
 			if (!offers.isEmpty()) {
-				for (ActivityOffer offer : offers) {
-					return new Booking(provider, offer).getReference();
-				}
+				return new Booking(provider, offers.get(0)).getReference();
 			}
 		}
-		return null;
+		throw new ActivityException();
+	}
+
+	public static String cancelReservation(String activityConfirmation) {
+		// TODO implement
+		throw new ActivityException();
+	}
+
+	public static ActivityReservationData getActivityReservationData(String reference) {
+		// TODO implement
+		throw new ActivityException();
 	}
 
 }

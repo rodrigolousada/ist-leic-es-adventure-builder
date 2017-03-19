@@ -4,14 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class Room {
-	private static Logger logger = LoggerFactory.getLogger(Room.class);
-
 	public static enum Type {
 		SINGLE, DOUBLE
 	}
@@ -22,11 +18,23 @@ public class Room {
 	private final Set<Booking> bookings = new HashSet<>();
 
 	public Room(Hotel hotel, String number, Type type) {
+		checkArguments(hotel, number, type);
+
 		this.hotel = hotel;
 		this.number = number;
 		this.type = type;
 
 		this.hotel.addRoom(this);
+	}
+
+	private void checkArguments(Hotel hotel, String number, Type type) {
+		if (hotel == null || number == null || number.trim().length() == 0 || type == null) {
+			throw new HotelException();
+		}
+
+		if (!number.matches("\\d*")) {
+			throw new HotelException();
+		}
 	}
 
 	Hotel getHotel() {
@@ -39,6 +47,10 @@ public class Room {
 
 	Type getType() {
 		return this.type;
+	}
+
+	int getNumberOfBookings() {
+		return this.bookings.size();
 	}
 
 	boolean isFree(Type type, LocalDate arrival, LocalDate departure) {
@@ -56,6 +68,10 @@ public class Room {
 	}
 
 	public Booking reserve(Type type, LocalDate arrival, LocalDate departure) {
+		if (type == null || arrival == null || departure == null) {
+			throw new HotelException();
+		}
+
 		if (!isFree(type, arrival, departure)) {
 			throw new HotelException();
 		}

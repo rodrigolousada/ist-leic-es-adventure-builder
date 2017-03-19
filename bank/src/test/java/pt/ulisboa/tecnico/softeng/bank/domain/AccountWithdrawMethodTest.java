@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+
 public class AccountWithdrawMethodTest {
 	private Bank bank;
 	private Account account;
@@ -23,9 +25,42 @@ public class AccountWithdrawMethodTest {
 
 		Assert.assertEquals(60, this.account.getBalance());
 		Operation operation = this.bank.getOperation(reference);
+		Assert.assertNotNull(operation);
 		Assert.assertEquals(Operation.Type.WITHDRAW, operation.getType());
 		Assert.assertEquals(this.account, operation.getAccount());
 		Assert.assertEquals(40, operation.getValue());
+	}
+
+	@Test(expected = BankException.class)
+	public void negativeAmount() {
+		this.account.withdraw(-20);
+	}
+
+	@Test(expected = BankException.class)
+	public void zeroAmount() {
+		this.account.withdraw(0);
+	}
+
+	@Test
+	public void oneAmount() {
+		this.account.withdraw(1);
+		Assert.assertEquals(99, this.account.getBalance());
+	}
+
+	@Test
+	public void equalToBalance() {
+		this.account.withdraw(100);
+		Assert.assertEquals(0, this.account.getBalance());
+	}
+
+	@Test(expected = BankException.class)
+	public void equalToBalancePlusOne() {
+		this.account.withdraw(101);
+	}
+
+	@Test(expected = BankException.class)
+	public void moreThanBalance() {
+		this.account.withdraw(150);
 	}
 
 	@After

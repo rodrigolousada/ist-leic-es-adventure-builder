@@ -1,9 +1,16 @@
 # Adventure Builder
 
 To run tests execute: mvn clean install
+To check test coverage execute: mvn clean cobertura:cobertura
 
-| Número | Nome | Email | GitHub | Módulo |
-| --------- | ------- | ------  | -------- | -------- |
-| nnnnn    | Zé      | _@_    | coder   | bank    |
-| nnnnn    | Ana    | _@_    | hacker | hotel    |
- 
+|   Number   |          Name           |            Email        |   Name GitHUb  | Grupo |
+| ---------- | ----------------------- | ----------------------- | ---------------| ----- |
+|            |                         |                         |                |   1   |
+|            |                         |                         |                |   2   |
+|            |                         |                         |                |   3   |
+|            |                         |                         |                |   4   |
+|            |                         |                         |                |   5   |
+|            |                         |                         |                |   6   |
+|            |                         |                         |                |   7   |
+|            |                         |                         |                |   8   |
+|            |                         |                         |                |   9   |

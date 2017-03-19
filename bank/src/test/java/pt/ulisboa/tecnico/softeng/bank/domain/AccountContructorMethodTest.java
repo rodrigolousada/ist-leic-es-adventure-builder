@@ -5,9 +5,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+
 public class AccountContructorMethodTest {
-	Bank bank;
-	Client client;
+	private Bank bank;
+	private Client client;
 
 	@Before
 	public void setUp() {
@@ -25,6 +27,23 @@ public class AccountContructorMethodTest {
 		Assert.assertEquals(0, account.getBalance());
 		Assert.assertEquals(1, this.bank.getNumberOfAccounts());
 		Assert.assertTrue(this.bank.hasClient(this.client));
+	}
+
+	@Test(expected = BankException.class)
+	public void notEmptyBankArgument() {
+		new Account(null, this.client);
+	}
+
+	@Test(expected = BankException.class)
+	public void notEmptyClientArgument() {
+		new Account(this.bank, null);
+	}
+
+	@Test(expected = BankException.class)
+	public void clientDoesNotBelongToBank() {
+		Client allien = new Client(new Bank("MoneyPlus", "BK02"), "António");
+
+		new Account(this.bank, allien);
 	}
 
 	@After

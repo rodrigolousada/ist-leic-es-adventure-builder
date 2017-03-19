@@ -6,7 +6,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+
 public class ActivityOfferMatchDateMethodTest {
+	private final LocalDate begin = new LocalDate(2016, 12, 19);
+	private final LocalDate end = new LocalDate(2016, 12, 23);
+
 	private ActivityOffer offer;
 
 	@Before
@@ -14,15 +19,42 @@ public class ActivityOfferMatchDateMethodTest {
 		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure");
 		Activity activity = new Activity(provider, "Bush Walking", 18, 80, 3);
 
-		LocalDate begin = new LocalDate(2016, 12, 19);
-		LocalDate end = new LocalDate(2016, 12, 21);
-
-		this.offer = new ActivityOffer(activity, begin, end);
+		this.offer = new ActivityOffer(activity, this.begin, this.end);
 	}
 
 	@Test
 	public void success() {
-		Assert.assertTrue(this.offer.matchDate(new LocalDate(2016, 12, 19), new LocalDate(2016, 12, 21)));
+		Assert.assertTrue(this.offer.matchDate(this.begin, this.end));
+	}
+
+	@Test(expected = ActivityException.class)
+	public void nullBeginDate() {
+		this.offer.matchDate(null, this.end);
+	}
+
+	@Test(expected = ActivityException.class)
+	public void nullEndDate() {
+		this.offer.matchDate(this.begin, null);
+	}
+
+	@Test
+	public void beginPlusOne() {
+		Assert.assertFalse(this.offer.matchDate(this.begin.plusDays(1), this.end));
+	}
+
+	@Test
+	public void beginMinusOne() {
+		Assert.assertFalse(this.offer.matchDate(this.begin.minusDays(1), this.end));
+	}
+
+	@Test
+	public void endPlusOne() {
+		Assert.assertFalse(this.offer.matchDate(this.begin, this.end.plusDays(1)));
+	}
+
+	@Test
+	public void endMinusOne() {
+		Assert.assertFalse(this.offer.matchDate(this.begin, this.end.minusDays(1)));
 	}
 
 	@After

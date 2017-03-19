@@ -5,6 +5,8 @@ import java.util.Set;
 
 import org.joda.time.LocalDate;
 
+import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+
 public class ActivityOffer {
 	private final LocalDate begin;
 	private final LocalDate end;
@@ -12,11 +14,23 @@ public class ActivityOffer {
 	private final Set<Booking> bookings = new HashSet<>();
 
 	public ActivityOffer(Activity activity, LocalDate begin, LocalDate end) {
+		checkArguments(activity, begin, end);
+
 		this.begin = begin;
 		this.end = end;
 		this.capacity = activity.getCapacity();
 
 		activity.addOffer(this);
+	}
+
+	private void checkArguments(Activity activity, LocalDate begin, LocalDate end) {
+		if (activity == null || begin == null || end == null) {
+			throw new ActivityException();
+		}
+
+		if (end.isBefore(begin)) {
+			throw new ActivityException();
+		}
 	}
 
 	LocalDate getBegin() {
@@ -32,6 +46,10 @@ public class ActivityOffer {
 	}
 
 	void addBooking(Booking booking) {
+		if (this.capacity == this.bookings.size()) {
+			throw new ActivityException();
+		}
+
 		this.bookings.add(booking);
 
 	}
@@ -41,6 +59,10 @@ public class ActivityOffer {
 	}
 
 	boolean matchDate(LocalDate begin, LocalDate end) {
+		if (begin == null || end == null) {
+			throw new ActivityException();
+		}
+
 		return begin.equals(getBegin()) && end.equals(getEnd());
 	}
 

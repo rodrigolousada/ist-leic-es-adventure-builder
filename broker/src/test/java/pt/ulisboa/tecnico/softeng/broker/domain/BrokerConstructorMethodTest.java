@@ -31,6 +31,16 @@ public class BrokerConstructorMethodTest {
 	@Test
 	public void emptyCode() {
 		try {
+			new Broker("", "WeExplore");
+			Assert.fail();
+		} catch (BrokerException be) {
+			Assert.assertEquals(0, Broker.brokers.size());
+		}
+	}
+
+	@Test
+	public void blankCode() {
+		try {
 			new Broker("  ", "WeExplore");
 			Assert.fail();
 		} catch (BrokerException be) {
@@ -63,6 +73,16 @@ public class BrokerConstructorMethodTest {
 
 	@Test
 	public void emptyName() {
+		try {
+			new Broker("BR01", "");
+			Assert.fail();
+		} catch (BrokerException be) {
+			Assert.assertEquals(0, Broker.brokers.size());
+		}
+	}
+
+	@Test
+	public void blankName() {
 		try {
 			new Broker("BR01", "    ");
 			Assert.fail();
