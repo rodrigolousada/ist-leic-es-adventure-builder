@@ -28,47 +28,38 @@ public class HotelHasVacancyMethodTest {
 		Assert.assertEquals("01", room.getNumber());
 	}
 	
-	@Test
+	@Test (expected = HotelException.class)
 	public void nullRoomType() {
 		LocalDate arrival = new LocalDate(2016, 12, 19);
 		LocalDate departure = new LocalDate(2016, 12, 21);
-		try{
-			this.hotel.hasVacancy(null, arrival, departure);
-			Assert.fail();
-		}
-		catch(HotelException he){
-			Room room = this.hotel.hasVacancy(Type.DOUBLE, arrival, departure);
-			Assert.assertEquals("01", room.getNumber());
-		}
+		
+		this.hotel.hasVacancy(null, arrival, departure);
 	}
 	
-	@Test
+	@Test (expected = HotelException.class)
 	public void nullArrival() {
 		LocalDate arrival = new LocalDate(2016, 12, 19);
 		LocalDate departure = new LocalDate(2016, 12, 21);
-		try{
-			this.hotel.hasVacancy(Type.DOUBLE, null, departure);
-			Assert.fail();
-		}
-		catch(HotelException he){
-			Room room = this.hotel.hasVacancy(Type.DOUBLE, arrival, departure);
-			Assert.assertEquals("01", room.getNumber());
-		}
+		
+		this.hotel.hasVacancy(Type.DOUBLE, null, departure);
 	}
 	
-	@Test
+	@Test (expected = HotelException.class)
 	public void nullDeparture() {
 		LocalDate arrival = new LocalDate(2016, 12, 19);
 		LocalDate departure = new LocalDate(2016, 12, 21);
-		try{
-			this.hotel.hasVacancy(Type.DOUBLE, arrival, null);
-			Assert.fail();
-		}
-		catch(HotelException he){
-			Room room = this.hotel.hasVacancy(Type.DOUBLE, arrival, departure);
-			Assert.assertEquals("01", room.getNumber());
-		}
+		
+		this.hotel.hasVacancy(Type.DOUBLE, arrival, null);
 	}
+	
+	@Test (expected = HotelException.class)
+	public void departureBeforeArrival() {
+		LocalDate arrival = new LocalDate(2016, 12, 22);
+		LocalDate departure = new LocalDate(2016, 12, 19);
+		
+		this.hotel.hasVacancy(Type.DOUBLE, arrival, departure);
+	}
+	
 	
 	@Test
 	public void hasNoVacancy1() {
@@ -183,18 +174,6 @@ public class HotelHasVacancyMethodTest {
 		
 		Room room = this.hotel.hasVacancy(Type.DOUBLE, arrival2, departure2);
 		Assert.assertNull(room);
-	}
-	
-	@Test
-	public void departureBeforeArrival() {
-		LocalDate arrival = new LocalDate(2016, 12, 22);
-		LocalDate departure = new LocalDate(2016, 12, 19);
-		
-		try {
-			this.hotel.hasVacancy(Type.DOUBLE, arrival, departure);
-			Assert.fail();
-		}
-		catch(HotelException he) {}
 	}
 	
 	@After
