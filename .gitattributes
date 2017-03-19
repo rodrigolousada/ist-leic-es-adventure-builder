@@ -1,0 +1,7 @@
+# See gitattributes(5)
+*.java         text
+*.xml          text
+*.md           text
+*.dml          text
+*.properties   text
+
