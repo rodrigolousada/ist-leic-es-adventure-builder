@@ -22,7 +22,9 @@ public class ActivityProviderConstructorMethodTest {
 	public void null_name(){
 		new ActivityProvider(null, "Adventure++");
 	}
-	public void null_code(){
+
+	@Test(expected = ActivityException.class)
+	public void nullCode() {
 		new ActivityProvider("XtremX", null);
 	}
 	@Test
