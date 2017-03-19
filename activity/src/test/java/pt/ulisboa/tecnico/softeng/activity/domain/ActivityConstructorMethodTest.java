@@ -53,14 +53,34 @@ public class ActivityConstructorMethodTest {
 
 	}
 
+	@Test
+	public void agesOnTheLimits() {
+		Activity activity = new Activity(this.provider, "test7", 18, 99, 1);
+		Assert.assertEquals(18, activity.getMinAge());
+		Assert.assertEquals(99, activity.getMaxAge());
+	}
+
 	@Test(expected = ActivityException.class)
 	public void capacityZero() {
 		new Activity(this.provider, "test6", 20, 80, 0);
 	}
 
+	@Test
+	public void minimumCapacity() {
+		Activity activity = new Activity(this.provider, "test7", 20, 80, 1);
+		Assert.assertEquals(1, activity.getCapacity());
+	}
+
 	@Test(expected = ActivityException.class)
 	public void underAgeOverAge() {
 		new Activity(this.provider, "test7", 81, 80, 23);
+	}
+
+	@Test
+	public void singleAllowedAge() {
+		Activity activity = new Activity(this.provider, "test7", 80, 80, 23);
+		Assert.assertEquals(80, activity.getMinAge());
+		Assert.assertEquals(80, activity.getMaxAge());
 	}
 
 	@After
