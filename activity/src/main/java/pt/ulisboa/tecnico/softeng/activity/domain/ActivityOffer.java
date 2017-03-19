@@ -59,6 +59,13 @@ public class ActivityOffer {
 	}
 
 	boolean matchDate(LocalDate begin, LocalDate end) {
+		if (begin == null) {
+			throw new ActivityException("Begin date can't be null.");
+		}
+		if(end == null){
+			throw new ActivityException("End date can't be null");
+		}
+
 		return begin.equals(getBegin()) && end.equals(getEnd());
 	}
 
