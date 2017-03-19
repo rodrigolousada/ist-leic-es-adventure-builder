@@ -27,12 +27,24 @@ public class AccountWithdrawMethodTest {
 
 	@Test(expected = BankException.class)
 	public void invalidValue2() {
-		String reference = this.account.withdraw(-40);
+		String reference = this.account.withdraw(-1);
 	}
 
 	@Test(expected = BankException.class)
 	public void invalidValue3() {
-		String reference = this.account.withdraw(this.account.getBalance() + 10);
+		String reference = this.account.withdraw(101);
+	}
+
+	@Test
+	public void smallestValidWithdraw() {
+		String reference = this.account.withdraw(1);
+		Assert.assertEquals(99, this.account.getBalance());
+	}
+
+	@Test
+	public void completeWithdraw() {
+		String reference = this.account.withdraw(100);
+		Assert.assertEquals(0, this.account.getBalance());
 	}
 
 	@Test
