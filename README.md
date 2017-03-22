@@ -1,6 +1,6 @@
 # Adventure Builder
 
-To run tests execute: mvn clean install
+To run tests execute: mvn clean install  
 To check test coverage execute: mvn clean cobertura:cobertura
 
 |   Number   |          Name           |            Email        |   Name GitHUb  | Grupo |
