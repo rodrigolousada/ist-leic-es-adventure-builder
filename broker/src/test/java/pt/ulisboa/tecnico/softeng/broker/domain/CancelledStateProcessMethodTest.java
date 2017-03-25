@@ -6,9 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Mocked;
+import mockit.StrictExpectations;
+import mockit.Verifications;
 import mockit.integration.junit4.JMockit;
 import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
@@ -21,7 +22,6 @@ import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 @RunWith(JMockit.class)
 public class CancelledStateProcessMethodTest {
 	private static final String IBAN = "BK01987654321";
-	private static final int AMOUNT = 300;
 	private static final String PAYMENT_CONFIRMATION = "PaymentConfirmation";
 	private static final String PAYMENT_CANCELLATION = "PaymentCancellation";
 	private static final String ACTIVITY_CONFIRMATION = "ActivityConfirmation";
@@ -42,10 +42,25 @@ public class CancelledStateProcessMethodTest {
 	}
 
 	@Test
-	public void didNotPayed() {
+	public void didNotPayed(@Mocked final BankInterface bankInterface,
+			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface hotelInterface) {
+
 		this.adventure.process();
 
 		Assert.assertEquals(Adventure.State.CANCELLED, this.adventure.getState());
+
+		new Verifications() {
+			{
+				BankInterface.getOperationData(this.anyString);
+				this.times = 0;
+
+				ActivityInterface.getActivityReservationData(this.anyString);
+				this.times = 0;
+
+				HotelInterface.getRoomBookingData(this.anyString);
+				this.times = 0;
+			}
+		};
 	}
 
 	@Test
@@ -53,9 +68,9 @@ public class CancelledStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
 
-		new Expectations() {
+		new StrictExpectations() {
 			{
-				BankInterface.getOperationData(PAYMENT_CANCELLATION);
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new BankException();
 			}
 		};
@@ -70,9 +85,9 @@ public class CancelledStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
 
-		new Expectations() {
+		new StrictExpectations() {
 			{
-				BankInterface.getOperationData(PAYMENT_CANCELLATION);
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new RemoteAccessException();
 			}
 		};
@@ -87,7 +102,7 @@ public class CancelledStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
 
-		new Expectations() {
+		new StrictExpectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new BankOperationData();
@@ -107,7 +122,7 @@ public class CancelledStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
 
-		new Expectations() {
+		new StrictExpectations() {
 			{
 				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
 				this.result = new BankOperationData();
@@ -127,8 +142,10 @@ public class CancelledStateProcessMethodTest {
 		this.adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
 		this.adventure.setPaymentCancellation(PAYMENT_CANCELLATION);
 
-		new Expectations() {
+		new StrictExpectations() {
 			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
 				BankInterface.getOperationData(PAYMENT_CANCELLATION);
 			}
 		};
@@ -146,8 +163,10 @@ public class CancelledStateProcessMethodTest {
 		this.adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
 		this.adventure.setActivityCancellation(ACTIVITY_CANCELLATION);
 
-		new Expectations() {
+		new StrictExpectations() {
 			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
 				BankInterface.getOperationData(PAYMENT_CANCELLATION);
 
 				ActivityInterface.getActivityReservationData(ACTIVITY_CANCELLATION);
@@ -169,8 +188,10 @@ public class CancelledStateProcessMethodTest {
 		this.adventure.setRoomConfirmation(ROOM_CONFIRMATION);
 		this.adventure.setRoomCancellation(ROOM_CANCELLATION);
 
-		new Expectations() {
+		new StrictExpectations() {
 			{
+				BankInterface.getOperationData(PAYMENT_CONFIRMATION);
+
 				BankInterface.getOperationData(PAYMENT_CANCELLATION);
 
 				ActivityInterface.getActivityReservationData(ACTIVITY_CANCELLATION);
