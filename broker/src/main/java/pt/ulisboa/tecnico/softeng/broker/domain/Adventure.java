@@ -160,6 +160,7 @@ public class Adventure {
 		case RESERVE_ACTIVITY:
 			return this.oldState;
 		case BOOK_ROOM:
+			return this.oldState;
 		case UNDO:
 		case CONFIRMED:
 		case CANCELLED:
