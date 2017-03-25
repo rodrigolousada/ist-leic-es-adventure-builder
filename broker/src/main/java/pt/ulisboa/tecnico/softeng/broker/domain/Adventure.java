@@ -159,10 +159,9 @@ public class Adventure {
 		case PROCESS_PAYMENT:
 		case RESERVE_ACTIVITY:
 		case BOOK_ROOM:
-		case UNDO:
-			return this.state.getState();
-		case CONFIRMED:
 			return this.oldState;
+		case UNDO:
+		case CONFIRMED:
 		case CANCELLED:
 			return this.state.getState();
 		default:
