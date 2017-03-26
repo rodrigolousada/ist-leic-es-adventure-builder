@@ -6,6 +6,7 @@ import java.util.Set;
 import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
+import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
@@ -15,7 +16,11 @@ public class BulkRoomBooking {
 	private final int number;
 	private final LocalDate arrival;
 	private final LocalDate departure;
-	private final boolean cancelled = false;
+	private int numberOfHotelExceptions = 0;
+	private int numberOfRemoteErrors = 0;
+	private final static int MAX_HOTEL_EXCEPTIONS = 5;
+	private final static int MAX_REMOTE_ERRORS = 5;
+	private boolean cancelled = false;
 
 	public BulkRoomBooking(int number, LocalDate arrival, LocalDate departure) {
 		this.number = number;
@@ -39,30 +44,56 @@ public class BulkRoomBooking {
 		return this.departure;
 	}
 
-	public void processBooking() {
-		if (this.cancelled) {
-			return;
+	public boolean isCancelled() {
+		return this.cancelled;
+	}
+
+	public boolean isDone() {
+		return !this.references.isEmpty();
+	}
+
+	/**
+	 * @return a <code>boolean</code> indicating if the booking was successfully
+	 *         processed
+	 * @exception BrokerException
+	 *                if the booking is cancelled
+	 */
+	public boolean processBooking() throws BrokerException {
+		if (this.isCancelled()) {
+			if (this.numberOfHotelExceptions == MAX_HOTEL_EXCEPTIONS) {
+				throw new BrokerException("BulkRoomBooking cancelled: too many HotelExceptions");
+			}
+			if (this.numberOfRemoteErrors == MAX_REMOTE_ERRORS) {
+				throw new BrokerException("BulkRoomBooking cancelled: too many RemoteAccessExceptions");
+			}
+			throw new BrokerException("BulkRoomBooking cancelled: unknown reason");
+		}
+
+		if (this.isDone()) {
+			return true;
 		}
 
 		try {
 			this.references.addAll(HotelInterface.bulkBooking(this.number, this.arrival, this.departure));
-			// this.numberOfHotelExceptions = 0;
-			// this.numberOfRemoteErrors = 0;
-			return;
+			this.numberOfHotelExceptions = 0;
+			this.numberOfRemoteErrors = 0;
+			return true;
 		} catch (HotelException he) {
-			// this.numberOfHotelExceptions++;
-			// if (this.numberOfHotelExceptions == MAX_HOTEL_EXCEPTIONS) {
-			// this.cancelled = true;
-			// }
-			// this.numberOfRemoteErrors = 0;
-			return;
+			this.numberOfHotelExceptions++;
+			if (this.numberOfHotelExceptions == MAX_HOTEL_EXCEPTIONS) {
+				this.cancelled = true;
+				throw new BrokerException("BulkRoomBooking cancelled: too many HotelExceptions");
+			}
+			this.numberOfRemoteErrors = 0;
+			return false;
 		} catch (RemoteAccessException rae) {
-			// this.numberOfRemoteErrors++;
-			// if (this.numberOfRemoteErrors == MAX_REMOTE_ERRORS) {
-			// this.cancelled = true;
-			// }
-			// this.numberOfHotelExceptions = 0;
-			return;
+			this.numberOfRemoteErrors++;
+			if (this.numberOfRemoteErrors == MAX_REMOTE_ERRORS) {
+				this.cancelled = true;
+				throw new BrokerException("BulkRoomBooking cancelled: too many RemoteAccessExceptions");
+			}
+			this.numberOfHotelExceptions = 0;
+			return false;
 		}
 	}
 
