@@ -1,19 +1,17 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
-import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
-import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
-import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
-import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class UndoState extends AdventureState{
-	private static Logger logger = LoggerFactory.getlogger(UndoState.class)
+	private static Logger logger = LoggerFactory.getLogger(UndoState.class);
 		
 	@Override
 	public State getState(){
@@ -21,31 +19,30 @@ public class UndoState extends AdventureState{
 	}
 	
 	@Override
-	
 	public void process(Adventure adventure){
 		logger.debug("process");
 		
 		if(adventure.cancelPayment()){
 			try {
-				adventure.paymentCancellation = BankInterface.cancelPayment(getPaymentConfirmation());
+				adventure.setPaymentCancellation(BankInterface.cancelPayment(adventure.getPaymentConfirmation()));
 			} catch (HotelException | RemoteAccessException ex) {
-				return;
+				// does not change state
 			}
 		}
 		
 		if (adventure.cancelActivity()) {
 			try {
-				adventure.activityCancellation = ActivityInterface.cancelReservation(getActivityConfirmation());
+				adventure.setActivityCancellation(ActivityInterface.cancelReservation(adventure.getActivityConfirmation()));
 			} catch (HotelException | RemoteAccessException ex) {
-				return;
+				// does not change state
 			}
 		}
 
 		if (adventure.cancelRoom()) {
 			try {
-				adventure.roomCancellation = HotelInterface.cancelBooking(getRoomConfirmation());
+				adventure.setRoomCancellation(HotelInterface.cancelBooking(adventure.getRoomConfirmation()));
 			} catch (HotelException | RemoteAccessException ex) {
-				return;
+				// does not change state
 			}
 		}
 
