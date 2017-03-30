@@ -14,9 +14,13 @@ public class BankConstructorTest {
 
 	}
 
+	// did not test illegal code size
+
 	// Invalid Bank names
 	@Test(expected = BankException.class)
+	// not a good name, better nullName
 	public void invalidName1() {
+		// not necessary to define the variable
 		Bank bank = new Bank(null, "BK01");
 	}
 

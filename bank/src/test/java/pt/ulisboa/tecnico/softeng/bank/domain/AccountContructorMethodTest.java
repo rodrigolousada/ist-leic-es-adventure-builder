@@ -31,6 +31,7 @@ public class AccountContructorMethodTest {
 
 	@Test(expected = BankException.class)
 	public void nullBankArgument() {
+		// it is not necessary to define the variable
 		Account account = new Account(null, this.client);
 	}
 

@@ -18,8 +18,11 @@ public class RoomReserveMethodTest {
 		this.room = new Room(hotel, "01", Type.SINGLE);
 	}
 
+	// did not test for nulls
+
 	@Test
 	public void success() {
+		// define as instance variables to be reused
 		LocalDate arrival = new LocalDate(2016, 12, 19);
 		LocalDate departure = new LocalDate(2016, 12, 24);
 		Booking booking = this.room.reserve(Type.SINGLE, arrival, departure);
@@ -33,6 +36,7 @@ public class RoomReserveMethodTest {
 	public void unavailableRoomReserve() {
 		LocalDate arrival = new LocalDate(2016, 12, 19);
 		LocalDate departure = new LocalDate(2016, 12, 24);
+		// not necessary to declare the variables
 		Booking booking = this.room.reserve(Type.SINGLE, arrival, departure);
 		Booking booking2 = this.room.reserve(Type.SINGLE, arrival, departure);
 	}

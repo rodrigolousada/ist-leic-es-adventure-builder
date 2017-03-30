@@ -20,7 +20,9 @@ public class AccountDepositMethodTest {
 
 	// Invalid value
 	@Test(expected = BankException.class)
+	// not a good name for the method, better invalidZeroAmountDeposit
 	public void invalidValue1() {
+		// it is not necessary to define the variable
 		String reference = this.account.deposit(0);
 	}
 

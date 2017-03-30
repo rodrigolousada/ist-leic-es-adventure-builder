@@ -42,6 +42,7 @@ public class AdventureConstructorMethodTest {
 	public void singleDayAdventure() {
 		LocalDate end = this.begin;
 
+		// it is not necessary to define the variable
 		Adventure adventure = new Adventure(this.broker, this.begin, end, 20, "BK011234567", 300);
 	}
 
@@ -81,7 +82,7 @@ public class AdventureConstructorMethodTest {
 	public void edgeAges() {
 		int low = 18;
 		int high = 99;
-
+		// one test test one single thing
 		Adventure adventure1 = new Adventure(this.broker, this.begin, this.end, low, "BK011234567", 300);
 		Adventure adventure2 = new Adventure(this.broker, this.begin, this.end, high, "BK011234567", 300);
 		Assert.assertEquals(low, adventure1.getAge());

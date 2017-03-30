@@ -29,6 +29,8 @@ public class ActivityConstructorMethodTest {
 		Assert.assertEquals(1, this.provider.getNumberOfActivities());
 	}
 
+	// didn't test for spaces in name and empty name
+
 	@Test(expected = ActivityException.class)
 	public void nullProvider() {
 		new Activity(null, "test", 18, 80, 25);
@@ -43,18 +45,22 @@ public class ActivityConstructorMethodTest {
 
 	@Test(expected = ActivityException.class)
 	public void underAge() {
+		// declare constants for name, age, and capacity, and use them in the
+		// different tests, for instance MIN_AGE - 1
 		new Activity(this.provider, "test4", 17, 80, 25);
 
 	}
 
 	@Test(expected = ActivityException.class)
 	public void overAge() {
+		// do not use a border value for min age
 		new Activity(this.provider, "test5", 18, 100, 25);
 
 	}
 
 	@Test
 	public void agesOnTheLimits() {
+		// should be two different tests
 		Activity activity = new Activity(this.provider, "test7", 18, 99, 1);
 		Assert.assertEquals(18, activity.getMinAge());
 		Assert.assertEquals(99, activity.getMaxAge());
@@ -73,6 +79,7 @@ public class ActivityConstructorMethodTest {
 
 	@Test(expected = ActivityException.class)
 	public void underAgeOverAge() {
+		// this is an inconsistent ages because min > max
 		new Activity(this.provider, "test7", 81, 80, 23);
 	}
 

@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation.Type;
-
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
 public class OperationConstructorMethodTest {
@@ -26,7 +25,9 @@ public class OperationConstructorMethodTest {
 
 	// Invalid Type
 	@Test(expected = BankException.class)
+	// not a good name...
 	public void invalidType1() {
+		// it is not necessary to define the variable
 		Operation operation = new Operation(null, this.account, 1000);
 	}
 

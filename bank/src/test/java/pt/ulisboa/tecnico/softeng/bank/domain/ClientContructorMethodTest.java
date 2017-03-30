@@ -17,7 +17,9 @@ public class ClientContructorMethodTest {
 
 	// Invalid Bank
 	@Test(expected = BankException.class)
+	// no good name
 	public void invalidBank1() {
+		// it is not necessary to define the variable
 		Client client = new Client(null, "António");
 	}
 

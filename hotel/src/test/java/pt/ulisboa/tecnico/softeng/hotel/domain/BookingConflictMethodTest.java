@@ -15,6 +15,7 @@ public class BookingConflictMethodTest {
 	public void setUp() {
 		Hotel hotel = new Hotel("XPTO123", "Londres");
 
+		// define as instance variables to be reused in the other tests
 		LocalDate arrival = new LocalDate(2016, 12, 19);
 		LocalDate departure = new LocalDate(2016, 12, 24);
 		this.booking = new Booking(hotel, arrival, departure);

@@ -19,6 +19,7 @@ public class ActivityOfferConstructorMethodTest {
 
 	@Test
 	public void success() {
+		// define these as instance variables
 		LocalDate begin = new LocalDate(2016, 12, 19);
 		LocalDate end = new LocalDate(2016, 12, 21);
 

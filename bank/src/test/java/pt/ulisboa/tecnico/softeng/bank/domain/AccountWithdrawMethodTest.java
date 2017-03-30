@@ -21,7 +21,9 @@ public class AccountWithdrawMethodTest {
 
 	// Invalid value
 	@Test(expected = BankException.class)
+	// not a good name for the method, better invalidZeroAmountWithdraw
 	public void invalidValue1() {
+		// it is not necessary to define the variable
 		String reference = this.account.withdraw(0);
 	}
 

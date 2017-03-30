@@ -17,6 +17,8 @@ public class BankHasAccountMethodTest {
 		this.client = new Client(this.bank, "António");
 	}
 
+	// did not test to find one account when there are more than one
+
 	@Test
 	public void success() {
 		Account account = new Account(this.bank, this.client);
@@ -35,9 +37,11 @@ public class BankHasAccountMethodTest {
 
 	@Test(expected = BankException.class)
 	public void noAccounts() throws Exception {
+		// be careful with static counter... 1...
 		this.bank.getAccount("BK01" + 1);
 	}
 
+	// be careful with static counter, this is not testing what you want
 	@Test(expected = BankException.class)
 	public void inexistentAccount() throws Exception {
 		new Account(this.bank, this.client);

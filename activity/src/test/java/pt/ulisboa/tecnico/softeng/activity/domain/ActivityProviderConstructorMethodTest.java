@@ -28,6 +28,7 @@ public class ActivityProviderConstructorMethodTest {
 		new ActivityProvider("XtremX", null);
 	}
 
+	// should test a for size 5 and 7
 	@Test
 	public void codeLengthFailure() {
 		try {

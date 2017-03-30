@@ -20,6 +20,7 @@ public class HotelHasVacancyMethodTest {
 
 	@Test
 	public void hasVacancy() {
+		// define as instance variables such that they can be reused
 		LocalDate arrival = new LocalDate(2016, 12, 19);
 		LocalDate departure = new LocalDate(2016, 12, 21);
 
@@ -73,6 +74,7 @@ public class HotelHasVacancyMethodTest {
 
 	@Test
 	public void hasNoVacancy2() {
+		// it is better to use plusDays e minusDays
 		LocalDate arrival1 = new LocalDate(2016, 12, 19);
 		LocalDate departure1 = new LocalDate(2016, 12, 21);
 		LocalDate arrival2 = new LocalDate(2016, 12, 18);

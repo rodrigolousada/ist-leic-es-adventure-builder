@@ -16,6 +16,7 @@ public class ActivityOfferHasVacancyMethodTest {
 		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure");
 		Activity activity = new Activity(provider, "Bush Walking", 18, 80, 3);
 
+		// define a instance variables
 		LocalDate begin = new LocalDate(2016, 12, 19);
 		LocalDate end = new LocalDate(2016, 12, 21);
 
@@ -28,8 +29,13 @@ public class ActivityOfferHasVacancyMethodTest {
 		Assert.assertTrue(this.offer.hasVacancy());
 	}
 
+	// did not test for full - 1...
+
+	// testing for capacity 1 is not good
 	@Test(expected = ActivityException.class)
 	public void notSucess() {
+		// the first invocation raises an exception, same code error, the test
+		// is not working
 		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure");
 		ActivityProvider provider2 = new ActivityProvider("XPTO", "XPTO");
 
