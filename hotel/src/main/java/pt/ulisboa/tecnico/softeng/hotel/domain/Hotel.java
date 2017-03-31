@@ -102,8 +102,7 @@ public class Hotel {
 		throw new HotelException();
 	}
 
-	// returning "RoomCancellation" for now, some kind of unique reference
-	// should probably be used
+	// returning same reference used for room confirmation
 	public static String cancelBooking(String roomConfirmation) {
 		String hotelcode = roomConfirmation.substring(0, CODE_SIZE);
 		Hotel hotelbooked = getHotelByCode(hotelcode);

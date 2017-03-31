@@ -64,10 +64,8 @@ public class Booking {
 		return false;
 	}
 
-	// returning "RoomCancellation" for now, some kind of unique reference
-	// should probably be used
 	public String cancel() {
-		this.cancellation = "RoomCancellation";
+		this.cancellation = this.reference;
 		this.cancellationDate = new LocalDate();
 		return this.cancellation;
 	}

@@ -91,8 +91,6 @@ public class Room {
 		return false;
 	}
 
-	// returning "RoomCancellation" for now, some kind of unique reference
-	// should probably be used
 	public String cancelBooking(String reference) {
 		for (Booking booking : bookings) {
 			if (booking.getReference() == reference)
