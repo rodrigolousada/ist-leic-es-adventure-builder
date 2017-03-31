@@ -10,6 +10,8 @@ public class Booking {
 	private final String reference;
 	private final LocalDate arrival;
 	private final LocalDate departure;
+	private String cancellation;
+	private LocalDate cancellationDate;
 
 	Booking(Hotel hotel, LocalDate arrival, LocalDate departure) {
 		checkArguments(hotel, arrival, departure);
@@ -60,6 +62,14 @@ public class Booking {
 		}
 
 		return false;
+	}
+
+	// returning "RoomCancellation" for now, some kind of unique reference
+	// should probably be used
+	public String cancel() {
+		this.cancellation = "RoomCancellation";
+		this.cancellationDate = new LocalDate();
+		return this.cancellation;
 	}
 
 }

@@ -83,6 +83,15 @@ public class Hotel {
 		return false;
 	}
 
+	private static Hotel getHotelByCode(String code) {
+		for (Hotel hotel : hotels) {
+			if (hotel.getCode() == code) {
+				return hotel;
+			}
+		}
+		throw new HotelException();
+	}
+
 	public static String reserveRoom(Room.Type type, LocalDate arrival, LocalDate departure) {
 		for (Hotel hotel : Hotel.hotels) {
 			Room room = hotel.hasVacancy(type, arrival, departure);
@@ -93,8 +102,17 @@ public class Hotel {
 		throw new HotelException();
 	}
 
+	// returning "RoomCancellation" for now, some kind of unique reference
+	// should probably be used
 	public static String cancelBooking(String roomConfirmation) {
-		// TODO implement
+		String hotelcode = roomConfirmation.substring(0, CODE_SIZE);
+		Hotel hotelbooked = getHotelByCode(hotelcode);
+
+		for (Room room : hotelbooked.rooms) {
+			if (room.hasBooking(roomConfirmation))
+				return room.cancelBooking(roomConfirmation);
+		}
+
 		throw new HotelException();
 	}
 
