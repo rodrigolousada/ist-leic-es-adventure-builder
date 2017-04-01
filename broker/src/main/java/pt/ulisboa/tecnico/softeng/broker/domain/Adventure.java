@@ -55,7 +55,7 @@ public class Adventure {
 
 		broker.addAdventure(this);
 
-		setState(State.PROCESS_PAYMENT);
+		setState(new ProcessPaymentState());
 	}
 
 	private void checkArguments(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
@@ -156,31 +156,8 @@ public class Adventure {
 		return this.state.getState();
 	}
 
-	public void setState(State state) {
-		switch (state) {
-		case PROCESS_PAYMENT:
-			this.state = new ProcessPaymentState();
-			break;
-		case RESERVE_ACTIVITY:
-			this.state = new ReserveActivityState();
-			break;
-		case BOOK_ROOM:
-			this.state = new BookRoomState();
-			break;
-		case UNDO:
-			this.state = new UndoState();
-			break;
-		case CONFIRMED:
-			this.state = new ConfirmedState();
-			break;
-		case CANCELLED:
-			this.state = new CancelledState();
-			break;
-		default:
-			new BrokerException();
-			break;
-
-		}
+	public void setState(AdventureState state) {
+		this.state = state;
 	}
 
 	public void process() {
