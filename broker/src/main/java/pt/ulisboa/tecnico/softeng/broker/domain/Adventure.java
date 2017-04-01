@@ -40,8 +40,6 @@ public class Adventure {
 	private String activityConfirmation;
 	private String activityCancellation;
 
-	private State oldState; // to be removed once all states are refactored as
-							// subclasses of AdventureState
 	private AdventureState state;
 
 	public Adventure(Broker broker, LocalDate begin, LocalDate end, int age, String IBAN, int amount) {
@@ -155,24 +153,10 @@ public class Adventure {
 	}
 
 	public State getState() {
-		switch (this.oldState) {
-		case PROCESS_PAYMENT:
-		case RESERVE_ACTIVITY:
-			return this.oldState;
-		case BOOK_ROOM:
-			return this.oldState;
-		case UNDO:
-		case CONFIRMED:
-		case CANCELLED:
-			return this.state.getState();
-		default:
-			new BrokerException();
-			return null;
-		}
+		return this.state.getState();
 	}
 
 	public void setState(State state) {
-		this.oldState = state;
 		switch (state) {
 		case PROCESS_PAYMENT:
 			this.state = new ProcessPaymentState();
@@ -200,30 +184,9 @@ public class Adventure {
 	}
 
 	public void process() {
-		logger.debug("process ID:{}, state:{} ", this.ID, this.oldState.name());
+		logger.debug("process ID:{}, state:{} ", this.ID, this.state.getState().name());
 
-		switch (this.oldState) {
-		case PROCESS_PAYMENT:
-			this.state.process(this);
-			break;
-		case RESERVE_ACTIVITY:
-			this.state.process(this);
-			break;
-		case BOOK_ROOM:
-			this.state.process(this);
-			break;
-		case UNDO:
-			this.state.process(this);
-			break;
-		case CONFIRMED:
-			this.state.process(this);
-			break;
-		case CANCELLED:
-			this.state.process(this);
-			break;
-		default:
-			throw new BrokerException();
-		}
+		this.state.process(this);
 	}
 
 	public boolean cancelRoom() {
