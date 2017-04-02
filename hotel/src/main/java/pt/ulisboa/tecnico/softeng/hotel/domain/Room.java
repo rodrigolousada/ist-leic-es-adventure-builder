@@ -82,13 +82,13 @@ public class Room {
 		return booking;
 	}
 
-	// Returns true if room has the booking with the given reference
-	public boolean hasBooking(String reference) {
+	// Returns a booking if the room has the booking with the given reference
+	public Booking getBooking(String reference) {
 		for (Booking booking : bookings) {
 			if (booking.getReference() == reference)
-				return true;
+				return booking;
 		}
-		return false;
+		return null;
 	}
 
 	public String cancelBooking(String reference) {

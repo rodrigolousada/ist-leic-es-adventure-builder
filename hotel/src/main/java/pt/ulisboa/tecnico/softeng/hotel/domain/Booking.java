@@ -43,7 +43,19 @@ public class Booking {
 		return this.departure;
 	}
 
+	String getCancellation() {
+		return this.cancellation;
+	}
+
+	LocalDate getCancellationDate() {
+		return this.cancellationDate;
+	}
+
 	boolean conflict(LocalDate arrival, LocalDate departure) {
+
+		if (this.cancellation != null)
+			return false;
+
 		if (departure.isBefore(arrival)) {
 			throw new HotelException();
 		}
