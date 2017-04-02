@@ -11,11 +11,16 @@ import mockit.Injectable;
 import mockit.Mocked;
 import mockit.StrictExpectations;
 import mockit.integration.junit4.JMockit;
+import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
+import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
+import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 @RunWith(JMockit.class)
 public class AdventureSequenceTest {
@@ -41,6 +46,10 @@ public class AdventureSequenceTest {
 		this.adventure = new Adventure(this.broker, this.begin, this.end, 20, IBAN, 300);
 
 	}
+
+	// **********************************************************************/
+	// ****************** CONFIRMED SEQUENCE TESTS **************************/
+	// **********************************************************************/
 
 	@Test
 	public void bookRoom(@Mocked final HotelInterface hotelInterface) {
@@ -105,4 +114,176 @@ public class AdventureSequenceTest {
 		Assert.assertEquals(State.CONFIRMED, this.adventure.getState());
 	}
 
+	// **********************************************************************/
+	// ****************** CANCELLED SEQUENCE TESTS **************************/
+	// **********************************************************************/
+
+	@Test
+	public void processPaymentBankException(@Mocked BankInterface bankInterface) {
+
+		Assert.assertEquals(State.PROCESS_PAYMENT, this.adventure.getState());
+		new StrictExpectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyInt);
+				this.result = new BankException();
+			}
+		};
+		this.adventure.process();
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+	}
+
+	@Test
+	public void processPayment3RemoteAccessExceptions(@Mocked BankInterface bankInterface) {
+
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyInt);
+				this.result = new RemoteAccessException();
+				times = 3;
+			}
+		};
+		this.adventure.process();
+		this.adventure.process();
+		this.adventure.process();
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+	}
+
+	@Test
+	public void undoWithNoCancellations() {
+
+		adventure.setState(State.UNDO);
+		this.adventure.process();
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+	}
+
+	@Test
+	public void reserveActivityException(@Mocked BankInterface bankInterface,
+			@Mocked ActivityInterface activityInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyInt);
+				this.result = PAYMENT_CONFIRMATION;
+				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, anyInt);
+				this.result = new ActivityException();
+			}
+		};
+
+		this.adventure.process();
+		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState());
+		this.adventure.process();
+		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		this.adventure.process();
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+	}
+
+	@Test
+	public void reserveActivity5RemoteExceptions(@Mocked BankInterface bankInterface,
+			@Mocked ActivityInterface activityInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyInt);
+				this.result = PAYMENT_CONFIRMATION;
+				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, anyInt);
+				this.result = new RemoteAccessException();
+				times = 5;
+			}
+		};
+
+		this.adventure.process();
+		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState());
+		this.adventure.process();
+		this.adventure.process();
+		this.adventure.process();
+		this.adventure.process();
+		this.adventure.process();
+		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		this.adventure.process();
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+	}
+
+	@Test
+	public void bookRoom10RemoteExceptions(@Mocked BankInterface bankInterface,
+			@Mocked ActivityInterface activityInterface, @Mocked HotelInterface hotelInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyInt);
+				this.result = PAYMENT_CONFIRMATION;
+				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, anyInt);
+				this.result = ACTIVITY_CONFIRMATION;
+				HotelInterface.reserveRoom((Type) this.any, (LocalDate) this.any, (LocalDate) this.any);
+				this.result = new RemoteAccessException();
+				times = 10;
+			}
+		};
+
+		this.adventure.process();
+		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState());
+		this.adventure.process();
+		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState());
+		for (int i = 0; i < 10; i++)
+			adventure.process();
+		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		this.adventure.process();
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+	}
+
+	@Test
+	public void bookRoomHotelException(@Mocked BankInterface bankInterface, @Mocked ActivityInterface activityInterface,
+			@Mocked HotelInterface hotelInterface) {
+		new Expectations() {
+			{
+				BankInterface.processPayment(this.anyString, this.anyInt);
+				this.result = PAYMENT_CONFIRMATION;
+				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, anyInt);
+				this.result = ACTIVITY_CONFIRMATION;
+				HotelInterface.reserveRoom((Type) this.any, (LocalDate) this.any, (LocalDate) this.any);
+				this.result = new HotelException();
+			}
+		};
+
+		this.adventure.process();
+		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState());
+		this.adventure.process();
+		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState());
+		adventure.process();
+		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		this.adventure.process();
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+	}
+
+	@Test
+	public void confirmedStateRemoteAccessExceptions(@Mocked BankInterface bankInterface,
+			@Mocked ActivityInterface activityInterface, @Mocked HotelInterface hotelInterface) {
+		adventure.setState(new ConfirmedState());
+		new Expectations() {
+			{
+				BankInterface.getOperationData(this.anyString);
+				this.result = new RemoteAccessException();
+				times = 20;
+			}
+		};
+
+		for (int i = 0; i < 20; i++)
+			adventure.process();
+		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		this.adventure.process();
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+
+		adventure.setState(new ConfirmedState());
+		new Expectations() {
+			{
+				BankInterface.getOperationData(this.anyString);
+				this.result = new BankOperationData();
+				ActivityInterface.getActivityReservationData(this.anyString);
+				this.result = new RemoteAccessException();
+				times = 20;
+			}
+		};
+
+		for (int i = 0; i < 20; i++)
+			adventure.process();
+		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		this.adventure.process();
+		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
+	}
 }
