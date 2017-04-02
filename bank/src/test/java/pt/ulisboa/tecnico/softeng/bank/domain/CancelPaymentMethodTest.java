@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,5 +57,10 @@ public class CancelPaymentMethodTest {
 	@Test(expected = BankException.class)
 	public void SpaceReference(){
 		Bank.cancelPayment(" ");
+	}
+	
+	@After
+	public void tearDown() {
+		Bank.banks.clear();
 	}
 }
