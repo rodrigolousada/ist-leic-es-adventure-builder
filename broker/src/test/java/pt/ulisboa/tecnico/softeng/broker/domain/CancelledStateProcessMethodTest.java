@@ -38,7 +38,7 @@ public class CancelledStateProcessMethodTest {
 	@Before
 	public void setUp() {
 		this.adventure = new Adventure(this.broker, this.begin, this.end, 20, IBAN, 300);
-		this.adventure.setState(State.CANCELLED);
+		this.adventure.setState(new CancelledState());
 	}
 
 	@Test

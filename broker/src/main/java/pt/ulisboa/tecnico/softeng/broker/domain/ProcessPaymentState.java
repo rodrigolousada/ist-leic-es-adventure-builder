@@ -27,15 +27,15 @@ public class ProcessPaymentState extends AdventureState{
 		try {
 			adventure.setPaymentConfirmation(BankInterface.processPayment(adventure.getIBAN(), adventure.getAmount()));
 		} catch (BankException be) {
-			adventure.setState(State.CANCELLED);
+			adventure.setState(new CancelledState());
 		} catch (RemoteAccessException rae) {
 			// increment number of errors
 			// if (number of errors == 3) {
-			// setState(State.CANCELLED);
+			// setState(new CancelledState());
 			// }
 			return;
 		}
 
-		adventure.setState(State.RESERVE_ACTIVITY);
+		adventure.setState(new ReserveActivityState());
 	}
 }

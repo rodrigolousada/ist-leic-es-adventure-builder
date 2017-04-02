@@ -33,13 +33,13 @@ public class ConfirmedState extends AdventureState {
 		} catch (BankException be) {
 			// increment number of errors
 			// if (number of errors == 5) {
-			// adventure.setState(State.UNDO);
+			// adventure.setState(new UndoState());
 			// }
 			return;
 		} catch (RemoteAccessException rae) {
 			// increment number of errors
 			// if (number of errors == 20) {
-			// adventure.setState(State.UNDO);
+			// adventure.setState(new UndoState());
 			// }
 			return;
 		}
@@ -53,12 +53,12 @@ public class ConfirmedState extends AdventureState {
 		try {
 			reservation = ActivityInterface.getActivityReservationData(adventure.getActivityConfirmation());
 		} catch (ActivityException ae) {
-			adventure.setState(State.UNDO);
+			adventure.setState(new UndoState());
 			return;
 		} catch (RemoteAccessException rae) {
 			// increment number of errors
 			// if (number of errors == 20) {
-			// adventure.setState(State.UNDO);
+			// adventure.setState(new UndoState());
 			// }
 			return;
 		}
@@ -75,12 +75,12 @@ public class ConfirmedState extends AdventureState {
 			try {
 				booking = HotelInterface.getRoomBookingData(adventure.getRoomConfirmation());
 			} catch (HotelException he) {
-				adventure.setState(State.UNDO);
+				adventure.setState(new UndoState());
 				return;
 			} catch (RemoteAccessException rae) {
 				// increment number of errors
 				// if (number of errors == 20) {
-				// adventure.setState(State.UNDO);
+				// adventure.setState(new UndoState());
 				// }
 				return;
 			}
