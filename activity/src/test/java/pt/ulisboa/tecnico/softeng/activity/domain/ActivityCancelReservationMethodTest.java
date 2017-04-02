@@ -29,7 +29,7 @@ public class ActivityCancelReservationMethodTest {
 		this.activity = new Activity(this.provider, "Bush Walking", MIN_AGE, MAX_AGE, CAPACITY);
 
 		this.offer = new ActivityOffer(this.activity, this.begin, this.end);
-		this.booking = new Booking(this.provider, this.offer); //reference = "XtremX1";
+		this.booking = new Booking(this.provider, this.offer);
 	}
 
 	@Test(expected = ActivityException.class)
@@ -61,7 +61,7 @@ public class ActivityCancelReservationMethodTest {
 	public void success() {
 		String cancelReference = this.provider.cancelReservation(this.booking.getReference());
 		
-		Assert.assertEquals(cancelReference, this.booking.getCancellation());
+		Assert.assertEquals(cancelReference, this.booking.getCancellationReference());
 		Assert.assertEquals(new LocalDate(), this.booking.getCancellationDate());
 	}
 

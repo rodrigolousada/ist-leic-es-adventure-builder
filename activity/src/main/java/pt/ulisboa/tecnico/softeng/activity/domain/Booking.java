@@ -8,7 +8,7 @@ public class Booking {
 	private static int counter = 0;
 
 	private final String reference;
-	private String cancellation;
+	private boolean cancelled;
 	private LocalDate cancellationDate;
 
 	public Booking(ActivityProvider provider, ActivityOffer offer) {
@@ -30,18 +30,20 @@ public class Booking {
 		return this.reference;
 	}
 
-	
-	String getCancellation() {
-		return this.cancellation;
-	}
-	
 	LocalDate getCancellationDate() {
 		return this.cancellationDate;
 	}
-	
+
 	public String cancel() {
-		this.cancellation = this.reference + "/CANCELLED";
+		this.cancelled = true;
 		this.cancellationDate = new LocalDate();
-		return this.cancellation;
+		return this.getCancellationReference();
+	}
+
+	public String getCancellationReference() {
+		if (this.cancelled) {
+			return this.reference + "/cancel";
+		}
+		return null;
 	}
 }
