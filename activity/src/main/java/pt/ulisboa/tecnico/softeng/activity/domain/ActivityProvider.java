@@ -110,8 +110,29 @@ public class ActivityProvider {
 	}
 	
 	public static ActivityReservationData getActivityReservationData(String reference) {
-		// TODO implement
-		throw new ActivityException();
+		if (reference == null) {
+			throw new ActivityException("Null reference.");
+		}
+
+		String providerCode = reference.substring(0, CODE_SIZE);
+		ActivityProvider provider = getProviderByCode(providerCode);
+		for(Activity activity : provider.activities) {
+			for(ActivityOffer offer : activity.getOfferSet()) {
+				for(Booking booking : offer.getBookings()) {
+					if(booking.getReference().equals(reference)) {
+						return new ActivityReservationData(booking.getReference(),
+														   booking.getCancellationReference(),
+														   activity.getName(),
+														   activity.getCode(),
+														   offer.getBegin(),
+														   offer.getEnd(),
+														   booking.getCancellationDate());
+					}
+				}
+			}
+		}
+
+		throw new ActivityException("No such reservation.");
 	}
 
 }
