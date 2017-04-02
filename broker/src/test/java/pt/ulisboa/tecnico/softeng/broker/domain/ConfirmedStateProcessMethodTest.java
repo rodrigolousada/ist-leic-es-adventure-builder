@@ -37,7 +37,7 @@ public class ConfirmedStateProcessMethodTest {
 	@Before
 	public void setUp() {
 		this.adventure = new Adventure(this.broker, this.begin, this.end, 20, IBAN, 300);
-		this.adventure.setState(State.CONFIRMED);
+		this.adventure.setState(new ConfirmedState());
 	}
 
 	@Test

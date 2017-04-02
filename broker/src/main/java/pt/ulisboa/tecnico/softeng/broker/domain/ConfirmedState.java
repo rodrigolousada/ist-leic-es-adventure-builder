@@ -31,19 +31,19 @@ public class ConfirmedState extends AdventureState {
 		try {
 			operation = BankInterface.getOperationData(adventure.getPaymentConfirmation());
 		} catch (BankException be) {
-			this.incNumOfRemoteErrors(); 			// increment number of errors
-			if(this.getNumOfRemoteErrors()==5){		// if (number of errors == 5) {
-				adventure.setState(State.UNDO); 	// adventure.setState(State.UNDO);
-			}										// }
+			this.incNumOfRemoteErrors(); 				// increment number of errors
+			if(this.getNumOfRemoteErrors()==5){			// if (number of errors == 5) {
+				adventure.setState(new UndoState()); 	// adventure.setState(State.UNDO);
+			}											// }
 			return;
 		} catch (RemoteAccessException rae) {
-			this.incNumOfRemoteErrors(); 			// increment number of errors
-			if(this.getNumOfRemoteErrors()==20){	// if (number of errors == 20) {
-				adventure.setState(State.UNDO); 	// adventure.setState(State.UNDO);
-			}										// }
+			this.incNumOfRemoteErrors(); 				// increment number of errors
+			if(this.getNumOfRemoteErrors()==20){		// if (number of errors == 20) {
+				adventure.setState(new UndoState()); 	// adventure.setState(State.UNDO);
+			}											// }
 			return;
 		}
-		this.resetNumOfRemoteErrors(); 				// reset number of errors
+		this.resetNumOfRemoteErrors(); 					// reset number of errors
 		System.out.println("Payment confirmation: " + operation.getReference());
 		System.out.println("Type: " + operation.getType());
 		System.out.println("Value: " + operation.getValue());
@@ -53,44 +53,38 @@ public class ConfirmedState extends AdventureState {
 		try {
 			reservation = ActivityInterface.getActivityReservationData(adventure.getActivityConfirmation());
 		} catch (ActivityException ae) {
-			adventure.setState(State.UNDO);
+			adventure.setState(new UndoState());
 			return;
 		} catch (RemoteAccessException rae) {
-			this.incNumOfRemoteErrors(); 			// increment number of errors
-			if(this.getNumOfRemoteErrors()==20){	// if (number of errors == 20) {
-				adventure.setState(State.UNDO); 	// adventure.setState(State.UNDO);
-			}										// }
+			this.incNumOfRemoteErrors(); 				// increment number of errors
+			if(this.getNumOfRemoteErrors()==20){		// if (number of errors == 20) {
+				adventure.setState(new UndoState()); 	// adventure.setState(State.UNDO);
+			}											// }
 			return;
 		}
-		this.resetNumOfRemoteErrors(); 				// reset number of errors
+		this.resetNumOfRemoteErrors(); 					// reset number of errors
 		System.out.println("Activity confirmation: " + reservation.getReference());
 		System.out.println("Begin: " + reservation.getBegin());
 		System.out.println("End: " + reservation.getEnd());
-		//System.out.println("Activity confirmation: " + reservation.getConfirmation()); ?
-		//System.out.println("Confirmation date: " + reservation.getConfirmationDate()); ?
-		//is it necessary to create this methods in ActivityReservationData?
 		
 		if (adventure.getRoomConfirmation() != null) {
 			RoomBookingData booking;
 			try {
 				booking = HotelInterface.getRoomBookingData(adventure.getRoomConfirmation());
 			} catch (HotelException he) {
-				adventure.setState(State.UNDO);
+				adventure.setState(new UndoState());
 				return;
 			} catch (RemoteAccessException rae) {
-				this.incNumOfRemoteErrors(); 			// increment number of errors
-				if(this.getNumOfRemoteErrors()==20){	// if (number of errors == 20) {
-					adventure.setState(State.UNDO); 	// adventure.setState(State.UNDO);
-				}										// }
+				this.incNumOfRemoteErrors(); 				// increment number of errors
+				if(this.getNumOfRemoteErrors()==20){		// if (number of errors == 20) {
+					adventure.setState(new UndoState()); 	// adventure.setState(State.UNDO);
+				}											// }
 				return;
 			}
-			this.resetNumOfRemoteErrors(); 				// reset number of errors
+			this.resetNumOfRemoteErrors(); 					// reset number of errors
 			System.out.println("Room confirmation: " + booking.getReference());
 			System.out.println("Arrival: " + booking.getArrival());
 			System.out.println("Departure: " + booking.getDeparture());
-			//System.out.println("Room confirmation: " + booking.getConfrimation()); ?
-			//System.out.println("Confirmation date: " + booking.getConfirmationDate()); ?
-			//is it necessary to create this methods in RoomBookingData?
 		}
 	}
 }

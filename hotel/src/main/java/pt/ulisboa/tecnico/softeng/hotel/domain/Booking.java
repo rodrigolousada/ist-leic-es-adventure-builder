@@ -10,6 +10,8 @@ public class Booking {
 	private final String reference;
 	private final LocalDate arrival;
 	private final LocalDate departure;
+	private String cancellation;
+	private LocalDate cancellationDate;
 
 	Booking(Hotel hotel, LocalDate arrival, LocalDate departure) {
 		checkArguments(hotel, arrival, departure);
@@ -41,7 +43,19 @@ public class Booking {
 		return this.departure;
 	}
 
+	String getCancellation() {
+		return this.cancellation;
+	}
+
+	LocalDate getCancellationDate() {
+		return this.cancellationDate;
+	}
+
 	boolean conflict(LocalDate arrival, LocalDate departure) {
+
+		if (this.cancellation != null)
+			return false;
+
 		if (departure.isBefore(arrival)) {
 			throw new HotelException();
 		}
@@ -60,6 +74,12 @@ public class Booking {
 		}
 
 		return false;
+	}
+
+	public String cancel() {
+		this.cancellation = this.reference;
+		this.cancellationDate = new LocalDate();
+		return this.cancellation;
 	}
 
 }

@@ -84,6 +84,15 @@ public class Hotel {
 		return false;
 	}
 
+	private static Hotel getHotelByCode(String code) {
+		for (Hotel hotel : hotels) {
+			if (hotel.getCode().equals(code)) {
+				return hotel;
+			}
+		}
+		throw new HotelException();
+	}
+
 	public static String reserveRoom(Room.Type type, LocalDate arrival, LocalDate departure) {
 		for (Hotel hotel : Hotel.hotels) {
 			Room room = hotel.hasVacancy(type, arrival, departure);
@@ -94,8 +103,31 @@ public class Hotel {
 		throw new HotelException();
 	}
 
+	public static Booking getBooking(String reference) {
+		Hotel hotel = getHotelByCode(reference.substring(0, CODE_SIZE));
+		Booking result;
+		for (Room room : hotel.rooms) {
+			result = room.getBooking(reference);
+			if (result != null)
+				return result;
+		}
+		return null;
+	}
+
+	// returning same reference used for room confirmation
 	public static String cancelBooking(String roomConfirmation) {
-		// TODO implement
+
+		if (roomConfirmation == null || roomConfirmation.length() <= CODE_SIZE)
+			throw new HotelException();
+
+		String hotelcode = roomConfirmation.substring(0, CODE_SIZE);
+		Hotel hotelbooked = getHotelByCode(hotelcode);
+
+		for (Room room : hotelbooked.rooms) {
+			if (room.getBooking(roomConfirmation) != null)
+				return room.cancelBooking(roomConfirmation);
+		}
+
 		throw new HotelException();
 	}
 
