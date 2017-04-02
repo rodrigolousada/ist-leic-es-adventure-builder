@@ -15,10 +15,9 @@ public class ReserveActivityState extends AdventureState {
 			adventure.setState(new UndoState());
 			return;
 		} catch (RemoteAccessException rae) {
-			// increment number of errors
-			// if (number of errors == 5) {
-			// adventure.setState(State.UNDO);
-			// }
+			this.incNumOfRemoteErrors();// increment number of errors
+			if(this.getNumOfRemoteErrors()==5)// if (number of errors == 5) {
+			 adventure.setState(new UndoState());
 			 return;
 		}
 	
