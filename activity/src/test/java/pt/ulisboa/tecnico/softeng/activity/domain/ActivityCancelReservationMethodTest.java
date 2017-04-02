@@ -59,9 +59,9 @@ public class ActivityCancelReservationMethodTest {
 	
 	@Test
 	public void success() {
-		String reference = this.provider.cancelReservation("XtremX1");
+		String cancelReference = this.provider.cancelReservation(this.booking.getReference());
 		
-		Assert.assertEquals(reference, this.booking.getCancellation());
+		Assert.assertEquals(cancelReference, this.booking.getCancellation());
 		Assert.assertEquals(new LocalDate(), this.booking.getCancellationDate());
 	}
 

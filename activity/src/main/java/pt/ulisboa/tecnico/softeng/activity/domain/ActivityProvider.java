@@ -106,7 +106,7 @@ public class ActivityProvider {
 				}
 			}
 		}
-		throw new ActivityException();
+		throw new ActivityException("No such reservation.");
 	}
 	
 	public static ActivityReservationData getActivityReservationData(String reference) {
