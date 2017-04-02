@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Iterator;
 
 import org.joda.time.LocalDate;
 
@@ -78,12 +79,36 @@ public class ActivityProvider {
 		}
 		throw new ActivityException();
 	}
-
-	public static String cancelReservation(String activityConfirmation) {
-		// TODO implement
+	
+	private static ActivityProvider getProviderByCode(String code) {
+		for (ActivityProvider provider : ActivityProvider.providers) {
+			if(provider.getCode().equals(code)) {
+				return provider;
+			}
+		}
+		
 		throw new ActivityException();
 	}
 
+	public static String cancelReservation(String activityConfirmation) {
+		if (activityConfirmation == null || activityConfirmation.trim().equals("") || activityConfirmation.length() <= ActivityProvider.CODE_SIZE) {
+			throw new ActivityException();
+		}
+		
+		String providerCode = activityConfirmation.substring(0, CODE_SIZE);
+		ActivityProvider provider = getProviderByCode(providerCode);
+		for(Activity activity : provider.activities) {
+			for(ActivityOffer offer : activity.getOfferSet()) {
+				for(Booking booking : offer.getBookings()) {
+					if(booking.getReference().equals(activityConfirmation)) {
+						return booking.cancel();
+					}
+				}
+			}
+		}
+		throw new ActivityException();
+	}
+	
 	public static ActivityReservationData getActivityReservationData(String reference) {
 		// TODO implement
 		throw new ActivityException();
