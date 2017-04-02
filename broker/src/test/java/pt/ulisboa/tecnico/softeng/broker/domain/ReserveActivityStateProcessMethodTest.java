@@ -84,6 +84,32 @@ public class ReserveActivityStateProcessMethodTest {
 			Assert.assertEquals(Adventure.State.RESERVE_ACTIVITY, this.adventure.getState());
 		}
 		@Test
+		public void RemoteAccessExceptionToUndo_Test(@Mocked final ActivityInterface activityInterface) {
+			new StrictExpectations() {
+				{
+					ActivityInterface.reserveActivity(begin,end,this.anyInt);
+					this.result = new RemoteAccessException();
+					ActivityInterface.reserveActivity(begin,end,this.anyInt);
+					this.result = new RemoteAccessException();
+					ActivityInterface.reserveActivity(begin,end,this.anyInt);
+					this.result = new RemoteAccessException();
+					ActivityInterface.reserveActivity(begin,end,this.anyInt);
+					this.result = new RemoteAccessException();
+					ActivityInterface.reserveActivity(begin,end,this.anyInt);
+					this.result = new RemoteAccessException();
+					
+				}
+			};
+
+			this.adventure.process();
+			this.adventure.process();
+			this.adventure.process();
+			this.adventure.process();
+			this.adventure.process();
+
+			Assert.assertEquals(Adventure.State.UNDO, this.adventure.getState());
+		}
+		@Test
 		public void ActivityException_Test(@Mocked final ActivityInterface activityInterface) {
 			
 			new StrictExpectations() {
