@@ -69,11 +69,11 @@ public class AdventureSequenceTest {
 		new Expectations() {
 			{
 				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, anyInt);
-				this.result = ROOM_CONFIRMATION;
+				this.result = ACTIVITY_CONFIRMATION;
 			}
 		};
 		adventureEqualDates.process();
-		Assert.assertEquals(ACTIVITY_CONFIRMATION, adventureEqualDates.getRoomConfirmation());
+		Assert.assertEquals(ACTIVITY_CONFIRMATION, adventureEqualDates.getActivityConfirmation());
 		Assert.assertEquals(State.CONFIRMED, adventureEqualDates.getState());
 	}
 

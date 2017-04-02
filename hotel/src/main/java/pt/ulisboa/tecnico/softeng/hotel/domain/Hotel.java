@@ -6,6 +6,7 @@ import java.util.Set;
 import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
+import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 public class Hotel {
@@ -85,7 +86,7 @@ public class Hotel {
 
 	private static Hotel getHotelByCode(String code) {
 		for (Hotel hotel : hotels) {
-			if (hotel.getCode() == code) {
+			if (hotel.getCode().equals(code)) {
 				return hotel;
 			}
 		}
@@ -102,13 +103,28 @@ public class Hotel {
 		throw new HotelException();
 	}
 
+	public static Booking getBooking(String reference) {
+		Hotel hotel = getHotelByCode(reference.substring(0, CODE_SIZE));
+		Booking result;
+		for (Room room : hotel.rooms) {
+			result = room.getBooking(reference);
+			if (result != null)
+				return result;
+		}
+		return null;
+	}
+
 	// returning same reference used for room confirmation
 	public static String cancelBooking(String roomConfirmation) {
+
+		if (roomConfirmation == null || roomConfirmation.length() <= CODE_SIZE)
+			throw new HotelException();
+
 		String hotelcode = roomConfirmation.substring(0, CODE_SIZE);
 		Hotel hotelbooked = getHotelByCode(hotelcode);
 
 		for (Room room : hotelbooked.rooms) {
-			if (room.hasBooking(roomConfirmation))
+			if (room.getBooking(roomConfirmation) != null)
 				return room.cancelBooking(roomConfirmation);
 		}
 
@@ -120,12 +136,42 @@ public class Hotel {
 		throw new HotelException();
 	}
 
+	public int getNumberOfFreeRoomsOfHotel(LocalDate arrival, LocalDate departure) {
+		int total = 0;
+		for (Room room : this.rooms) {
+			if (room.isFree(room.getType(), arrival, departure)) total++; 
+		}
+		return total;
+	}
+	
+	public static int NumberOfFreeRooms(LocalDate arrival, LocalDate departure) {
+		int total = 0;
+		for (Hotel hotel : Hotel.hotels) {
+			total += hotel.getNumberOfFreeRoomsOfHotel(arrival, departure); 
+		}
+		return total;
+	}
+	
 	public static Set<String> bulkBooking(int number, LocalDate arrival, LocalDate departure) {
-		// TODO: verify consistency of arguments, return the
-		// references for 'number' new bookings, it does not matter if they are
-		// single of double. If there aren't enough rooms available it throws a
-		// hotel exception
-		throw new HotelException();
+		if(number <= 0 || arrival == null || departure == null || arrival.isAfter(departure) || NumberOfFreeRooms(arrival,departure) < number) {
+			throw new HotelException();
+		}
+		
+		Set<String> bookings = new HashSet<>();
+		
+		try{ //should not dependent of Type.SINGLE or Type.DOUBLE
+			for(;number>0; number--) {
+				String booking = reserveRoom(Type.SINGLE, arrival, departure);
+				bookings.add(booking);
+			}
+		}
+		catch(HotelException he) {
+			for(;number>0; number--) {
+				String booking = reserveRoom(Type.DOUBLE, arrival, departure);
+				bookings.add(booking);
+			}
+		}
+		return bookings;
 	}
 
 }
