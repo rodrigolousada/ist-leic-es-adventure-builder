@@ -24,15 +24,15 @@ public class BookRoomState extends AdventureState {
 			adventure.setRoomConfirmation(HotelInterface.reserveRoom(Room.Type.SINGLE, adventure.getBegin(), adventure.getEnd()));
 		} catch (HotelException rae) {
 			adventure.setState(new UndoState());
+			return;
 		} catch (RemoteAccessException rae) {
-			// increment number of errors
-			// if (number of errors == 10) {
-			// adventure.setState(new UndoState());
-			// }
+			this.incNumOfRemoteErrors();	// increment number of errors
+			if(this.getNumOfRemoteErrors()==5)	// if (number of errors == 10)
+				adventure.setState(new UndoState());
 			return;
 		}
 
 		adventure.setState(new ConfirmedState());
 	}
-
+	
 }
