@@ -35,7 +35,7 @@ public class ReserveActivityStateProcessMethodTest {
 		@Before
 		public void setUp() {
 			this.adventure = new Adventure(this.broker, this.begin, this.end, 20, IBAN, 300);
-			this.adventure.setState(State.RESERVE_ACTIVITY);
+			this.adventure.setState(new ReserveActivityState());
 		}
 
 		@Test
@@ -56,7 +56,7 @@ public class ReserveActivityStateProcessMethodTest {
 		@Test
 		public void Confirmed_Test(@Mocked final ActivityInterface activityInterface) {
 			this.adventure = new Adventure(this.broker, this.begin, this.begin, 20, IBAN, 300);
-			this.adventure.setState(State.RESERVE_ACTIVITY);
+			this.adventure.setState(new ReserveActivityState());
 			this.adventure.process();
 
 			Assert.assertEquals(Adventure.State.CONFIRMED, this.adventure.getState());
