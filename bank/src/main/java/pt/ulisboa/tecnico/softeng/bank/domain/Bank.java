@@ -5,8 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import junit.framework.Assert;
 import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+import pt.ulisboa.tecnico.softeng.bank.domain.Operation.Type;
 
 public class Bank {
 	public static Set<Bank> banks = new HashSet<>();
@@ -102,9 +104,16 @@ public class Bank {
 		}
 		throw new BankException();
 	}
-
+	
 	public static String cancelPayment(String reference) {
-		// TODO implement
+		for (Bank bank : Bank.banks) {
+			   Operation operation = bank.getOperation(reference);
+			   if(operation != null){
+				   operation.getAccount().deposit(operation.getValue());
+				   Operation new_operation = new Operation(Type.DEPOSIT, operation.getAccount(),operation.getValue());
+				   return new_operation.getReference();
+			   }
+		}
 		throw new BankException();
 	}
 
