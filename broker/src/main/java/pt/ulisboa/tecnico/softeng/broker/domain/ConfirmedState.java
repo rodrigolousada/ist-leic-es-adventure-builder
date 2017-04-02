@@ -31,19 +31,19 @@ public class ConfirmedState extends AdventureState {
 		try {
 			operation = BankInterface.getOperationData(adventure.getPaymentConfirmation());
 		} catch (BankException be) {
-			// increment number of errors
-			// if (number of errors == 5) {
-			// adventure.setState(State.UNDO);
-			// }
+			this.incNumOfRemoteErrors(); 			// increment number of errors
+			if(this.getNumOfRemoteErrors()==5){		// if (number of errors == 5) {
+				adventure.setState(State.UNDO); 	// adventure.setState(State.UNDO);
+			}										// }
 			return;
 		} catch (RemoteAccessException rae) {
-			// increment number of errors
-			// if (number of errors == 20) {
-			// adventure.setState(State.UNDO);
-			// }
+			this.incNumOfRemoteErrors(); 			// increment number of errors
+			if(this.getNumOfRemoteErrors()==20){	// if (number of errors == 20) {
+				adventure.setState(State.UNDO); 	// adventure.setState(State.UNDO);
+			}										// }
 			return;
 		}
-		// reset number of errors
+		this.resetNumOfRemoteErrors(); 				// reset number of errors
 		System.out.println("Payment confirmation: " + operation.getReference());
 		System.out.println("Type: " + operation.getType());
 		System.out.println("Value: " + operation.getValue());
@@ -56,13 +56,13 @@ public class ConfirmedState extends AdventureState {
 			adventure.setState(State.UNDO);
 			return;
 		} catch (RemoteAccessException rae) {
-			// increment number of errors
-			// if (number of errors == 20) {
-			// adventure.setState(State.UNDO);
-			// }
+			this.incNumOfRemoteErrors(); 			// increment number of errors
+			if(this.getNumOfRemoteErrors()==20){	// if (number of errors == 20) {
+				adventure.setState(State.UNDO); 	// adventure.setState(State.UNDO);
+			}										// }
 			return;
 		}
-		// reset number of errors
+		this.resetNumOfRemoteErrors(); 				// reset number of errors
 		System.out.println("Activity confirmation: " + reservation.getReference());
 		System.out.println("Begin: " + reservation.getBegin());
 		System.out.println("End: " + reservation.getEnd());
@@ -78,13 +78,13 @@ public class ConfirmedState extends AdventureState {
 				adventure.setState(State.UNDO);
 				return;
 			} catch (RemoteAccessException rae) {
-				// increment number of errors
-				// if (number of errors == 20) {
-				// adventure.setState(State.UNDO);
-				// }
+				this.incNumOfRemoteErrors(); 			// increment number of errors
+				if(this.getNumOfRemoteErrors()==20){	// if (number of errors == 20) {
+					adventure.setState(State.UNDO); 	// adventure.setState(State.UNDO);
+				}										// }
 				return;
 			}
-			// reset number of errors
+			this.resetNumOfRemoteErrors(); 				// reset number of errors
 			System.out.println("Room confirmation: " + booking.getReference());
 			System.out.println("Arrival: " + booking.getArrival());
 			System.out.println("Departure: " + booking.getDeparture());
