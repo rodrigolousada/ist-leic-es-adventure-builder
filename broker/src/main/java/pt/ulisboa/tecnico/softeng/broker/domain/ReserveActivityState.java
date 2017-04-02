@@ -13,16 +13,17 @@ public class ReserveActivityState extends AdventureState {
 			adventure.setActivityConfirmation( ActivityInterface.reserveActivity(adventure.getBegin(), adventure.getEnd(), adventure.getAge()));
 		} catch (ActivityException ae) {
 			adventure.setState(new UndoState());
+			return;
 		} catch (RemoteAccessException rae) {
 			// increment number of errors
 			// if (number of errors == 5) {
-			// adventure.setState(new UndoState());
+			// adventure.setState(State.UNDO);
 			// }
-			// return;
+			 return;
 		}
 	
 		if (adventure.getBegin().equals(adventure.getEnd())) {
-			adventure.setState(new ConfirmedState());
+			adventure.setState(new  ConfirmedState());
 		} else {
 			adventure.setState(new BookRoomState());
 		}
