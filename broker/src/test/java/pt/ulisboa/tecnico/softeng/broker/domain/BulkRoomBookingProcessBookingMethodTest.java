@@ -1,5 +1,9 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,17 +13,11 @@ import org.junit.runner.RunWith;
 import mockit.Injectable;
 import mockit.Mocked;
 import mockit.StrictExpectations;
-import mockit.Verifications;
 import mockit.integration.junit4.JMockit;
-import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
-import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
+import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.List;
-import java.util.Arrays;
+import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
 @RunWith(JMockit.class)
 public class BulkRoomBookingProcessBookingMethodTest {
@@ -44,14 +42,14 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	@Test
 	public void simpleSuccess(@Mocked final HotelInterface hotel) {
 		int reservations = 5;
-		Set<String> references = new HashSet<String>(Arrays.asList("one", "two", "three", "four", "five"));
+		Set<String> references = new HashSet<>(Arrays.asList("one", "two", "three", "four", "five"));
 		LocalDate arrival = this.arrival;
 		LocalDate departure = this.departure;
 
 		new StrictExpectations() {
 			{
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = references;
+				this.result = references;
 			}
 		};
 		BulkRoomBooking brb = new BulkRoomBooking(reservations, this.arrival, this.departure);
@@ -64,38 +62,39 @@ public class BulkRoomBookingProcessBookingMethodTest {
 	@Test
 	public void successAfterExceptions(@Mocked final HotelInterface hotel) {
 		int reservations = 5;
-		Set<String> references = new HashSet<String>(Arrays.asList("one", "two", "three", "four", "five"));
+		Set<String> references = new HashSet<>(Arrays.asList("one", "two", "three", "four", "five"));
 		LocalDate arrival = this.arrival;
 		LocalDate departure = this.departure;
 
 		new StrictExpectations() {
 			{
+				// ERROR - CAN BE NOT WITHOUT REPETIONS
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = references;
+				this.result = references;
 			}
 		};
 		BulkRoomBooking brb = new BulkRoomBooking(reservations, this.arrival, this.departure);
@@ -117,23 +116,23 @@ public class BulkRoomBookingProcessBookingMethodTest {
 		new StrictExpectations() {
 			{
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 			}
 		};
 		BulkRoomBooking brb = new BulkRoomBooking(reservations, this.arrival, this.departure);
@@ -160,23 +159,23 @@ public class BulkRoomBookingProcessBookingMethodTest {
 		new StrictExpectations() {
 			{
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new RemoteAccessException();
+				this.result = new RemoteAccessException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 				HotelInterface.bulkBooking(reservations, arrival, departure);
-				result = new HotelException();
+				this.result = new HotelException();
 			}
 		};
 		BulkRoomBooking brb = new BulkRoomBooking(reservations, this.arrival, this.departure);

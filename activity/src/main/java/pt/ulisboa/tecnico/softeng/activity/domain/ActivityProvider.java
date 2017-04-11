@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Iterator;
 
 import org.joda.time.LocalDate;
 
@@ -79,28 +78,30 @@ public class ActivityProvider {
 		}
 		throw new ActivityException();
 	}
-	
+
 	private static ActivityProvider getProviderByCode(String code) {
 		for (ActivityProvider provider : ActivityProvider.providers) {
-			if(provider.getCode().equals(code)) {
+			if (provider.getCode().equals(code)) {
 				return provider;
 			}
 		}
-		
+
 		throw new ActivityException();
 	}
 
 	public static String cancelReservation(String activityConfirmation) {
-		if (activityConfirmation == null || activityConfirmation.trim().equals("") || activityConfirmation.length() <= ActivityProvider.CODE_SIZE) {
+		if (activityConfirmation == null || activityConfirmation.trim().equals("")
+				|| activityConfirmation.length() <= ActivityProvider.CODE_SIZE) {
 			throw new ActivityException();
 		}
-		
+
 		String providerCode = activityConfirmation.substring(0, CODE_SIZE);
 		ActivityProvider provider = getProviderByCode(providerCode);
-		for(Activity activity : provider.activities) {
-			for(ActivityOffer offer : activity.getOfferSet()) {
-				for(Booking booking : offer.getBookings()) {
-					if(booking.getReference().equals(activityConfirmation)) {
+		for (Activity activity : provider.activities) {
+			for (ActivityOffer offer : activity.getOfferSet()) {
+				for (Booking booking : offer.getBookings()) {
+					// actually we are using a cancellation
+					if (booking.getReference().equals(activityConfirmation)) {
 						return booking.cancel();
 					}
 				}
@@ -108,7 +109,7 @@ public class ActivityProvider {
 		}
 		throw new ActivityException("No such reservation.");
 	}
-	
+
 	public static ActivityReservationData getActivityReservationData(String reference) {
 		if (reference == null) {
 			throw new ActivityException("Null reference.");
@@ -116,17 +117,15 @@ public class ActivityProvider {
 
 		String providerCode = reference.substring(0, CODE_SIZE);
 		ActivityProvider provider = getProviderByCode(providerCode);
-		for(Activity activity : provider.activities) {
-			for(ActivityOffer offer : activity.getOfferSet()) {
-				for(Booking booking : offer.getBookings()) {
-					if(booking.getReference().equals(reference)) {
-						return new ActivityReservationData(booking.getReference(),
-														   booking.getCancellationReference(),
-														   activity.getName(),
-														   activity.getCode(),
-														   offer.getBegin(),
-														   offer.getEnd(),
-														   booking.getCancellationDate());
+		for (Activity activity : provider.activities) {
+			for (ActivityOffer offer : activity.getOfferSet()) {
+				for (Booking booking : offer.getBookings()) {
+					// ERROR - IT IS NECESSARY TO COMPARE WITH THE CANCELLED
+					// REFERENCE AS WELL BUT THEY ARE USING THE SAME
+					if (booking.getReference().equals(reference)) {
+						return new ActivityReservationData(booking.getReference(), booking.getCancellationReference(),
+								activity.getName(), activity.getCode(), offer.getBegin(), offer.getEnd(),
+								booking.getCancellationDate());
 					}
 				}
 			}

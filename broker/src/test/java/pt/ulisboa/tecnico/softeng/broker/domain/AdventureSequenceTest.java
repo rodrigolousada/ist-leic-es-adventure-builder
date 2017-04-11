@@ -47,6 +47,8 @@ public class AdventureSequenceTest {
 
 	}
 
+	// ERROR: SOME TESTS FAIL
+
 	// **********************************************************************/
 	// ****************** CONFIRMED SEQUENCE TESTS **************************/
 	// **********************************************************************/
@@ -54,7 +56,8 @@ public class AdventureSequenceTest {
 	@Test
 	public void bookRoom(@Mocked final HotelInterface hotelInterface) {
 
-		this.adventure.setState(bookRoomState);
+		// ERROR - YOU SHOULD START IN THE INITIAL STATE
+		this.adventure.setState(this.bookRoomState);
 		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState());
 
 		new Expectations() {
@@ -72,12 +75,12 @@ public class AdventureSequenceTest {
 	public void reserveActivity(@Mocked final ActivityInterface activityInterface) {
 
 		Adventure adventureEqualDates = new Adventure(this.broker, this.begin, this.begin, 20, IBAN, 300);
-		adventureEqualDates.setState(reserveActivityState);
+		adventureEqualDates.setState(this.reserveActivityState);
 		Assert.assertEquals(State.RESERVE_ACTIVITY, adventureEqualDates.getState());
 
 		new Expectations() {
 			{
-				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, anyInt);
+				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, this.anyInt);
 				this.result = ACTIVITY_CONFIRMATION;
 			}
 		};
@@ -94,7 +97,7 @@ public class AdventureSequenceTest {
 
 		new StrictExpectations() {
 			{
-				BankInterface.processPayment(anyString, anyInt);
+				BankInterface.processPayment(this.anyString, this.anyInt);
 				this.result = PAYMENT_CONFIRMATION;
 				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, this.anyInt);
 				this.result = ACTIVITY_CONFIRMATION;
@@ -139,7 +142,7 @@ public class AdventureSequenceTest {
 			{
 				BankInterface.processPayment(this.anyString, this.anyInt);
 				this.result = new RemoteAccessException();
-				times = 3;
+				this.times = 3;
 			}
 		};
 		this.adventure.process();
@@ -151,7 +154,7 @@ public class AdventureSequenceTest {
 	@Test
 	public void undoWithNoCancellations() {
 
-		adventure.setState(State.UNDO);
+		this.adventure.setState(State.UNDO);
 		this.adventure.process();
 		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
 	}
@@ -163,7 +166,7 @@ public class AdventureSequenceTest {
 			{
 				BankInterface.processPayment(this.anyString, this.anyInt);
 				this.result = PAYMENT_CONFIRMATION;
-				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, anyInt);
+				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, this.anyInt);
 				this.result = new ActivityException();
 			}
 		};
@@ -183,9 +186,9 @@ public class AdventureSequenceTest {
 			{
 				BankInterface.processPayment(this.anyString, this.anyInt);
 				this.result = PAYMENT_CONFIRMATION;
-				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, anyInt);
+				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, this.anyInt);
 				this.result = new RemoteAccessException();
-				times = 5;
+				this.times = 5;
 			}
 		};
 
@@ -197,6 +200,7 @@ public class AdventureSequenceTest {
 		this.adventure.process();
 		this.adventure.process();
 		Assert.assertEquals(State.UNDO, this.adventure.getState());
+		// ERROR - YOU NEED TO RECORD HERE THE CANCELLATION OF THE PAYMENT...
 		this.adventure.process();
 		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
 	}
@@ -208,11 +212,11 @@ public class AdventureSequenceTest {
 			{
 				BankInterface.processPayment(this.anyString, this.anyInt);
 				this.result = PAYMENT_CONFIRMATION;
-				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, anyInt);
+				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, this.anyInt);
 				this.result = ACTIVITY_CONFIRMATION;
 				HotelInterface.reserveRoom((Type) this.any, (LocalDate) this.any, (LocalDate) this.any);
 				this.result = new RemoteAccessException();
-				times = 10;
+				this.times = 10;
 			}
 		};
 
@@ -220,8 +224,9 @@ public class AdventureSequenceTest {
 		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState());
 		this.adventure.process();
 		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState());
-		for (int i = 0; i < 10; i++)
-			adventure.process();
+		for (int i = 0; i < 10; i++) {
+			this.adventure.process();
+		}
 		Assert.assertEquals(State.UNDO, this.adventure.getState());
 		this.adventure.process();
 		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
@@ -234,7 +239,7 @@ public class AdventureSequenceTest {
 			{
 				BankInterface.processPayment(this.anyString, this.anyInt);
 				this.result = PAYMENT_CONFIRMATION;
-				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, anyInt);
+				ActivityInterface.reserveActivity((LocalDate) this.any, (LocalDate) this.any, this.anyInt);
 				this.result = ACTIVITY_CONFIRMATION;
 				HotelInterface.reserveRoom((Type) this.any, (LocalDate) this.any, (LocalDate) this.any);
 				this.result = new HotelException();
@@ -245,7 +250,7 @@ public class AdventureSequenceTest {
 		Assert.assertEquals(State.RESERVE_ACTIVITY, this.adventure.getState());
 		this.adventure.process();
 		Assert.assertEquals(State.BOOK_ROOM, this.adventure.getState());
-		adventure.process();
+		this.adventure.process();
 		Assert.assertEquals(State.UNDO, this.adventure.getState());
 		this.adventure.process();
 		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
@@ -254,34 +259,36 @@ public class AdventureSequenceTest {
 	@Test
 	public void confirmedStateRemoteAccessExceptions(@Mocked BankInterface bankInterface,
 			@Mocked ActivityInterface activityInterface, @Mocked HotelInterface hotelInterface) {
-		adventure.setState(new ConfirmedState());
+		this.adventure.setState(new ConfirmedState());
 		new Expectations() {
 			{
 				BankInterface.getOperationData(this.anyString);
 				this.result = new RemoteAccessException();
-				times = 20;
+				this.times = 20;
 			}
 		};
 
-		for (int i = 0; i < 20; i++)
-			adventure.process();
+		for (int i = 0; i < 20; i++) {
+			this.adventure.process();
+		}
 		Assert.assertEquals(State.UNDO, this.adventure.getState());
 		this.adventure.process();
 		Assert.assertEquals(State.CANCELLED, this.adventure.getState());
 
-		adventure.setState(new ConfirmedState());
+		this.adventure.setState(new ConfirmedState());
 		new Expectations() {
 			{
 				BankInterface.getOperationData(this.anyString);
 				this.result = new BankOperationData();
 				ActivityInterface.getActivityReservationData(this.anyString);
 				this.result = new RemoteAccessException();
-				times = 20;
+				this.times = 20;
 			}
 		};
 
-		for (int i = 0; i < 20; i++)
-			adventure.process();
+		for (int i = 0; i < 20; i++) {
+			this.adventure.process();
+		}
 		Assert.assertEquals(State.UNDO, this.adventure.getState());
 		this.adventure.process();
 		Assert.assertEquals(State.CANCELLED, this.adventure.getState());

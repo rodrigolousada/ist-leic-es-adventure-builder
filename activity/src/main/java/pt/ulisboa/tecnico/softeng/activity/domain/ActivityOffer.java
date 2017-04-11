@@ -41,14 +41,17 @@ public class ActivityOffer {
 		return this.end;
 	}
 
-	int getNumberOfBookings() {
+	public int getNumberOfBookings() {
+		// ERROR - IT IS NECESSARY TO MAKE CLEAR THAT THE NUMBER OF BOOKS
+		// EXPRESS THE VACANCY OR THE NUMBER OF BOOKING OBJECTS, WHICH INCLUDE
+		// THE CANCELLED
 		return this.bookings.size();
 	}
-	
+
 	Set<Booking> getBookings() {
 		return this.bookings;
 	}
-	
+
 	void addBooking(Booking booking) {
 		if (this.capacity == this.bookings.size()) {
 			throw new ActivityException();

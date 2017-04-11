@@ -8,33 +8,34 @@ import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
 
-
 public class ProcessPaymentState extends AdventureState {
-		private static Logger logger = LoggerFactory.getLogger(ProcessPaymentState.class);
-	
-		@Override
-		public State getState() {
-			return State.PROCESS_PAYMENT;
-		}
-		
-		@Override
-		public void process(Adventure adventure) {
-			logger.debug("process");
-			
-			try { 
-				
-				adventure.setPaymentConfirmation(BankInterface.processPayment(adventure.getIBAN(), adventure.getAmount()));
-			} catch (BankException be) {
-				adventure.setState(State.CANCELLED);
-				return;
-			} catch (RemoteAccessException rae) {
-				incNumOfRemoteErrors();
-				if(getNumOfRemoteErrors()==5){
-					adventure.setState(State.CANCELLED);
-				}
-				return;
-			}
+	private static Logger logger = LoggerFactory.getLogger(ProcessPaymentState.class);
 
-			adventure.setState(State.RESERVE_ACTIVITY);
+	@Override
+	public State getState() {
+		return State.PROCESS_PAYMENT;
+	}
+
+	// USE OF JMOCKIT OK, BUT TESTS COULD HAVE A BETTER COVERAGE
+
+	@Override
+	public void process(Adventure adventure) {
+		logger.debug("process");
+
+		try {
+
+			adventure.setPaymentConfirmation(BankInterface.processPayment(adventure.getIBAN(), adventure.getAmount()));
+		} catch (BankException be) {
+			adventure.setState(State.CANCELLED);
+			return;
+		} catch (RemoteAccessException rae) {
+			incNumOfRemoteErrors();
+			if (getNumOfRemoteErrors() == 5) {
+				adventure.setState(State.CANCELLED);
+			}
+			return;
 		}
+
+		adventure.setState(State.RESERVE_ACTIVITY);
+	}
 }

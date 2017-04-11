@@ -11,9 +11,7 @@ import mockit.Mocked;
 import mockit.StrictExpectations;
 import mockit.Verifications;
 import mockit.integration.junit4.JMockit;
-import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
-import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
 import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.BankInterface;
@@ -41,9 +39,14 @@ public class UndoStateProcessMethodTest {
 		this.adventure.setState(new UndoState());
 	}
 
+	// ERROR - ALL TESTS FAIL
+
+	// IT IS NECESSARY TO DEFINE THE STATE CORRECTELY, FOR INSTANCE, SET THE
+	// VALUES OF CONFIRMATION AND CANCELLATION
+
 	@Test
-	public void cancelTest(@Mocked final BankInterface bankInterface,
-			@Mocked final ActivityInterface activityInterface, @Mocked final HotelInterface hotelInterface) {
+	public void cancelTest(@Mocked final BankInterface bankInterface, @Mocked final ActivityInterface activityInterface,
+			@Mocked final HotelInterface hotelInterface) {
 
 		this.adventure.process();
 
@@ -82,7 +85,7 @@ public class UndoStateProcessMethodTest {
 	@Test
 	public void cancelPaymentRemoteAccessException(@Mocked final BankInterface bankInterface) {
 		this.adventure.setPaymentCancellation(PAYMENT_CONFIRMATION);
-		
+
 		new StrictExpectations() {
 			{
 				BankInterface.cancelPayment(PAYMENT_CONFIRMATION);

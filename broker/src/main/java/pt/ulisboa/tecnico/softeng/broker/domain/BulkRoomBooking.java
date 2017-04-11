@@ -5,8 +5,8 @@ import java.util.Set;
 
 import org.joda.time.LocalDate;
 
-import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
+import pt.ulisboa.tecnico.softeng.broker.exception.RemoteAccessException;
 import pt.ulisboa.tecnico.softeng.broker.interfaces.HotelInterface;
 import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
@@ -18,7 +18,7 @@ public class BulkRoomBooking {
 	private final LocalDate departure;
 	private int numberOfHotelExceptions = 0;
 	private int numberOfRemoteErrors = 0;
-	private final static int MAX_HOTEL_EXCEPTIONS = 5;
+	public final static int MAX_HOTEL_EXCEPTIONS = 5;
 	private final static int MAX_REMOTE_ERRORS = 5;
 	private boolean cancelled = false;
 

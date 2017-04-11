@@ -5,10 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.Assert;
 import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
-import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation.Type;
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
 public class Bank {
 	public static Set<Bank> banks = new HashSet<>();
@@ -104,15 +103,16 @@ public class Bank {
 		}
 		throw new BankException();
 	}
-	
+
 	public static String cancelPayment(String reference) {
 		for (Bank bank : Bank.banks) {
-			   Operation operation = bank.getOperation(reference);
-			   if(operation != null){
-				   operation.getAccount().deposit(operation.getValue());
-				   Operation new_operation = new Operation(Type.DEPOSIT, operation.getAccount(),operation.getValue());
-				   return new_operation.getReference();
-			   }
+			Operation operation = bank.getOperation(reference);
+			if (operation != null) {
+				// ERROR TO CANCEL A DEPOSIT IS A WITHDRAWAL
+				operation.getAccount().deposit(operation.getValue());
+				Operation new_operation = new Operation(Type.DEPOSIT, operation.getAccount(), operation.getValue());
+				return new_operation.getReference();
+			}
 		}
 		throw new BankException();
 	}
@@ -120,7 +120,7 @@ public class Bank {
 	public static BankOperationData getOperationData(String reference) {
 		for (Bank bank : Bank.banks) {
 			Operation oper = bank.getOperation(reference);
-			if (oper!=null){
+			if (oper != null) {
 				BankOperationData data = new BankOperationData();
 				data.setReference(oper.getReference());
 				data.setType(oper.getType().toString());
@@ -129,8 +129,8 @@ public class Bank {
 				data.setTime(oper.getTime());
 				return data;
 			}
-	  	}
-	  		throw new BankException();
+		}
+		throw new BankException();
 	}
 
 }

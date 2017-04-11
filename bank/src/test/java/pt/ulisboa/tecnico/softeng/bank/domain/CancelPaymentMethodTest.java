@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +19,6 @@ public class CancelPaymentMethodTest {
 		this.account = new Account(this.bank, client);
 	}
 
-
 	@Test
 	public void success() {
 		Operation operation = new Operation(Type.WITHDRAW, this.account, 1000);
@@ -30,31 +30,38 @@ public class CancelPaymentMethodTest {
 		Assert.assertEquals(operation, this.bank.getOperation(operation.getReference()));
 		Assert.assertTrue(new_operation.getTime() != null);
 	}
-	
-	@Test(expected = BankException.class)
-	public void NoPaymentDone(){
+
+	@Test // (expected = BankException.class)
+	public void NoPaymentDone() {
 		Operation operation = new Operation(Type.DEPOSIT, this.account, 1000);
+		// ERROR TO CANCEL A DEPOSIT IS A WITHDRAWAL
 		Bank.cancelPayment(operation.getReference());
 	}
-	
+
 	@Test(expected = BankException.class)
-	public void InvalidValuePayed(){
+	public void InvalidValuePayed() {
 		Operation operation = new Operation(Type.WITHDRAW, this.account, 0);
 		Bank.cancelPayment(operation.getReference());
 	}
-	
+
 	@Test(expected = BankException.class)
-	public void wrongReference(){
+	public void wrongReference() {
 		Bank.cancelPayment("as");
 	}
-	
+
 	@Test(expected = BankException.class)
-	public void EmptyReference(){
+	public void EmptyReference() {
 		Bank.cancelPayment("");
 	}
-	
+
 	@Test(expected = BankException.class)
-	public void SpaceReference(){
+	public void SpaceReference() {
 		Bank.cancelPayment(" ");
+	}
+
+	// ERROR IT WAS NOT DEFINED
+	@After
+	public void tearDown() {
+		Bank.banks.clear();
 	}
 }
