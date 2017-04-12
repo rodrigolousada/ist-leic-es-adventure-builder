@@ -1,21 +1,19 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
-public class ActivityOfferMatchDateMethodTest {
+public class ActivityOfferMatchDateMethodTest extends RollbackTestAbstractClass{
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 23);
 
 	private ActivityOffer offer;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure");
 		Activity activity = new Activity(provider, "Bush Walking", 18, 80, 3);
 
@@ -56,10 +54,4 @@ public class ActivityOfferMatchDateMethodTest {
 	public void endMinusOne() {
 		Assert.assertFalse(this.offer.matchDate(this.begin, this.end.minusDays(1)));
 	}
-
-	@After
-	public void tearDown() {
-		ActivityProvider.providers.clear();
-	}
-
 }

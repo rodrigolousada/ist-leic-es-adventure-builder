@@ -2,15 +2,18 @@ package pt.ulisboa.tecnico.softeng.activity.domain;
 
 import static org.junit.Assert.fail;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
-public class ActivityProviderConstructorMethodTest {
+public class ActivityProviderConstructorMethodTest extends RollbackTestAbstractClass {
 	private static final String PROVIDER_CODE = "XtremX";
 	private static final String PROVIDER_NAME = "Adventure++";
+	
+	@Override
+	public void populate4Test() {
+	}
 
 	@Test
 	public void success() {
@@ -75,10 +78,4 @@ public class ActivityProviderConstructorMethodTest {
 			Assert.assertEquals(1, ActivityProvider.providers.size());
 		}
 	}
-
-	@After
-	public void tearDown() {
-		ActivityProvider.providers.clear();
-	}
-
 }

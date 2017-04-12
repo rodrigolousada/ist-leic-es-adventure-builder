@@ -1,21 +1,19 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
-public class ActivityConstructorMethodTest {
+public class ActivityConstructorMethodTest extends RollbackTestAbstractClass {
 	private static final String PROVIDER_NAME = "Bush Walking";
 	private static final int MIN_AGE = 25;
 	private static final int MAX_AGE = 50;
 	private static final int CAPACITY = 30;
 	private ActivityProvider provider;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure");
 	}
 
@@ -128,10 +126,4 @@ public class ActivityConstructorMethodTest {
 	public void zeroCapacity() {
 		new Activity(this.provider, PROVIDER_NAME, MIN_AGE, MAX_AGE, 0);
 	}
-
-	@After
-	public void tearDown() {
-		ActivityProvider.providers.clear();
-	}
-
 }

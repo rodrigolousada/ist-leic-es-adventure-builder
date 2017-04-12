@@ -3,14 +3,12 @@ package pt.ulisboa.tecnico.softeng.activity.domain;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
-public class ActivityProviderFindOfferMethodTest {
+public class ActivityProviderFindOfferMethodTest extends RollbackTestAbstractClass {
 	private static final int MIN_AGE = 25;
 	private static final int MAX_AGE = 80;
 	private static final int CAPACITY = 25;
@@ -22,8 +20,8 @@ public class ActivityProviderFindOfferMethodTest {
 	private Activity activity;
 	private ActivityOffer offer;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.provider = new ActivityProvider("XtremX", "ExtremeAdventure");
 		this.activity = new Activity(this.provider, "Bush Walking", MIN_AGE, MAX_AGE, CAPACITY);
 
@@ -127,10 +125,4 @@ public class ActivityProviderFindOfferMethodTest {
 
 		Assert.assertEquals(1, offers.size());
 	}
-
-	@After
-	public void tearDown() {
-		ActivityProvider.providers.clear();
-	}
-
 }
