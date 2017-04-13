@@ -10,7 +10,7 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.activity.dataobjects.ActivityReservationData;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
-public class ActivityProvider {
+public class ActivityProvider extends ActivityProvider_Base {
 	public static Set<ActivityProvider> providers = new HashSet<>();
 
 	static final int CODE_SIZE = 6;
