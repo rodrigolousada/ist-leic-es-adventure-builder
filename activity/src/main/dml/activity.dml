@@ -5,7 +5,7 @@ class ActivityProvider {
 	String name;
 }
 
-relation DomainRootHasBrokerApplication {
+relation DomainRootHasActivityProviderApplication {
 	.pt.ist.fenixframework.DomainRoot playsRole root {
 		multiplicity 1..1;
 	}
