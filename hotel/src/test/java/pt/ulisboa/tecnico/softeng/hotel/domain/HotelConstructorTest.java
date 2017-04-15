@@ -1,15 +1,18 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class HotelConstructorTest {
+public class HotelConstructorTest extends RollbackTestAbstractClass{
 	private static final String HOTEL_NAME = "Londres";
 	private static final String HOTEL_CODE = "XPTO123";
 
+	@Override
+	public void populate4Test(){
+	}
+	
 	@Test
 	public void success() {
 		Hotel hotel = new Hotel(HOTEL_CODE, HOTEL_NAME);
@@ -64,11 +67,6 @@ public class HotelConstructorTest {
 	public void codeNotUnique() {
 		new Hotel(HOTEL_CODE, HOTEL_NAME);
 		new Hotel(HOTEL_CODE, HOTEL_NAME + " City");
-	}
-
-	@After
-	public void tearDown() {
-		Hotel.hotels.clear();
 	}
 
 }

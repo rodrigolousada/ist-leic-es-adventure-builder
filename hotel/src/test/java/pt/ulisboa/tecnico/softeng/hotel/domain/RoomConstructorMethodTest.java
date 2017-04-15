@@ -2,19 +2,17 @@ package pt.ulisboa.tecnico.softeng.hotel.domain;
 
 import static org.junit.Assert.fail;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class RoomConstructorMethodTest {
+public class RoomConstructorMethodTest extends RollbackTestAbstractClass{
 	private Hotel hotel;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.hotel = new Hotel("XPTO123", "Lisboa");
 	}
 
@@ -67,11 +65,6 @@ public class RoomConstructorMethodTest {
 	@Test(expected = HotelException.class)
 	public void nullType() {
 		new Room(this.hotel, "01", null);
-	}
-
-	@After
-	public void tearDown() {
-		Hotel.hotels.clear();
 	}
 
 }
