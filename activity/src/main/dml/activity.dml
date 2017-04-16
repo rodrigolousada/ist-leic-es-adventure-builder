@@ -30,3 +30,18 @@ relation ActivityProviderHasActivity {
 		multiplicity 0..*;
 	}
 }
+
+class ActivityOffer{
+	LocalDate begin;
+	LocalDate end;
+	int capacity;
+}
+
+relation ActivityHasActivityOffer{
+	Activity playsRole activity{
+		multiplicity 1..1;
+	}
+	ActivityOffer playsRole activity_offer {
+		multiplicity 0..*;
+	}
+}
