@@ -1,6 +1,8 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
 class Bank {
+	String name;
+	String code;
 }
 
 relation DomainRootHasBankApplication {
@@ -10,4 +12,42 @@ relation DomainRootHasBankApplication {
 	Bank playsRole bank {
 		multiplicity 0..*;
 	}
+}
+
+class Account {
+	String IBAN;
+	int balance;
+}
+
+class Client {
+	String name;
+	String id;
+}
+
+class Operation{
+	String reference;
+	int value;
+	DateTime time;
+}
+
+
+
+relation BankHasAccount{
+	Bank playsRole bank {multiplicity 1..1 ;}
+	Account playsRole account {multiplicity 0..* ;}
+}
+
+relation BankHasClient{
+	Bank playsRole bank {multiplicity 1..1 ;}
+	Client playsRole client {multiplicity 0..* ;}
+}
+
+relation BankHasOperation{
+	Bank playsRole bank {multiplicity 1..1 ;}
+	Operation playsRole operation {multiplicity 0..* ;}
+}
+
+relation ClientHasAccount{
+	Client playsRole client {multiplicity 1..1 ;}
+	Account playsRole account {multiplicity 1..1 ;}	
 }
