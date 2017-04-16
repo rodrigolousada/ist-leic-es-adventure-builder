@@ -2,7 +2,7 @@ package pt.ulisboa.tecnico.softeng.bank.domain;
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class Account {
+public class Account extends Account_Base{
 	private static int counter = 0;
 
 	private final Bank bank;
@@ -20,19 +20,12 @@ public class Account {
 
 		bank.addAccount(this);
 	}
-
-	private void checkArguments(Bank bank, Client client) {
-		if (bank == null || client == null) {
-			throw new BankException();
-		}
-
-		if (!bank.hasClient(client)) {
-			throw new BankException();
-		}
-
+	
+	public void delete() {
+		deleteDomainObject();
 	}
-
-	Bank getBank() {
+	
+	public Bank getBank() {
 		return this.bank;
 	}
 
@@ -47,6 +40,18 @@ public class Account {
 	public int getBalance() {
 		return this.balance;
 	}
+
+	private void checkArguments(Bank bank, Client client) {
+		if (bank == null || client == null) {
+			throw new BankException();
+		}
+
+		if (!bank.hasClient(client)) {
+			throw new BankException();
+		}
+
+	}
+
 
 	public String deposit(int amount) {
 		if (amount <= 0) {

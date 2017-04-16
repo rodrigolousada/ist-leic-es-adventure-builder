@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class Operation {
+public class Operation extends Operation_Base {
 	public static enum Type {
 		DEPOSIT, WITHDRAW
 	};
@@ -28,7 +28,11 @@ public class Operation {
 
 		account.getBank().addLog(this);
 	}
-
+	
+	public void delete() {
+		deleteDomainObject();
+	}
+	
 	private void checkArguments(Type type, Account account, int value) {
 		if (type == null || account == null || value <= 0) {
 			throw new BankException();
