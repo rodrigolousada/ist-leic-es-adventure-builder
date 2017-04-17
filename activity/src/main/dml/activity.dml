@@ -9,7 +9,7 @@ relation DomainRootHasActivityProviderApplication {
 	.pt.ist.fenixframework.DomainRoot playsRole root {
 		multiplicity 1..1;
 	}
-	ActivityProvider playsRole activity_provider {
+	ActivityProvider playsRole activityProvider {
 		multiplicity 0..*;
 	}
 }
