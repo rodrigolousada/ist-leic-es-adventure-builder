@@ -7,7 +7,7 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
-public class ActivityOffer {
+public class ActivityOffer extends ActivityOffer_Base{
 	private final LocalDate begin;
 	private final LocalDate end;
 	private final int capacity;
@@ -51,7 +51,7 @@ public class ActivityOffer {
 		return count;
 	}
 
-	void addBooking(Booking booking) {
+	public void addBooking(Booking booking) {
 		if (this.capacity == getNumberOfBookings()) {
 			throw new ActivityException();
 		}
