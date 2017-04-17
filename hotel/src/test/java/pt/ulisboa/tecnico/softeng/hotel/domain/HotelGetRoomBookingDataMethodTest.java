@@ -4,23 +4,21 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.hotel.dataobjects.RoomBookingData;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class HotelGetRoomBookingDataMethodTest {
+public class HotelGetRoomBookingDataMethodTest extends RollbackTestAbstractClass{
 	private final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private final LocalDate departure = new LocalDate(2016, 12, 24);
 	private Hotel hotel;
 	private Room room;
 	private Booking booking;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.hotel = new Hotel("XPTO123", "Lisboa");
 		this.room = new Room(this.hotel, "01", Type.SINGLE);
 		this.booking = this.room.reserve(Type.SINGLE, this.arrival, this.departure);
@@ -70,10 +68,5 @@ public class HotelGetRoomBookingDataMethodTest {
 	@Test(expected = HotelException.class)
 	public void referenceDoesNotExist() {
 		Hotel.getRoomBookingData("XPTO");
-	}
-
-	@After
-	public void tearDown() {
-		Hotel.hotels.clear();
 	}
 }

@@ -1,20 +1,18 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class BookingConstructorTest {
+public class BookingConstructorTest extends RollbackTestAbstractClass{
 	private final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.hotel = new Hotel("XPTO123", "Londres");
 	}
 
@@ -51,11 +49,6 @@ public class BookingConstructorTest {
 	@Test
 	public void arrivalEqualDeparture() {
 		new Booking(this.hotel, this.arrival, this.arrival);
-	}
-
-	@After
-	public void tearDown() {
-		Hotel.hotels.clear();
 	}
 
 }

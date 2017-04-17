@@ -3,22 +3,20 @@ package pt.ulisboa.tecnico.softeng.hotel.domain;
 import static org.junit.Assert.assertNull;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class HotelHasVacancyMethodTest {
+public class HotelHasVacancyMethodTest extends RollbackTestAbstractClass{
 	private final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
 	private Room room;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.hotel = new Hotel("XPTO123", "Paris");
 		this.room = new Room(this.hotel, "01", Type.DOUBLE);
 	}
@@ -58,11 +56,6 @@ public class HotelHasVacancyMethodTest {
 	@Test(expected = HotelException.class)
 	public void nullDeparture() {
 		this.hotel.hasVacancy(Type.DOUBLE, this.arrival, null);
-	}
-
-	@After
-	public void tearDown() {
-		Hotel.hotels.clear();
 	}
 
 }

@@ -52,7 +52,7 @@ public class ActivityProvider extends ActivityProvider_Base {
 		return this.activities.size();
 	}
 
-	void addActivity(Activity activity) {
+	public void addActivity(Activity activity) {
 		this.activities.add(activity);
 	}
 

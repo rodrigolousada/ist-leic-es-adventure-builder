@@ -1,23 +1,21 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class HotelCancelBookingMethodTest {
+public class HotelCancelBookingMethodTest extends RollbackTestAbstractClass{
 	private final LocalDate arrival = new LocalDate(2016, 12, 19);
 	private final LocalDate departure = new LocalDate(2016, 12, 21);
 	private Hotel hotel;
 	private Room room;
 	private Booking booking;
 
-	@Before
-	public void setUp() {
+	@Override
+	public void populate4Test() {
 		this.hotel = new Hotel("XPTO123", "Paris");
 		this.room = new Room(this.hotel, "01", Type.DOUBLE);
 		this.booking = this.room.reserve(Type.DOUBLE, this.arrival, this.departure);
@@ -44,10 +42,5 @@ public class HotelCancelBookingMethodTest {
 	@Test(expected = HotelException.class)
 	public void emptyReference() {
 		Hotel.cancelBooking("");
-	}
-
-	@After
-	public void tearDown() {
-		Hotel.hotels.clear();
 	}
 }
