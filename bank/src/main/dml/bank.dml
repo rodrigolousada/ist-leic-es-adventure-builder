@@ -1,6 +1,8 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
 class Bank {
+	String name;
+	String code;
 }
 
 relation DomainRootHasBankApplication {
@@ -13,10 +15,17 @@ relation DomainRootHasBankApplication {
 }
 
 class Account {
+	String IBAN;
+	int balance;
 }
 
 class Client {
+	String name;
+	String ID;
 }
 
 class Operation{
+	String reference;
+	int value;
+	DateTime time;
 }

@@ -11,20 +11,17 @@ public class Operation extends Operation_Base {
 
 	private static int counter = 0;
 
-	private final String reference;
 	private final Type type;
 	private final Account account;
-	private final int value;
-	private final DateTime time;
 
 	public Operation(Type type, Account account, int value) {
 		checkArguments(type, account, value);
 
-		this.reference = account.getBank().getCode() + Integer.toString(++Operation.counter);
+		this.setReference(account.getBank().getCode() + Integer.toString(++Operation.counter));
 		this.type = type;
 		this.account = account;
-		this.value = value;
-		this.time = DateTime.now();
+		this.setValue(value);
+		this.setTime(DateTime.now());
 
 		account.getBank().addLog(this);
 	}
@@ -39,9 +36,6 @@ public class Operation extends Operation_Base {
 		}
 	}
 
-	public String getReference() {
-		return this.reference;
-	}
 
 	public Type getType() {
 		return this.type;
@@ -51,20 +45,13 @@ public class Operation extends Operation_Base {
 		return this.account;
 	}
 
-	public int getValue() {
-		return this.value;
-	}
-
-	public DateTime getTime() {
-		return this.time;
-	}
 
 	public String revert() {
 		switch (this.type) {
 		case DEPOSIT:
-			return this.account.withdraw(this.value);
+			return this.account.withdraw(getValue());
 		case WITHDRAW:
-			return this.account.deposit(this.value);
+			return this.account.deposit(getValue());
 		default:
 			throw new BankException();
 
