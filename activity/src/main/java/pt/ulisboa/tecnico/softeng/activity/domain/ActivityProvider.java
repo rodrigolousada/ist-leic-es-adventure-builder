@@ -15,8 +15,6 @@ public class ActivityProvider extends ActivityProvider_Base {
 
 	static final int CODE_SIZE = 6;
 
-	private final Set<Activity> activities = new HashSet<>();
-
 	public ActivityProvider(String code, String name) {
 		checkArguments(code, name);
 
@@ -28,6 +26,11 @@ public class ActivityProvider extends ActivityProvider_Base {
 	
 	public void delete() {
 		setRoot(null);
+		
+		for (Activity activity : getActivitySet()) {
+			activity.delete();
+		}
+		
 		deleteDomainObject();
 	}
 
@@ -49,23 +52,19 @@ public class ActivityProvider extends ActivityProvider_Base {
 	}
 
 	int getNumberOfActivities() {
-		return this.activities.size();
-	}
-
-	public void addActivity(Activity activity) {
-		this.activities.add(activity);
+		return getActivitySet().size();
 	}
 
 	public List<ActivityOffer> findOffer(LocalDate begin, LocalDate end, int age) {
 		List<ActivityOffer> result = new ArrayList<>();
-		for (Activity activity : this.activities) {
+		for (Activity activity : getActivitySet()) {
 			result.addAll(activity.getOffers(begin, end, age));
 		}
 		return result;
 	}
 
 	private Booking getBooking(String reference) {
-		for (Activity activity : this.activities) {
+		for (Activity activity : getActivitySet()) {
 			Booking booking = activity.getBooking(reference);
 			if (booking != null) {
 				return booking;
@@ -105,7 +104,7 @@ public class ActivityProvider extends ActivityProvider_Base {
 
 	public static ActivityReservationData getActivityReservationData(String reference) {
 		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
-			for (Activity activity : provider.activities) {
+			for (Activity activity : provider.getActivitySet()) {
 				for (ActivityOffer offer : activity.getOffers()) {
 					Booking booking = offer.getBooking(reference);
 					if (booking != null) {
