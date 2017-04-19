@@ -48,6 +48,8 @@ relation ActivityHasActivityOffer{
 
 class Booking{
 	String reference;
+	String cancel;
+	LocalDate cancellationDate;
 }
 
 relation ActivityOfferHasBooking{
