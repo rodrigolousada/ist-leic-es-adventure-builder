@@ -18,7 +18,7 @@ public class ActivityOffer extends ActivityOffer_Base{
 		setEnd(end);
 		setCapacity(activity.getCapacity());
 
-		activity.addOffer(this);
+		activity.addActivityOffer(this);
 	}
 	
 	public void delete() {	
