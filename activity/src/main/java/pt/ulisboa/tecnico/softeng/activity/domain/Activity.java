@@ -7,7 +7,7 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
-public class Activity {
+public class Activity extends Activity_Base{
 	private static final int MIN_AGE = 18;
 	private static final int MAX_AGE = 100;
 
@@ -47,23 +47,23 @@ public class Activity {
 
 	}
 
-	String getName() {
+	public String getName() {
 		return this.name;
 	}
 
-	String getCode() {
+	public String getCode() {
 		return this.code;
 	}
 
-	int getMinAge() {
+	public int getMinAge() {
 		return this.minAge;
 	}
 
-	int getMaxAge() {
+	public int getMaxAge() {
 		return this.maxAge;
 	}
 
-	int getCapacity() {
+	public int getCapacity() {
 		return this.capacity;
 	}
 

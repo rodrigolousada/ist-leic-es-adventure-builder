@@ -4,7 +4,7 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
-public class Booking {
+public class Booking extends Booking_Base{
 	private static int counter = 0;
 
 	private final String reference;

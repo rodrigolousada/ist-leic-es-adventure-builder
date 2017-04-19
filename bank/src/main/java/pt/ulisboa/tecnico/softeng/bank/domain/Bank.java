@@ -9,27 +9,29 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class Bank extends Bank_Base {
+public class Bank extends Bank_Base{
 	public static final int CODE_SIZE = 4;
-
-	private final String name;
-	private final String code;
-	private final Set<Account> accounts = new HashSet<>();
-	private final Set<Client> clients = new HashSet<>();
-	private final List<Operation> log = new ArrayList<>();
 
 	public Bank(String name, String code) {
 		checkArguments(name, code);
 
-		this.name = name;
-		this.code = code;
+		setName(name);
+		setCode(code);
 
 		FenixFramework.getDomainRoot().addBank(this);
 	}
 
 	public void delete() {
+		for(Account a: this.getAccountSet()){
+			a.delete();
+		}
+		for(Client c: this.getClientSet()){
+			c.delete();
+		}
+		for(Operation o: this.getOperationSet()){
+			o.delete();
+		}
 		setRoot(null);
-
 		deleteDomainObject();
 	}
 
@@ -49,36 +51,28 @@ public class Bank extends Bank_Base {
 		}
 	}
 
-	String getName() {
-		return this.name;
-	}
-
-	String getCode() {
-		return this.code;
-	}
-
 	int getNumberOfAccounts() {
-		return this.accounts.size();
+		return this.getAccountSet().size();
 	}
 
 	int getNumberOfClients() {
-		return this.clients.size();
+		return this.getClientSet().size();
 	}
 
-	void addAccount(Account account) {
-		this.accounts.add(account);
+	public void addAccount(Account account) {
+		super.addAccount(account);
 	}
 
 	boolean hasClient(Client client) {
-		return this.clients.contains(client);
+		return this.getClientSet().contains(client);
 	}
 
-	void addClient(Client client) {
-		this.clients.add(client);
+	public void addClient(Client client) {
+		super.addClient(client);
 	}
 
-	void addLog(Operation operation) {
-		this.log.add(operation);
+	public void addLog(Operation operation) {
+		super.addOperation(operation);
 	}
 
 	public Account getAccount(String IBAN) {
@@ -86,7 +80,7 @@ public class Bank extends Bank_Base {
 			throw new BankException();
 		}
 
-		for (Account account : this.accounts) {
+		for (Account account : this.getAccountSet()) {
 			if (account.getIBAN().equals(IBAN)) {
 				return account;
 			}
@@ -96,7 +90,7 @@ public class Bank extends Bank_Base {
 	}
 
 	public Operation getOperation(String reference) {
-		for (Operation operation : this.log) {
+		for (Operation operation : this.getOperationSet()) {
 			if (operation.getReference().equals(reference)) {
 				return operation;
 			}
@@ -147,5 +141,4 @@ public class Bank extends Bank_Base {
 		}
 		throw new BankException();
 	}
-
 }
