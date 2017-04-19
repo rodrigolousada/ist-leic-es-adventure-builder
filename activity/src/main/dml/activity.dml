@@ -23,7 +23,7 @@ class Activity{
 }
 
 relation ActivityProviderHasActivity {
-	ActivityProvider playsRole activity_provider {
+	ActivityProvider playsRole activityProvider {
 		multiplicity 1..1;
 	}
 	Activity playsRole activity {
@@ -41,7 +41,7 @@ relation ActivityHasActivityOffer{
 	Activity playsRole activity{
 		multiplicity 1..1;
 	}
-	ActivityOffer playsRole activity_offer {
+	ActivityOffer playsRole activityOffer {
 		multiplicity 0..*;
 	}
 }
@@ -51,7 +51,7 @@ class Booking{
 }
 
 relation ActivityOfferHasBooking{
-	ActivityOffer playsRole activity_offer{
+	ActivityOffer playsRole activityOffer{
 		multiplicity 1..1;
 	}
 	Booking playsRole booking {
