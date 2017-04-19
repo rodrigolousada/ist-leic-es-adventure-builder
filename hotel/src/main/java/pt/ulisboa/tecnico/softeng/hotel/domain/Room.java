@@ -7,23 +7,20 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class Room {
+public class Room extends Room_Base{
 	public static enum Type {
 		SINGLE, DOUBLE
 	}
 
 	private final Hotel hotel;
-	private final String number;
-	private final Type type;
 	private final Set<Booking> bookings = new HashSet<>();
 
 	public Room(Hotel hotel, String number, Type type) {
 		checkArguments(hotel, number, type);
-
+		
+		this.setNumber(number);
+		this.setType(type);
 		this.hotel = hotel;
-		this.number = number;
-		this.type = type;
-
 		this.hotel.addRoom(this);
 	}
 
@@ -42,11 +39,11 @@ public class Room {
 	}
 
 	public String getNumber() {
-		return this.number;
+		return this.getNumber();
 	}
-
+	
 	public Type getType() {
-		return this.type;
+		return this.getType();
 	}
 
 	int getNumberOfBookings() {
@@ -54,7 +51,7 @@ public class Room {
 	}
 
 	boolean isFree(Type type, LocalDate arrival, LocalDate departure) {
-		if (!type.equals(this.type)) {
+		if (!type.equals(this.getType())) {
 			return false;
 		}
 

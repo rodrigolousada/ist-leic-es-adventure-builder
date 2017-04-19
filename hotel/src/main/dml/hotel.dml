@@ -1,0 +1,17 @@
+package pt.ulisboa.tecnico.softeng.hotel.domain;
+
+class Booking{
+	String reference;
+	String cancellation;
+	LocalDate cancellationDate;
+	LocalDate arrival;
+	LocalDate departure;
+}
+
+enum pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type as RoomType;
+
+class Room{
+	RoomType type;
+	String number;
+}
+	
