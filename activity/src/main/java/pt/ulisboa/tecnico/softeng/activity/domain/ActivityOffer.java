@@ -1,15 +1,10 @@
 package pt.ulisboa.tecnico.softeng.activity.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityOffer extends ActivityOffer_Base{
-
-	private final Set<Booking> bookings = new HashSet<>();
 
 	public ActivityOffer(Activity activity, LocalDate begin, LocalDate end) {
 		checkArguments(activity, begin, end);
@@ -18,12 +13,16 @@ public class ActivityOffer extends ActivityOffer_Base{
 		setEnd(end);
 		setCapacity(activity.getCapacity());
 
-		activity.addOffer(this);
+		activity.addActivityOffer(this);
 	}
 	
 	public void delete() {	
 		setActivity(null);
 
+		for (Booking booking : getBookingSet()) {
+			booking.delete();
+		}
+		
 		deleteDomainObject();
 	}
 
@@ -39,7 +38,7 @@ public class ActivityOffer extends ActivityOffer_Base{
 
 	int getNumberOfBookings() {
 		int count = 0;
-		for (Booking booking : this.bookings) {
+		for (Booking booking : getBookingSet()) {
 			if (!booking.isCancelled()) {
 				count++;
 			}
@@ -47,12 +46,12 @@ public class ActivityOffer extends ActivityOffer_Base{
 		return count;
 	}
 
-	public void addBooking(Booking booking) {
+	public void addBookingToOffer(Booking booking) {
 		if (getCapacity() == getNumberOfBookings()) {
 			throw new ActivityException();
 		}
 
-		this.bookings.add(booking);
+		this.addBooking(booking);
 
 	}
 
@@ -73,7 +72,7 @@ public class ActivityOffer extends ActivityOffer_Base{
 	}
 
 	public Booking getBooking(String reference) {
-		for (Booking booking : this.bookings) {
+		for (Booking booking : getBookingSet()) {
 			if (booking.getReference().equals(reference)
 					|| (booking.isCancelled() && booking.getCancellation().equals(reference))) {
 				return booking;

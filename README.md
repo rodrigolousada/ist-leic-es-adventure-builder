@@ -11,6 +11,6 @@ To run tests execute: mvn clean install
 |  81115  | Rodrigo Lousada      | rodrigo.m.lousada@gmail.com    | rodrigolousada      | Activity     |
 |  81538  | João Pedrosa         | joaopedrosa15@gmail.com        | joaopedrosa         | Activity     |
 |  82304  | André Mendonça       | andremendonca94@gmail.com      | mendonca94          | Hotel+Broker |
-|  81026  | Alenjandro Rachadell | alenjandro.rachadell@gmail.com | AlenjandroRachadell | Bank/Activity |
+|  81026  | Alenjandro Rachadell | alenjandro.rachadell@gmail.com | AlenjandroRachadell | Bank         |
 | ---------- | ----------------------- | ----------------------- | ---------------| --------- |
  
