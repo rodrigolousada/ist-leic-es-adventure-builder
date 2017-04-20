@@ -7,21 +7,19 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class Room extends Room_Base{
+public class Room extends Room_Base {
 	public static enum Type {
 		SINGLE, DOUBLE
 	}
 
-	private final Hotel hotel;
 	private final Set<Booking> bookings = new HashSet<>();
 
 	public Room(Hotel hotel, String number, Type type) {
 		checkArguments(hotel, number, type);
-		
+
 		this.setNumber(number);
 		this.setType(type);
-		this.hotel = hotel;
-		this.hotel.addRoom(this);
+		hotel.addRoom(this);
 	}
 
 	private void checkArguments(Hotel hotel, String number, Type type) {
@@ -35,13 +33,13 @@ public class Room extends Room_Base{
 	}
 
 	public Hotel getHotel() {
-		return this.hotel;
+		return super.getHotel();
 	}
 
 	public String getNumber() {
 		return this.getNumber();
 	}
-	
+
 	public Type getType() {
 		return this.getType();
 	}
@@ -73,7 +71,7 @@ public class Room extends Room_Base{
 			throw new HotelException();
 		}
 
-		Booking booking = new Booking(this.hotel, arrival, departure);
+		Booking booking = new Booking(this.getHotel(), arrival, departure);
 		this.bookings.add(booking);
 
 		return booking;

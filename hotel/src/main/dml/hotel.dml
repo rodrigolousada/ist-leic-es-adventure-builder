@@ -1,6 +1,10 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
-<<<<<<< HEAD
+class Hotel {
+	String code;
+	String name;
+}
+
 class Booking{
 	String reference;
 	String cancellation;
@@ -15,12 +19,6 @@ class Room{
 	RoomType type;
 	String number;
 }
-	
-=======
-class Hotel {
-	String code;
-	String name;
-}
 
 relation DomainRootHasHotelApplication {
 	.pt.ist.fenixframework.DomainRoot playsRole root {
@@ -30,4 +28,21 @@ relation DomainRootHasHotelApplication {
 		multiplicity 0..*;
 	}
 }
->>>>>>> branch 'develop' of https://github.com/tecnico-softeng/es17al_24-project
+
+relation HotelHasRooms {
+	Hotel playsRole hotel {
+		multiplicity 1..1;
+	}
+	Room playsRole room{
+		multiplicity 0..*;
+	}
+}
+
+relation RoomHasBookings{
+	Room playsRole room {
+		multiplicity 1..1;
+	}
+	Booking playsRole booking{
+		multiplicity 0..*;
+	}
+}
