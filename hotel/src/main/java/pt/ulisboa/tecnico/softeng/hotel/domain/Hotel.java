@@ -84,7 +84,6 @@ public class Hotel extends Hotel_Base {
 		}
 
 		super.addRoom(room);
-		;
 	}
 
 	int getNumberOfRooms() {

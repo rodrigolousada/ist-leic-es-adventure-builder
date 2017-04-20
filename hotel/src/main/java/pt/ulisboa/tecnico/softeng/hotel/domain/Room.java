@@ -20,6 +20,9 @@ public class Room extends Room_Base {
 	// TODO : DELETE BOOKINGS
 	public void delete() {
 		super.getHotel().removeRoom(this);
+		for (Booking booking : super.getBookingSet()) {
+			booking.delete();
+		}
 		deleteDomainObject();
 	}
 
@@ -73,7 +76,7 @@ public class Room extends Room_Base {
 		}
 
 		Booking booking = new Booking(super.getHotel(), arrival, departure);
-		this.addBooking(booking);
+		super.addBooking(booking);
 
 		return booking;
 	}

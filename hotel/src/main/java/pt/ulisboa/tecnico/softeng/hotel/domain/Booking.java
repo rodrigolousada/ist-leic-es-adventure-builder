@@ -15,6 +15,11 @@ public class Booking extends Booking_Base {
 		super.setDeparture(departure);
 	}
 
+	public void delete() {
+		super.getRoom().removeBooking(this);
+		deleteDomainObject();
+	}
+
 	private void checkArguments(Hotel hotel, LocalDate arrival, LocalDate departure) {
 		if (hotel == null || arrival == null || departure == null) {
 			throw new HotelException();
