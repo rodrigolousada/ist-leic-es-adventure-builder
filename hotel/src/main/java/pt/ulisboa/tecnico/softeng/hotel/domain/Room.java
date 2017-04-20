@@ -1,8 +1,5 @@
 package pt.ulisboa.tecnico.softeng.hotel.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
@@ -12,14 +9,18 @@ public class Room extends Room_Base {
 		SINGLE, DOUBLE
 	}
 
-	private final Set<Booking> bookings = new HashSet<>();
-
 	public Room(Hotel hotel, String number, Type type) {
 		checkArguments(hotel, number, type);
 
-		this.setNumber(number);
-		this.setType(type);
+		super.setNumber(number);
+		super.setType(type);
 		hotel.addRoom(this);
+	}
+
+	// TODO : DELETE BOOKINGS
+	public void delete() {
+		super.getHotel().removeRoom(this);
+		deleteDomainObject();
 	}
 
 	private void checkArguments(Hotel hotel, String number, Type type) {
@@ -37,23 +38,23 @@ public class Room extends Room_Base {
 	}
 
 	public String getNumber() {
-		return this.getNumber();
+		return super.getNumber();
 	}
 
 	public Type getType() {
-		return this.getType();
+		return super.getType();
 	}
 
 	int getNumberOfBookings() {
-		return this.bookings.size();
+		return super.getBookingSet().size();
 	}
 
 	boolean isFree(Type type, LocalDate arrival, LocalDate departure) {
-		if (!type.equals(this.getType())) {
+		if (!type.equals(super.getType())) {
 			return false;
 		}
 
-		for (Booking booking : this.bookings) {
+		for (Booking booking : super.getBookingSet()) {
 			if (booking.conflict(arrival, departure)) {
 				return false;
 			}
@@ -71,14 +72,14 @@ public class Room extends Room_Base {
 			throw new HotelException();
 		}
 
-		Booking booking = new Booking(this.getHotel(), arrival, departure);
-		this.bookings.add(booking);
+		Booking booking = new Booking(super.getHotel(), arrival, departure);
+		this.addBooking(booking);
 
 		return booking;
 	}
 
 	public Booking getBooking(String reference) {
-		for (Booking booking : this.bookings) {
+		for (Booking booking : super.getBookingSet()) {
 			if (booking.getReference().equals(reference)
 					|| (booking.isCancelled() && booking.getCancellation().equals(reference))) {
 				return booking;
