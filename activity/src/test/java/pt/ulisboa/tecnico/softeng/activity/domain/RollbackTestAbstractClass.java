@@ -23,7 +23,6 @@ public abstract class RollbackTestAbstractClass {
 
 	@After
 	public void tearDown() {
-		FenixFramework.getDomainRoot().getActivityProviderSet().clear();
 
 		try {
 			FenixFramework.getTransactionManager().rollback();
