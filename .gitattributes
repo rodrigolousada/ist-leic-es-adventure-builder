@@ -4,4 +4,6 @@
 *.md           text
 *.dml          text
 *.properties   text
-
+*.properties.example text
+.gitattributes text
+.gitignore     text
