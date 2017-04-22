@@ -11,4 +11,8 @@ public class BookingReference extends BookingReference_Base {
 		setReference(reference);
 	}
 
+	public void delete() {
+		setBulkRoomBooking(null);
+		deleteDomainObject();
+	}
 }
