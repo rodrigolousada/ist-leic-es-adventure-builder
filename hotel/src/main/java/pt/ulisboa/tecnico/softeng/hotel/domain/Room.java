@@ -12,15 +12,14 @@ public class Room extends Room_Base {
 	public Room(Hotel hotel, String number, Type type) {
 		checkArguments(hotel, number, type);
 
-		super.setNumber(number);
-		super.setType(type);
+		setNumber(number);
+		setType(type);
 		hotel.addRoom(this);
 	}
 
-	// TODO : DELETE BOOKINGS
 	public void delete() {
-		super.getHotel().removeRoom(this);
-		for (Booking booking : super.getBookingSet()) {
+		setHotel(null);
+		for (Booking booking : getBookingSet()) {
 			booking.delete();
 		}
 		deleteDomainObject();
@@ -36,28 +35,16 @@ public class Room extends Room_Base {
 		}
 	}
 
-	public Hotel getHotel() {
-		return super.getHotel();
-	}
-
-	public String getNumber() {
-		return super.getNumber();
-	}
-
-	public Type getType() {
-		return super.getType();
-	}
-
 	int getNumberOfBookings() {
-		return super.getBookingSet().size();
+		return getBookingSet().size();
 	}
 
 	boolean isFree(Type type, LocalDate arrival, LocalDate departure) {
-		if (!type.equals(super.getType())) {
+		if (!type.equals(getType())) {
 			return false;
 		}
 
-		for (Booking booking : super.getBookingSet()) {
+		for (Booking booking : getBookingSet()) {
 			if (booking.conflict(arrival, departure)) {
 				return false;
 			}
@@ -75,14 +62,14 @@ public class Room extends Room_Base {
 			throw new HotelException();
 		}
 
-		Booking booking = new Booking(super.getHotel(), arrival, departure);
-		super.addBooking(booking);
+		Booking booking = new Booking(getHotel(), arrival, departure);
+		addBooking(booking);
 
 		return booking;
 	}
 
 	public Booking getBooking(String reference) {
-		for (Booking booking : super.getBookingSet()) {
+		for (Booking booking : getBookingSet()) {
 			if (booking.getReference().equals(reference)
 					|| (booking.isCancelled() && booking.getCancellation().equals(reference))) {
 				return booking;

@@ -11,7 +11,7 @@ public class Client extends Client_Base{
 		setID(Integer.toString(++Client.counter));
 		setName(name);
 
-		bank.addClient(this);
+		setBank(bank);
 	}
 	
 	public void delete() {

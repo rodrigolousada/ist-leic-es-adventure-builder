@@ -22,7 +22,7 @@ public class Activity extends Activity_Base{
 		setMaxAge(maxAge);
 		setCapacity(capacity);
 
-		provider.addActivity(this);
+		setActivityProvider(provider);
 	}
 	
 	public void delete() {
