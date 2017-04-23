@@ -1,10 +1,5 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
@@ -22,14 +17,14 @@ public class Bank extends Bank_Base{
 	}
 
 	public void delete() {
+		for(Operation o: this.getOperationSet()){
+			o.delete();
+		}
 		for(Account a: this.getAccountSet()){
 			a.delete();
 		}
 		for(Client c: this.getClientSet()){
 			c.delete();
-		}
-		for(Operation o: this.getOperationSet()){
-			o.delete();
 		}
 		setRoot(null);
 		deleteDomainObject();
@@ -59,16 +54,8 @@ public class Bank extends Bank_Base{
 		return this.getClientSet().size();
 	}
 
-	public void addAccount(Account account) {
-		super.addAccount(account);
-	}
-
 	boolean hasClient(Client client) {
 		return this.getClientSet().contains(client);
-	}
-
-	public void addClient(Client client) {
-		super.addClient(client);
 	}
 
 	public void addLog(Operation operation) {
