@@ -15,6 +15,7 @@ public class Client extends Client_Base{
 	}
 	
 	public void delete() {
+		setBank(null);
 		deleteDomainObject();
 	}
 	
