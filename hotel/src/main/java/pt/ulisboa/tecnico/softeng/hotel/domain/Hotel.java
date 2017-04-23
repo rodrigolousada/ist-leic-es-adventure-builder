@@ -17,7 +17,6 @@ public class Hotel extends Hotel_Base {
 
 	public Hotel(String code, String name) {
 		checkArguments(code, name);
-
 		super.setCode(code);
 		super.setName(name);
 		FenixFramework.getDomainRoot().addHotel(this);
