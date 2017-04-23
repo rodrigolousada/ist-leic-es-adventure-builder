@@ -4,38 +4,46 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 
 public class BankPersistenceTest {
-	private static final String BANK_CODE = "BK01";
+ private static final String BANK_CODE = "BK01";
 
-	@Test
-	public void success() {
-		atomicProcess();
-		atomicAssert();
-	}
+ @Test
+ public void success() {
+  atomicProcess();
+  atomicAssert();
+ }
 
-	@Atomic(mode = TxMode.WRITE)
-	public void atomicProcess() {
-		new Bank("Money", BANK_CODE);
-	}
+ @Atomic(mode = TxMode.WRITE)
+ public void atomicProcess() {
+  new Bank("Money", BANK_CODE);
+ }
 
-	@Atomic(mode = TxMode.READ)
-	public void atomicAssert() {
-		Bank bank = Bank.getBankByCode(BANK_CODE);
+ @Atomic(mode = TxMode.READ)
+ public void atomicAssert() {
+  assertEquals(1, FenixFramework.getDomainRoot().getBankSet().size());
+  
+  List<Bank> banks = new ArrayList<>(FenixFramework.getDomainRoot().getBankSet());
+  Bank bank = banks.get(0);
 
-		assertEquals("Money", bank.getName());
-	}
+  assertEquals("Money", bank.getName());
+  assertEquals(BANK_CODE, bank.getCode());
+  assertEquals(0, bank.getClientSet().size());
+  assertEquals(0, bank.getAccountSet().size());
+  assertEquals(0, bank.getOperationSet().size());
+ }
 
-	@After
-	@Atomic(mode = TxMode.WRITE)
-	public void tearDown() {
-		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
-			bank.delete();
-		}
-	}
-
+ @After
+ @Atomic(mode = TxMode.WRITE)
+ public void tearDown() {
+  for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
+   bank.delete();
+  }
+ }
 }
