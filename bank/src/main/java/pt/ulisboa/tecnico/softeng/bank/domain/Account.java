@@ -5,30 +5,22 @@ import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 public class Account extends Account_Base{
 	private static int counter = 0;
 
-	private final Bank bank;
-	private final Client client;
-
 	public Account(Bank bank, Client client) {
 		checkArguments(bank, client);
 
-		this.bank = bank;
+		setBank(bank);
 		setIBAN(bank.getCode() + Integer.toString(++Account.counter));
-		this.client = client;
+		setClient(client);
 		setBalance(0);
 
 		bank.addAccount(this);
+		client.addAccount(this);
 	}
 	
 	public void delete() {
+		setBank(null);
+		setClient(null);
 		deleteDomainObject();
-	}
-	
-	public Bank getBank() {
-		return this.bank;
-	}
-
-	public Client getClient() {
-		return this.client;
 	}
 
 	private void checkArguments(Bank bank, Client client) {
@@ -41,7 +33,6 @@ public class Account extends Account_Base{
 		}
 
 	}
-
 
 	public String deposit(int amount) {
 		if (amount <= 0) {
