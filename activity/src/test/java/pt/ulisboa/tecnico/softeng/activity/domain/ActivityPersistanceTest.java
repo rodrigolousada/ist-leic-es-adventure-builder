@@ -21,9 +21,8 @@ public class ActivityPersistanceTest {
 	private static final int MIN_AGE = 25;
 	private static final int MAX_AGE = 50;
 	private static final int CAPACITY = 30;
-	
+
 	private ActivityProvider local_provider;
-	
 
 	@Test
 	public void success() {
@@ -34,7 +33,7 @@ public class ActivityPersistanceTest {
 	@Atomic(mode = TxMode.WRITE)
 	public void atomicProcess() {
 		this.local_provider = new ActivityProvider(PROVIDER_CODE, PROVIDER_NAME);
-		
+
 		new Activity(local_provider, ACTIVITY_NAME, MIN_AGE, MAX_AGE, CAPACITY);
 
 	}

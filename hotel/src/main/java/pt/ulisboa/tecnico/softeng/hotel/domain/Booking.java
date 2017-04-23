@@ -43,8 +43,7 @@ public class Booking extends Booking_Base {
 			throw new HotelException();
 		}
 
-		if ((arrival.equals(getArrival()) || arrival.isAfter(getArrival()))
-				&& arrival.isBefore(getDeparture())) {
+		if ((arrival.equals(getArrival()) || arrival.isAfter(getArrival())) && arrival.isBefore(getDeparture())) {
 			return true;
 		}
 

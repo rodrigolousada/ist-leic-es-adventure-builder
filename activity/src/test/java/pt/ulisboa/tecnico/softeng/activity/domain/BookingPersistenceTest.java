@@ -25,11 +25,10 @@ public class BookingPersistenceTest {
 
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 21);
-	
+
 	private ActivityProvider local_provider;
 	private Activity local_activity;
 	private ActivityOffer local_offer;
-	
 
 	@Test
 	public void success() {
@@ -42,7 +41,7 @@ public class BookingPersistenceTest {
 		this.local_provider = new ActivityProvider(PROVIDER_CODE, PROVIDER_NAME);
 		this.local_activity = new Activity(local_provider, ACTIVITY_NAME, MIN_AGE, MAX_AGE, CAPACITY);
 		this.local_offer = new ActivityOffer(this.local_activity, this.begin, this.end);
-		
+
 		new Booking(local_provider, local_offer);
 	}
 
@@ -66,18 +65,18 @@ public class BookingPersistenceTest {
 		assertEquals(MIN_AGE, activity.getMinAge());
 		assertEquals(MAX_AGE, activity.getMaxAge());
 		assertEquals(CAPACITY, activity.getCapacity());
-		
+
 		List<ActivityOffer> offers = new ArrayList<>(activity.getActivityOfferSet());
 		ActivityOffer offer = offers.get(0);
-		
+
 		assertEquals(activity, offer.getActivity());
 		assertEquals(this.begin, offer.getBegin());
 		assertEquals(this.end, offer.getEnd());
 		assertEquals(CAPACITY, offer.getCapacity());
-		
+
 		List<Booking> bookings = new ArrayList<>(offer.getBookingSet());
 		Booking booking = bookings.get(0);
-		
+
 		assertEquals(offer, booking.getActivityOffer());
 		assertNotNull(booking.getReference());
 		assertNull(booking.getCancellationDate());

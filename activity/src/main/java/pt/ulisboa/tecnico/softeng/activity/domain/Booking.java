@@ -4,7 +4,7 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
-public class Booking extends Booking_Base{
+public class Booking extends Booking_Base {
 	private static int counter = 0;
 
 	public Booking(ActivityProvider provider, ActivityOffer offer) {
@@ -15,12 +15,12 @@ public class Booking extends Booking_Base{
 		offer.addBookingToOffer(this);
 	}
 
-	public void delete() {	
+	public void delete() {
 		setActivityOffer(null);
-		
+
 		deleteDomainObject();
 	}
-	
+
 	private void checkArguments(ActivityProvider provider, ActivityOffer offer) {
 		if (provider == null || offer == null) {
 			throw new ActivityException();

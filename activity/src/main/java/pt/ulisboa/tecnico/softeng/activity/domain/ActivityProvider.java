@@ -21,17 +21,16 @@ public class ActivityProvider extends ActivityProvider_Base {
 
 		FenixFramework.getDomainRoot().addActivityProvider(this);
 	}
-	
+
 	public void delete() {
 		setRoot(null);
-		
+
 		for (Activity activity : getActivitySet()) {
 			activity.delete();
 		}
-		
+
 		deleteDomainObject();
 	}
-
 
 	private void checkArguments(String code, String name) {
 		if (code == null || name == null || code.trim().equals("") || name.trim().equals("")) {

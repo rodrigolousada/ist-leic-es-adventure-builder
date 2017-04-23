@@ -24,10 +24,9 @@ public class ActivityOfferPersistenceTest {
 
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 21);
-	
+
 	private ActivityProvider local_provider;
 	private Activity local_activity;
-	
 
 	@Test
 	public void success() {
@@ -63,10 +62,10 @@ public class ActivityOfferPersistenceTest {
 		assertEquals(MIN_AGE, activity.getMinAge());
 		assertEquals(MAX_AGE, activity.getMaxAge());
 		assertEquals(CAPACITY, activity.getCapacity());
-		
+
 		List<ActivityOffer> offers = new ArrayList<>(activity.getActivityOfferSet());
 		ActivityOffer offer = offers.get(0);
-		
+
 		assertEquals(activity, offer.getActivity());
 		assertEquals(this.begin, offer.getBegin());
 		assertEquals(this.end, offer.getEnd());

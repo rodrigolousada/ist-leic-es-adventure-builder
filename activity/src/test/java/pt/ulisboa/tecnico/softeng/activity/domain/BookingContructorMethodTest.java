@@ -21,7 +21,7 @@ public class BookingContructorMethodTest extends RollbackTestAbstractClass {
 		LocalDate end = new LocalDate(2016, 12, 21);
 		this.offer = new ActivityOffer(activity, begin, end);
 	}
-	
+
 	@Test
 	public void success() {
 		Booking booking = new Booking(this.provider, this.offer);

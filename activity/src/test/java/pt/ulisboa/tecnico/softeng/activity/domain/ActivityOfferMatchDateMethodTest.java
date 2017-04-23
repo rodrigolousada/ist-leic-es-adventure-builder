@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
-public class ActivityOfferMatchDateMethodTest extends RollbackTestAbstractClass{
+public class ActivityOfferMatchDateMethodTest extends RollbackTestAbstractClass {
 	private final LocalDate begin = new LocalDate(2016, 12, 19);
 	private final LocalDate end = new LocalDate(2016, 12, 23);
 

@@ -22,13 +22,13 @@ public class Operation extends Operation_Base {
 
 		account.getBank().addLog(this);
 	}
-	
+
 	public void delete() {
 		setBank(null);
 		setAccount(null);
 		deleteDomainObject();
 	}
-	
+
 	private void checkArguments(Type type, Account account, int value) {
 		if (type == null || account == null || value <= 0) {
 			throw new BankException();
@@ -37,12 +37,12 @@ public class Operation extends Operation_Base {
 
 	public String revert() {
 		switch (getType()) {
-		case DEPOSIT:
-			return getAccount().withdraw(getValue());
-		case WITHDRAW:
-			return getAccount().deposit(getValue());
-		default:
-			throw new BankException();
+			case DEPOSIT :
+				return getAccount().withdraw(getValue());
+			case WITHDRAW :
+				return getAccount().deposit(getValue());
+			default :
+				throw new BankException();
 
 		}
 

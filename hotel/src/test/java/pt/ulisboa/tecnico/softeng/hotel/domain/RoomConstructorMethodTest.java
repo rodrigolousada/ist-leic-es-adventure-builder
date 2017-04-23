@@ -8,7 +8,7 @@ import org.junit.Test;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
-public class RoomConstructorMethodTest extends RollbackTestAbstractClass{
+public class RoomConstructorMethodTest extends RollbackTestAbstractClass {
 	private Hotel hotel;
 
 	@Override

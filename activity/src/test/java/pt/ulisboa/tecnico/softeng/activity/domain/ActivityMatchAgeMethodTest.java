@@ -8,7 +8,7 @@ public class ActivityMatchAgeMethodTest extends RollbackTestAbstractClass {
 	private static final int MAX_AGE = 80;
 	private static final int CAPACITY = 30;
 	private Activity activity;
-	
+
 	@Override
 	public void populate4Test() {
 		ActivityProvider provider = new ActivityProvider("XtremX", "ExtremeAdventure");

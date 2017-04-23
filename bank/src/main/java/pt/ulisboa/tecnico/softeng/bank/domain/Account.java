@@ -2,7 +2,7 @@ package pt.ulisboa.tecnico.softeng.bank.domain;
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class Account extends Account_Base{
+public class Account extends Account_Base {
 	private static int counter = 0;
 
 	public Account(Bank bank, Client client) {
@@ -16,7 +16,7 @@ public class Account extends Account_Base{
 		bank.addAccount(this);
 		client.addAccount(this);
 	}
-	
+
 	public void delete() {
 		setBank(null);
 		setClient(null);

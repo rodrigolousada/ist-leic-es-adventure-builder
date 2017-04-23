@@ -17,7 +17,7 @@ public class HotelPersistenceTest {
 	private static final String HOTEL_NAME = "Ritz";
 	private static final String ROOM_NUMBER = "010";
 	private static final Room.Type ROOM_TYPE = Room.Type.SINGLE;
-	
+
 	private Hotel hotel;
 
 	@Test
@@ -29,8 +29,8 @@ public class HotelPersistenceTest {
 	@Atomic(mode = TxMode.WRITE)
 	public void atomicProcess() {
 		this.hotel = new Hotel(HOTEL_CODE, HOTEL_NAME);
-		
-		new Room(hotel,ROOM_NUMBER, ROOM_TYPE);
+
+		new Room(hotel, ROOM_NUMBER, ROOM_TYPE);
 	}
 
 	@Atomic(mode = TxMode.READ)
@@ -39,11 +39,11 @@ public class HotelPersistenceTest {
 
 		List<Hotel> hotels = new ArrayList<>(FenixFramework.getDomainRoot().getHotelSet());
 		Hotel hotel = hotels.get(0);
-		
+
 		assertEquals(HOTEL_CODE, hotel.getCode());
 		assertEquals(HOTEL_NAME, hotel.getName());
 		assertEquals(1, hotel.getRoomSet().size());
-		
+
 		List<Room> rooms = new ArrayList<>(hotel.getRoomSet());
 		Room room = rooms.get(0);
 

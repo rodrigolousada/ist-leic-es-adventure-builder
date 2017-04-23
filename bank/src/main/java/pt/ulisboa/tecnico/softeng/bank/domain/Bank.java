@@ -4,7 +4,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.bank.dataobjects.BankOperationData;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 
-public class Bank extends Bank_Base{
+public class Bank extends Bank_Base {
 	public static final int CODE_SIZE = 4;
 
 	public Bank(String name, String code) {
@@ -17,13 +17,13 @@ public class Bank extends Bank_Base{
 	}
 
 	public void delete() {
-		for(Operation o: this.getOperationSet()){
+		for (Operation o : this.getOperationSet()) {
 			o.delete();
 		}
-		for(Account a: this.getAccountSet()){
+		for (Account a : this.getAccountSet()) {
 			a.delete();
 		}
-		for(Client c: this.getClientSet()){
+		for (Client c : this.getClientSet()) {
 			c.delete();
 		}
 		setRoot(null);
