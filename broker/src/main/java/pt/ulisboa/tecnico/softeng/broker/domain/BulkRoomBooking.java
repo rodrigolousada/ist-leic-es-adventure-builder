@@ -1,6 +1,5 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -83,5 +82,15 @@ public class BulkRoomBooking extends BulkRoomBooking_Base {
 			}
 		}
 		return null;
+	}
+
+	public void delete() {
+		for (BookingReference b : getReferenceSet()) {
+			b.delete();
+		}
+
+		setBroker(null);
+
+		deleteDomainObject();
 	}
 }
