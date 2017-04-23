@@ -1,14 +1,9 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import org.joda.time.LocalDate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
 
 public class Adventure extends Adventure_Base {
-	private static Logger logger = LoggerFactory.getLogger(Adventure.class);
-
 	public static enum State {
 		PROCESS_PAYMENT, RESERVE_ACTIVITY, BOOK_ROOM, UNDO, CONFIRMED, CANCELLED
 	}

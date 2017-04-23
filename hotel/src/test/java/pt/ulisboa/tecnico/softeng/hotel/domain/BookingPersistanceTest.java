@@ -24,7 +24,6 @@ public class BookingPersistanceTest {
 	private final LocalDate end = new LocalDate(2017, 04, 25);
 
 	private Hotel local_hotel;
-	private Room local_room;
 	private String booking_reference;
 
 	@Test
@@ -36,7 +35,7 @@ public class BookingPersistanceTest {
 	@Atomic(mode = TxMode.WRITE)
 	public void atomicProcess() {
 		this.local_hotel = new Hotel(HOTEL_CODE, HOTEL_NAME);
-		this.local_room = new Room(local_hotel, ROOM_NUMBER, ROOM_TYPE);
+		new Room(local_hotel, ROOM_NUMBER, ROOM_TYPE);
 		this.booking_reference = Hotel.reserveRoom(ROOM_TYPE, start, end);
 	}
 
