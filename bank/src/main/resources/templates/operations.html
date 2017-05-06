@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Banks</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<div class="container">
+		<h2>
+			Welcome to Bank <span th:text="${bank.name}">Name</span> Operations
+		</h2>
+		<a class="btn btn-default pull-right" th:href="@{/banks}">Banks</a>
+		<br/>
+		<h3>List of Operations</h3>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Reference</th>
+					<th>Type</th>
+					<th>IBAN</th>
+					<th>Value</th>
+					<th>Time</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="operation: ${bank.operations}">
+					<td th:text="${operation.reference}">Reference</td>
+					<td th:text="${operation.type}">Type</td>
+					<td th:text="${operation.iban}">IBAN</td>
+					<td th:text="${operation.value}">Value</td>
+					<td th:text="${operation.time}">Time</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

@@ -7,10 +7,13 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.bank.domain.Bank;
+import pt.ulisboa.tecnico.softeng.bank.domain.Client;
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.BankData;
+import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.BankData.CopyDepth;
 import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.BankOperationData;
+import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.ClientData;
 
 public class BankInterface {
 	
@@ -28,6 +31,22 @@ public class BankInterface {
 		new Bank(bankData.getName(), bankData.getCode());
 	}
 
+	@Atomic(mode = TxMode.READ)
+	public static BankData getBankDataByCode(String bankCode, CopyDepth depth) {
+		Bank bank = getBankByCode(bankCode);
+
+		if (bank != null) {
+			return new BankData(bank, depth);
+		} else {
+			return null;
+		}
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public static void createClient(String bankCode, ClientData clientData) {
+		new Client(getBankByCode(bankCode), clientData.getName());
+	}
+	
 	@Atomic(mode = TxMode.WRITE)
 	public static String processPayment(String IBAN, int amount) {
 		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
@@ -54,6 +73,16 @@ public class BankInterface {
 			return new BankOperationData(operation);
 		}
 		throw new BankException();
+	}
+	
+
+	private static Bank getBankByCode(String bankCode) {
+		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
+			if (bank.getCode().equals(bankCode)) {
+				return bank;
+			}
+		}
+		return null;
 	}
 
 	private static Operation getOperationByReference(String reference) {

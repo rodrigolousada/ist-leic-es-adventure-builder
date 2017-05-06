@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pt.ulisboa.tecnico.softeng.bank.domain.Bank;
+import pt.ulisboa.tecnico.softeng.bank.domain.Client;
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation;
 
 public class BankData {
@@ -13,7 +14,7 @@ public class BankData {
 
 	private String name;
 	private String code;
-//	private List<ClientData> clients = new ArrayList<>();
+	private List<ClientData> clients = new ArrayList<>();
 //	private List<AccountData> accounts = new ArrayList<>();
 	private List<BankOperationData> operations = new ArrayList<>();
 
@@ -25,12 +26,12 @@ public class BankData {
 		this.code = bank.getCode();
 
 		switch (depth) {
-	/*	case CLIENTS:
+		case CLIENTS:
 			for (Client client : bank.getClientSet()) {
-				this.clients.add(new ClientData(client));
+				this.clients.add(new ClientData(client, ClientData.CopyDepth.SHALLOW));
 			}
 			break;
-		case ACCOUNTS:
+	/*	case ACCOUNTS:
 			for (Account account : bank.getAccountSet()) {
 				this.accounts.add(new AccountData(account));
 			}
@@ -62,5 +63,21 @@ public class BankData {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public List<ClientData> getClients() {
+		return clients;
+	}
+
+	public void setClients(List<ClientData> clients) {
+		this.clients = clients;
+	}
+
+	public List<BankOperationData> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(List<BankOperationData> operations) {
+		this.operations = operations;
 	}
 }

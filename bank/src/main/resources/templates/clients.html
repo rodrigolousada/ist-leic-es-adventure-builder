@@ -11,33 +11,31 @@
 <body>
 	<div class="container">
 		<h2>
-			Welcome to Banks' Manager
+			Welcome to Bank <span th:text="${bank.name}">Name</span> Clients
 		</h2>
+		<a class="btn btn-default pull-right" th:href="@{/banks}">Banks</a>
 		<br/>
-		<h3>Create Bank</h3>
+		<h3>Create Client</h3>
 		<p class="text-danger" th:text="${error}">Error</p>
-		<form class="form-inline" th:action="@{/banks}" th:object="${bank}" method="post">
+		<form class="form-inline" th:action="@{/banks/{bankCode}/clients(bankCode=${bank.code})}" th:object="${client}" method="post">
 			<label>Name: </label> <input class="form-control" type="text" th:field="*{name}" /> 
-			<label>Code: </label> <input class="form-control" type="text" th:field="*{code}" /> 
 			<input class="btn btn-primary" type="submit" value="Submit" />
 		</form>
 		<br/>
-		<h3>List of Banks</h3>
+		<h3>List of Clients</h3>
 		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>Name</th>
-					<th>Code</th>
-					<th>Clients</th>
-					<th>Operations</th>
+					<th>ID</th>
+					<th>Accounts</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="bank: ${banks}">
-					<td th:text="${bank.name}">Name</td>
-					<td th:text="${bank.code}">Code</td>
-					<td><a th:href="@{/banks/{bankCode}/clients(bankCode=${bank.code})}">Link</a></td>
-					<td><a th:href="@{/banks/{bankCode}/operations(bankCode=${bank.code})}">Link</a></td>
+				<tr th:each="client: ${bank.clients}">
+					<td th:text="${client.name}">Name</td>
+					<td th:text="${client.ID}">ID</td>
+					<td><a th:href="@{/banks/{bankCode}/clients/{clientCode}/accounts(bankCode=${bank.code}, clientCode=${client.ID})}">Link</a></td>
 				</tr>
 			</tbody>
 		</table>
