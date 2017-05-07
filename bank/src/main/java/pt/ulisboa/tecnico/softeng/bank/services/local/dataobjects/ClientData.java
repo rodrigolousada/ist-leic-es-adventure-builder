@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ulisboa.tecnico.softeng.bank.domain.Account;
 import pt.ulisboa.tecnico.softeng.bank.domain.Client;
 
 public class ClientData {
@@ -12,7 +13,7 @@ public class ClientData {
 	
 	private String name;
 	private String ID;
-	//private List<AccountData> accounts = new ArrayList<>();
+	private List<AccountData> accounts = new ArrayList<>();
 
 	public ClientData() {
 	}
@@ -22,11 +23,13 @@ public class ClientData {
 		this.name = client.getName();
 		
 		switch (depth) {
-		/*case ACCOUNTS:
+		case ACCOUNTS:
 			for (Account account : client.getAccountSet()) {
 				this.accounts.add(new AccountData(account));
 			}
-			break;*/
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -44,5 +47,13 @@ public class ClientData {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public List<AccountData> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<AccountData> accounts) {
+		this.accounts = accounts;
 	}
 }

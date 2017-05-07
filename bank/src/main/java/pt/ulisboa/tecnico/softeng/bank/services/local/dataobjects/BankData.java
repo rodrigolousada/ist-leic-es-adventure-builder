@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ulisboa.tecnico.softeng.bank.domain.Account;
 import pt.ulisboa.tecnico.softeng.bank.domain.Bank;
 import pt.ulisboa.tecnico.softeng.bank.domain.Client;
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation;
@@ -15,7 +16,7 @@ public class BankData {
 	private String name;
 	private String code;
 	private List<ClientData> clients = new ArrayList<>();
-//	private List<AccountData> accounts = new ArrayList<>();
+	private List<AccountData> accounts = new ArrayList<>();
 	private List<BankOperationData> operations = new ArrayList<>();
 
 	public BankData() {
@@ -31,11 +32,11 @@ public class BankData {
 				this.clients.add(new ClientData(client, ClientData.CopyDepth.SHALLOW));
 			}
 			break;
-	/*	case ACCOUNTS:
+		case ACCOUNTS:
 			for (Account account : bank.getAccountSet()) {
 				this.accounts.add(new AccountData(account));
 			}
-			break;*/
+			break;
 		case OPERATIONS:
 			for (Operation operation : bank.getOperationSet()) {
 				this.operations.add(new BankOperationData(operation));
@@ -71,6 +72,14 @@ public class BankData {
 
 	public void setClients(List<ClientData> clients) {
 		this.clients = clients;
+	}
+	
+	public List<AccountData> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<AccountData> accounts) {
+		this.accounts = accounts;
 	}
 
 	public List<BankOperationData> getOperations() {
