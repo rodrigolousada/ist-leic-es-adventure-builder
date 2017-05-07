@@ -13,7 +13,9 @@ import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 import pt.ulisboa.tecnico.softeng.activity.domain.Booking;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityData;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityProviderData;
+import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityProviderData.CopyDepth;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityReservationData;
 
 public class ActivityInterface {
@@ -78,4 +80,28 @@ public class ActivityInterface {
 		new ActivityProvider(providerData.getCode(), providerData.getName());
 	}
 
+	@Atomic(mode = TxMode.READ)
+	public static ActivityProviderData getProviderDataByCode(String providerCode, CopyDepth depth) {
+		ActivityProvider activityProvider = getActivityProviderByCode(providerCode);
+
+		if (activityProvider != null) {
+			return new ActivityProviderData(activityProvider, depth);
+		} else
+			return null;
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public static void createActivity(String providerCode, ActivityData activityData) {
+		new Activity(getActivityProviderByCode(providerCode), activityData.getName(), activityData.getMinAge(),
+				activityData.getMaxAge(), activityData.getCapacity());
+	}
+
+	private static ActivityProvider getActivityProviderByCode(String code) {
+		for (ActivityProvider activityProvider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
+			if (activityProvider.getCode().equals(code)) {
+				return activityProvider;
+			}
+		}
+		return null;
+	}
 }
