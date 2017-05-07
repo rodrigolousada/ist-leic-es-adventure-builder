@@ -52,11 +52,11 @@ public class ActivityProviderData {
 		this.code = code;
 	}
 
-	public List<ActivityData> getAdventures() {
+	public List<ActivityData> getActivities() {
 		return this.activities;
 	}
 
-	public void setAdventures(List<ActivityData> adventures) {
+	public void setActivities(List<ActivityData> adventures) {
 		this.activities = adventures;
 	}
 

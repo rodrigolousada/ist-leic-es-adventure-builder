@@ -149,9 +149,9 @@ public class ActivityInterface {
 	}
 
 	@Atomic(mode = TxMode.WRITE)
-	public static void createActivity(String providerCode, ActivityData activityData) {
-		new Activity(getActivityProviderByCode(providerCode), activityData.getName(), activityData.getMinAge(),
-				activityData.getMaxAge(), activityData.getCapacity());
+	public static String createActivity(String providerCode, ActivityData activityData) {
+		return new Activity(getActivityProviderByCode(providerCode), activityData.getName(), activityData.getMinAge(),
+				activityData.getMaxAge(), activityData.getCapacity()).getCode();
 	}
 
 	private static ActivityProvider getActivityProviderByCode(String code) {

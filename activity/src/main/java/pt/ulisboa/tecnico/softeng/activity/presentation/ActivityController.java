@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import pt.ulisboa.tecnico.softeng.activity.domain.Activity;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.activity.services.local.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityData;
@@ -35,7 +36,7 @@ public class ActivityController {
 		} else {
 			model.addAttribute("activity", new ActivityData());
 			model.addAttribute("provider", activityProviderData);
-			return "activitys";
+			return "provider";
 		}
 	}
 
@@ -45,16 +46,17 @@ public class ActivityController {
 		logger.info("activitySubmit providerCode:{}, name:{}, minAge:{}, maxAge:{}, capacity:{}", providerCode,
 				activityData.getName(), activityData.getMinAge(), activityData.getMaxAge(), activityData.getCapacity());
 
+		String activityCode;
 		try {
-			ActivityInterface.createActivity(providerCode, activityData);
+			activityCode = ActivityInterface.createActivity(providerCode, activityData);
 		} catch (ActivityException be) {
 			model.addAttribute("error", "Error: it was not possible to create the activity");
 			model.addAttribute("activity", activityData);
 			model.addAttribute("broker", ActivityInterface.getProviderDataByCode(providerCode, CopyDepth.ACTIVITIES));
-			return "activitys";
+			return "provider";
 		}
 
-		return "redirect:/providers/" + providerCode + "/activities";
+		return "redirect:/providers/" + providerCode + "/activity/" + activityCode;
 	}
 
 }

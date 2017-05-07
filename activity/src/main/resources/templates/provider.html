@@ -17,8 +17,11 @@
 		<br/>
 		<h3>Create Activity</h3>
 		<p class="text-danger" th:text="${error}">Error</p>
-		<form class="form-inline" th:action="@{/providers/{providerCode}/activities(providerCode=${provider.code})}" th:object="${client}" method="post">
-			<label>Name: </label> <input class="form-control" type="text" th:field="*{name}" /> 
+		<form class="form-inline" th:action="@{/providers/{providerCode}/activities(providerCode=${provider.code})}" th:object="${activity}" method="post">
+		  <label>Name: </label> <input class="form-control" type="text" th:field="*{name}" />
+                  <label>Minage: </label> <input class="form-control" type="number" th:field="*{minAge}" />
+                  <label>Maxage: </label> <input class="form-control" type="number" th:field="*{maxAge}" />
+                  <label>Capacity: </label> <input class="form-control" type="number" th:field="*{capacity}" /> 
 			<input class="btn btn-primary" type="submit" value="Submit" />
 		</form>
 		<br/>
@@ -30,14 +33,17 @@
 					<th>MinAge</th>
 					<th>MaxAge</th>
 					<th>Capacity</th>
+                                        <th>Link</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="activity: ${provider.clients}">
+				<tr th:each="activity: ${provider.activities}">
 					<td th:text="${activity.name}">Name</td>
 					<td th:text="${activity.minAge}">MinAge</td>
 					<td th:text="${activity.maxAge}">MaxAge</td>
 					<td th:text="${activity.capacity}">Capacity</td>
+                                        <td><a
+						th:href="@{/provider/{providerCode}/activity/{activityCode}(providerCode=${provider.code}, activityCode=${activity.code})}">Link</a></td>
 				</tr>
 			</tbody>
 		</table>
