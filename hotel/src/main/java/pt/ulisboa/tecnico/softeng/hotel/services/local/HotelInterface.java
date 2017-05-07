@@ -21,6 +21,47 @@ import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.RoomData;
 
 public class HotelInterface {
 
+	@Atomic(mode = TxMode.READ)
+	public static HotelData getHotelDataByCode(String hotelCode, CopyDepth depth) {
+		Hotel hotel = getHotelByCode(hotelCode);
+		
+		if( hotel != null) {
+			return new HotelData(hotel, depth);
+		} else {
+			return null;
+		}
+	}
+	
+	
+	@Atomic(mode = TxMode.WRITE)
+	public static void createRoom(String hotelCode, RoomData roomData) {
+		new Room(getHotelByCode(hotelCode), roomData.getNumber(), roomData.getType());
+	}
+	
+	
+	private static Hotel getHotelByCode(String hotelCode){
+		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
+			if (hotel.getCode().equals(hotelCode)) {
+				return hotel;
+			}
+		}
+		return null;
+	}
+	
+	
+	
+	
+	@Atomic(mode = TxMode.READ)
+	public static List<HotelData> getHotels() {
+		List<HotelData> hotels = new ArrayList<>();
+		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
+			hotels.add(new HotelData(hotel, HotelData.CopyDepth.SHALLOW));
+		}
+		return hotels;
+	}
+	
+	
+	
 	@Atomic(mode = TxMode.WRITE)
 	public static String reserveRoom(Room.Type type, LocalDate arrival, LocalDate departure) {
 		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
