@@ -35,6 +35,9 @@ public class RoomData {
 			break;
 		}
 	}
+	
+	public RoomData(){}
+	
 	public String getNumber() {
 		return this.number;
 	}
@@ -43,11 +46,11 @@ public class RoomData {
 		this.number = number;
 	}
 
-	public Type getCode() {
+	public Type getType() {
 		return this.type;
 	}
 
-	public void setCode(Type type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 
