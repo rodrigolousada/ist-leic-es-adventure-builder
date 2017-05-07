@@ -22,7 +22,7 @@ import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityPr
 @RequestMapping(value = "/provider/{providerCode}/activity/{activityCode}")
 public class ActivityOfferController {
 	private static Logger logger = LoggerFactory.getLogger(ActivityOfferController.class);
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String showActivityOffers(Model model, @PathVariable String providerCode, @PathVariable String activityCode) {
