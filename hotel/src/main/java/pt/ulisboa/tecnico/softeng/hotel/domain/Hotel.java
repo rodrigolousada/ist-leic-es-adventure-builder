@@ -27,7 +27,7 @@ public class Hotel extends Hotel_Base {
 			room.delete();
 		}
 
-		deleteDomainObject(); 
+		deleteDomainObject();
 	}
 
 	private void checkArguments(String code, String name) {
