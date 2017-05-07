@@ -6,6 +6,7 @@ import java.util.List;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ulisboa.tecnico.softeng.bank.domain.Account;
 import pt.ulisboa.tecnico.softeng.bank.domain.Bank;
 import pt.ulisboa.tecnico.softeng.bank.domain.Client;
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation;
@@ -26,6 +27,17 @@ public class BankInterface {
 		return banks;
 	}
 	
+	@Atomic(mode = TxMode.READ)
+	public static List<ClientData> getClients() {
+		List<ClientData> clients = new ArrayList<>();
+		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
+			for (Client client : bank.getClientSet()){
+				clients.add(new ClientData(client, ClientData.CopyDepth.SHALLOW));
+			}
+		}
+		return clients;
+	}
+	
 	@Atomic(mode = TxMode.WRITE)
 	public static void createBank(BankData bankData) {
 		new Bank(bankData.getName(), bankData.getCode());
@@ -41,10 +53,26 @@ public class BankInterface {
 			return null;
 		}
 	}
+	
+	@Atomic(mode = TxMode.READ)
+	public static ClientData getClientDataByCode(String bankCode,String clientCode, ClientData.CopyDepth depth) {
+		Client client = getClientByCode(bankCode,clientCode);
+
+		if (client != null) {
+			return new ClientData(client, depth);
+		} else {
+			return null;
+		}
+	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void createClient(String bankCode, ClientData clientData) {
 		new Client(getBankByCode(bankCode), clientData.getName());
+	}
+	
+	@Atomic(mode = TxMode.WRITE)
+	public static void createAccount(String bankCode, String clientData) {
+		new Account(getBankByCode(bankCode), getClientByCode(bankCode,clientData));
 	}
 	
 	@Atomic(mode = TxMode.WRITE)
@@ -80,6 +108,19 @@ public class BankInterface {
 		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
 			if (bank.getCode().equals(bankCode)) {
 				return bank;
+			}
+		}
+		return null;
+	}
+	
+	private static Client getClientByCode(String bankCode, String clientCode) {
+		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
+			if (bank.getCode().equals(bankCode)) {
+				for (Client client : bank.getClientSet()){
+					if(client.getID().equals(clientCode)){
+						return client;
+					}
+				}	
 			}
 		}
 		return null;

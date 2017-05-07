@@ -28,5 +28,9 @@ public class Client extends Client_Base {
 			throw new BankException();
 		}
 	}
+	
+	public String getID(){
+		return super.getID();
+	}
 
 }
