@@ -19,7 +19,6 @@
 		<form class="form-inline" th:action="@{/provider/{providerCode}/activity/{activityCode}(providerCode=${providerCode}, activityCode=${activityCode})}" th:object="${offer}" method="post">
 		  <label>Begin: </label> <input class="form-control" type="date" th:field="*{begin}" />
                   <label>End: </label> <input class="form-control" type="date" th:field="*{end}" />
-                  <label>Capacity: </label> <input class="form-control" type="number" th:field="*{capacity}" /> 
 		  <input class="btn btn-primary" type="submit" value="Submit" />
 		</form>
 		<br/>
@@ -37,7 +36,7 @@
 				<tr th:each="offer: ${offers}">
 					<td th:text="${offer.begin}">Begin</td>
 					<td th:text="${offer.end}">End</td>
-					<td>Capacity</td>
+					<td th:text="${offer.capacity}">Capacity</td>
                                         <td>
                                           <table class="table table-striped">
                                             <thead>

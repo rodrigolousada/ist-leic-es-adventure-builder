@@ -17,7 +17,7 @@ import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityPr
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityProviderData.CopyDepth;
 
 @Controller
-@RequestMapping(value = "/providers/{providerCode}/activities")
+@RequestMapping(value = "/provider/{providerCode}/activities")
 public class ActivityController {
 	private static Logger logger = LoggerFactory.getLogger(ActivityController.class);
 
@@ -56,7 +56,7 @@ public class ActivityController {
 			return "provider";
 		}
 
-		return "redirect:/providers/" + providerCode + "/activity/" + activityCode;
+		return "redirect:/provider/" + providerCode + "/activity/" + activityCode;
 	}
 
 }

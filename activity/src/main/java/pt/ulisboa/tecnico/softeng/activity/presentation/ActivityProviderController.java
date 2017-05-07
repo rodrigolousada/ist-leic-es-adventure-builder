@@ -12,8 +12,6 @@ import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.activity.services.local.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityProviderData;
 
-
-
 @Controller
 @RequestMapping(value = "/providers")
 public class ActivityProviderController {
@@ -40,6 +38,6 @@ public class ActivityProviderController {
 			return "providers";
 		}
 
-		return "redirect:/providers";
+		return "redirect:/provider/" + providerData.getCode() + "/activities";
 	}
 }

@@ -17,7 +17,7 @@
 		<br/>
 		<h3>Create Activity</h3>
 		<p class="text-danger" th:text="${error}">Error</p>
-		<form class="form-inline" th:action="@{/providers/{providerCode}/activities(providerCode=${provider.code})}" th:object="${activity}" method="post">
+		<form class="form-inline" th:action="@{/provider/{providerCode}/activities(providerCode=${provider.code})}" th:object="${activity}" method="post">
 		  <label>Name: </label> <input class="form-control" type="text" th:field="*{name}" />
                   <label>Minage: </label> <input class="form-control" type="number" th:field="*{minAge}" />
                   <label>Maxage: </label> <input class="form-control" type="number" th:field="*{maxAge}" />
