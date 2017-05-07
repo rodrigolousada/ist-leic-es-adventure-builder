@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Clients</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<div class="container">
+		<h2>
+			Welcome to Provider <span th:text="${provider.name}">Name</span> Activities
+		</h2>
+		<a class="btn btn-default pull-right" th:href="@{/providers}">Providers</a>
+		<br/>
+		<h3>Create Activity</h3>
+		<p class="text-danger" th:text="${error}">Error</p>
+		<form class="form-inline" th:action="@{/providers/{providerCode}/activities(providerCode=${provider.code})}" th:object="${client}" method="post">
+			<label>Name: </label> <input class="form-control" type="text" th:field="*{name}" /> 
+			<input class="btn btn-primary" type="submit" value="Submit" />
+		</form>
+		<br/>
+		<h3>List of Activities</h3>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>MinAge</th>
+					<th>MaxAge</th>
+					<th>Capacity</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="activity: ${provider.clients}">
+					<td th:text="${activity.name}">Name</td>
+					<td th:text="${activity.minAge}">MinAge</td>
+					<td th:text="${activity.maxAge}">MaxAge</td>
+					<td th:text="${activity.capacity}">Capacity</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

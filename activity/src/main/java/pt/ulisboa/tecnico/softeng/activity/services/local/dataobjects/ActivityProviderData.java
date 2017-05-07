@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ulisboa.tecnico.softeng.activity.domain.Activity;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 
 public class ActivityProviderData {
@@ -12,7 +13,7 @@ public class ActivityProviderData {
 
 	private String name;
 	private String code;
-	//private List<ActivityData> activities = new ArrayList<>();
+	private List<ActivityData> activities = new ArrayList<>();
 
 	public ActivityProviderData() {
 	}
@@ -22,12 +23,11 @@ public class ActivityProviderData {
 		this.code = provider.getCode();
 
 		switch (depth) {
-		//Uncomment after implementing ActivityData
-		/*case ACTIVITIES:
-			for (Activity activities : provider.getActivitySet()) {
+		case ACTIVITIES:
+			for (Activity activity : provider.getActivitySet()) {
 				this.activities.add(new ActivityData(activity));
 			}
-			break;*/
+			break;
 		case SHALLOW:
 			break;
 		default:
@@ -52,13 +52,12 @@ public class ActivityProviderData {
 		this.code = code;
 	}
 
-	//Uncomment after implementing ActivityData
-	/*public List<ActivityData> getAdventures() {
+	public List<ActivityData> getAdventures() {
 		return this.activities;
 	}
 
 	public void setAdventures(List<ActivityData> adventures) {
 		this.activities = adventures;
-	}*/
+	}
 
 }

@@ -16,6 +16,7 @@ import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityData;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityOfferData;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityProviderData;
+import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityProviderData.CopyDepth;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityReservationData;
 
 public class ActivityInterface {
@@ -74,7 +75,7 @@ public class ActivityInterface {
 		}
 		return providers;
 	}
-	
+
 	@Atomic(mode = TxMode.READ)
 	public static List<ActivityOfferData> getActivityOffers(String providerCode, String activityCode) {
 		Activity activity = getActivityByCode(providerCode, activityCode);
@@ -90,14 +91,14 @@ public class ActivityInterface {
 		new ActivityProvider(providerData.getCode(), providerData.getName());
 	}
 
-	private static ActivityProvider getActivityProviderByCode(String code) {
-		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
-			if (provider.getCode().equals(code)) {
-				return provider;
-			}
-		}
-		return null;
-	}
+//	private static ActivityProvider getActivityProviderByCode(String code) {
+//		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
+//			if (provider.getCode().equals(code)) {
+//				return provider;
+//			}
+//		}
+//		return null;
+//	}
 
 	private static Activity getActivityByCode(String providerCode, String activityCode) {
 		ActivityProvider provider = getActivityProviderByCode(providerCode);
@@ -117,7 +118,7 @@ public class ActivityInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Atomic(mode = TxMode.WRITE)
 	public static void createActivityOffer(String providerCode, String activityCode, ActivityOfferData offerData) {
 		Activity activity = getActivityByCode(providerCode, activityCode);
@@ -127,14 +128,38 @@ public class ActivityInterface {
 		new ActivityOffer(activity, offerData.getBegin(), offerData.getEnd());
 	}
 
-	@Atomic(mode = TxMode.WRITE)
-	public static void createActivity(String providerCode, ActivityData activity) {
-		// TODO Auto-generated method stub
-		ActivityProvider provider = getActivityProviderByCode(providerCode);
-		if(provider == null)
-			throw new ActivityException("No such provider: " + providerCode);
-		
-		new Activity(provider, activity.getName(), activity.getMinAge(), activity.getMaxAge(), activity.getCapacity());
+//	@Atomic(mode = TxMode.WRITE)
+//	public static void createActivity(String providerCode, ActivityData activity) {
+//		// TODO Auto-generated method stub
+//		ActivityProvider provider = getActivityProviderByCode(providerCode);
+//		if(provider == null)
+//			throw new ActivityException("No such provider: " + providerCode);
+//
+//		new Activity(provider, activity.getName(), activity.getMinAge(), activity.getMaxAge(), activity.getCapacity());
+//	}
+
+	@Atomic(mode = TxMode.READ)
+	public static ActivityProviderData getProviderDataByCode(String providerCode, CopyDepth depth) {
+		ActivityProvider activityProvider = getActivityProviderByCode(providerCode);
+
+		if (activityProvider != null) {
+			return new ActivityProviderData(activityProvider, depth);
+		} else
+			return null;
 	}
-	
+
+	@Atomic(mode = TxMode.WRITE)
+	public static void createActivity(String providerCode, ActivityData activityData) {
+		new Activity(getActivityProviderByCode(providerCode), activityData.getName(), activityData.getMinAge(),
+				activityData.getMaxAge(), activityData.getCapacity());
+	}
+
+	private static ActivityProvider getActivityProviderByCode(String code) {
+		for (ActivityProvider activityProvider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
+			if (activityProvider.getCode().equals(code)) {
+				return activityProvider;
+			}
+		}
+		return null;
+	}
 }
