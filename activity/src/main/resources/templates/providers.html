@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Providers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<div class="container">
+		<h2>
+			Welcome to Providers' Manager
+		</h2>
+		<br/>
+		<h3>Create Provider</h3>
+		<p class="text-danger" th:text="${error}">Error</p>
+		<form class="form-inline" th:action="@{/providers}" th:object="${provider}" method="post">
+			<label>Name: </label> <input class="form-control" type="text" th:field="*{name}" /> 
+			<label>Code: </label> <input class="form-control" type="text" th:field="*{code}" /> 
+			<input class="btn btn-primary" type="submit" value="Submit" />
+		</form>
+		<br/>
+		<h3>List of Providers</h3>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Code</th>
+					<th>Activities</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="provider: ${providers}">
+					<td th:text="${provider.name}">Name</td>
+					<td th:text="${provider.code}">Code</td>
+					<td><a
+						th:href="@{/providers/{code}/activities(code=${provider.code})}">Link</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
