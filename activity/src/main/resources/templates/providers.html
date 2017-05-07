@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Clients</title>
+<title>Providers</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet"
 	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
@@ -11,31 +11,32 @@
 <body>
 	<div class="container">
 		<h2>
-			Welcome to Bank <span th:text="${bank.name}">Name</span> Clients
+			Welcome to Providers' Manager
 		</h2>
-		<a class="btn btn-default pull-right" th:href="@{/banks}">Banks</a>
 		<br/>
-		<h3>Create Client</h3>
+		<h3>Create Provider</h3>
 		<p class="text-danger" th:text="${error}">Error</p>
-		<form class="form-inline" th:action="@{/banks/{bankCode}/clients(bankCode=${bank.code})}" th:object="${client}" method="post">
+		<form class="form-inline" th:action="@{/providers}" th:object="${provider}" method="post">
 			<label>Name: </label> <input class="form-control" type="text" th:field="*{name}" /> 
+			<label>Code: </label> <input class="form-control" type="text" th:field="*{code}" /> 
 			<input class="btn btn-primary" type="submit" value="Submit" />
 		</form>
 		<br/>
-		<h3>List of Clients</h3>
+		<h3>List of Providers</h3>
 		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>Name</th>
-					<th>ID</th>
-					<th>Accounts</th>
+					<th>Code</th>
+					<th>Activities</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="client: ${bank.clients}">
-					<td th:text="${client.name}">Name</td>
-					<td th:text="${client.ID}">ID</td>
-					<td><a th:href="@{/banks/{bankCode}/clients/{clientCode}/accounts(bankCode=${bank.code}, clientCode=${client.ID})}">Link</a></td>
+				<tr th:each="provider: ${providers}">
+					<td th:text="${provider.name}">Name</td>
+					<td th:text="${provider.code}">Code</td>
+					<td><a
+						th:href="@{/providers/{code}/activities(code=${provider.code})}">Link</a></td>
 				</tr>
 			</tbody>
 		</table>

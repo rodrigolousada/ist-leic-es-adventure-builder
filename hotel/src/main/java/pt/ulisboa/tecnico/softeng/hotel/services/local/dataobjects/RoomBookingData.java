@@ -4,8 +4,13 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.hotel.domain.Booking;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room;
+import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.HotelData.CopyDepth;
 
 public class RoomBookingData {
+	public static enum CopyDepth {
+		ROOMBOOKINGDATA,ROOMS,SHALLOW,BOOKING
+	};
+
 	private String reference;
 	private String cancellation;
 	private String hotelName;
@@ -29,6 +34,12 @@ public class RoomBookingData {
 		this.arrival = booking.getArrival();
 		this.departure = booking.getDeparture();
 		this.cancellationDate = booking.getCancellationDate();
+	}
+	public RoomBookingData(Room room, CopyDepth depth) {
+		this.hotelName = room.getHotel().getName();
+		this.hotelCode = room.getHotel().getCode();
+		this.roomNumber = room.getNumber();
+		this.roomType = room.getType().name();
 	}
 
 	public String getReference() {

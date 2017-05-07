@@ -11,31 +11,33 @@
 <body>
 	<div class="container">
 		<h2>
-			Welcome to Bank <span th:text="${bank.name}">Name</span> Clients
+			Welcome to Provider <span th:text="${provider.name}">Name</span> Activities
 		</h2>
-		<a class="btn btn-default pull-right" th:href="@{/banks}">Banks</a>
+		<a class="btn btn-default pull-right" th:href="@{/providers}">Providers</a>
 		<br/>
-		<h3>Create Client</h3>
+		<h3>Create Activity</h3>
 		<p class="text-danger" th:text="${error}">Error</p>
-		<form class="form-inline" th:action="@{/banks/{bankCode}/clients(bankCode=${bank.code})}" th:object="${client}" method="post">
+		<form class="form-inline" th:action="@{/providers/{providerCode}/activities(providerCode=${provider.code})}" th:object="${client}" method="post">
 			<label>Name: </label> <input class="form-control" type="text" th:field="*{name}" /> 
 			<input class="btn btn-primary" type="submit" value="Submit" />
 		</form>
 		<br/>
-		<h3>List of Clients</h3>
+		<h3>List of Activities</h3>
 		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>Name</th>
-					<th>ID</th>
-					<th>Accounts</th>
+					<th>MinAge</th>
+					<th>MaxAge</th>
+					<th>Capacity</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="client: ${bank.clients}">
-					<td th:text="${client.name}">Name</td>
-					<td th:text="${client.ID}">ID</td>
-					<td><a th:href="@{/banks/{bankCode}/clients/{clientCode}/accounts(bankCode=${bank.code}, clientCode=${client.ID})}">Link</a></td>
+				<tr th:each="activity: ${provider.clients}">
+					<td th:text="${activity.name}">Name</td>
+					<td th:text="${activity.minAge}">MinAge</td>
+					<td th:text="${activity.maxAge}">MaxAge</td>
+					<td th:text="${activity.capacity}">Capacity</td>
 				</tr>
 			</tbody>
 		</table>

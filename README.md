@@ -5,7 +5,7 @@ To run tests execute: mvn clean install
 |   Number   |          Name           |            Email        |   Name GitHUb  | Module(s) |
 | ---------- | ----------------------- | ----------------------- | ---------------| --------- |
 |  62511  | João Ricardo Matos   | joao.r.matos@ist.utl.pt        | joaormatos          | Activity  |
-|  64710  | Afonso Águas         | afonsoaguas@gmail.com          | Jackpothead         |           |        
+|  64710  | Afonso Águas         | afonsoaguas@gmail.com          | Jackpothead         | Activity  |        
 |  78076  | André Fernandes      | andre.diegues.f@gmail.com      | Dieguesist          | Hotel     |
 |  80934  | João Arbués Moreira  | joao123moreira@gmail.com       | JotaMoreira         | Activity  |
 |  81026  | Alenjandro Rachadell | alenjandro.rachadell@gmail.com | AlenjandroRachadell |           |
