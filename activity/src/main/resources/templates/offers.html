@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Activity Offers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<div class="container">
+		<h2>
+			Welcome to the Activity Offers Manager
+		</h2>
+		<br/>
+		<h3>Create Activity Offer</h3>
+		<p class="text-danger" th:text="${error}">Error</p>
+		<form class="form-inline" th:action="@{/providers/{providerCode}/activity/{activityCode}/offers(providerCode=${providerCode}, activityCode=${activityCode})" th:object="${offer}" method="post">
+		  <label>Begin: </label> <input class="form-control" type="date" th:field="*{begin}" />
+                  <label>End: </label> <input class="form-control" type="date" th:field="*{end}" />
+                  <label>Capacity: </label> <input class="form-control" type="number" th:field="*{capacity}" /> 
+		  <input class="btn btn-primary" type="submit" value="Submit" />
+		</form>
+		<br/>
+		<h3>List of Activity Offers</h3>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Begin</th>
+					<th>End</th>
+					<th>Capacity</th>
+                                        <th>Bookings</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="offer: ${offers}">
+					<td th:text="${offer.name}">Name</td>
+					<td th:text="${offer.code}">Code</td>
+					<td>Capacity</td>
+                                        <td>
+                                          <table class="table table-striped">
+                                            <thead>
+                                              <tr>
+                                                <th>Reference</th>
+                                                <th>Cancellation Reference</th>
+                                                <th>Cancellation Date</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr th:each="booking: ${offer.bookings}">
+                                                <td th:text="${booking.reference}">Reference</td>
+                                                <td th:text="${booking.cancelled}">Cancellation Reference</td>
+                                                <td th:text="${booking.cancellation}">Cancellation Reference</td>
+                                                <td>Cancellation Date</td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

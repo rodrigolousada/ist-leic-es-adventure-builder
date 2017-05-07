@@ -13,6 +13,8 @@ import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
 import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
 import pt.ulisboa.tecnico.softeng.activity.domain.Booking;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
+import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityData;
+import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityOfferData;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityProviderData;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityReservationData;
 
@@ -72,10 +74,67 @@ public class ActivityInterface {
 		}
 		return providers;
 	}
+	
+	@Atomic(mode = TxMode.READ)
+	public static List<ActivityOfferData> getActivityOffers(String providerCode, String activityCode) {
+		Activity activity = getActivityByCode(providerCode, activityCode);
+		List<ActivityOfferData> offers = new ArrayList<>();
+		for (ActivityOffer offer : activity.getActivityOfferSet()) {
+			offers.add(new ActivityOfferData(offer));
+		}
+		return offers;
+	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public static void createActivityProvider(ActivityProviderData providerData) {
 		new ActivityProvider(providerData.getCode(), providerData.getName());
 	}
 
+	private static ActivityProvider getActivityProviderByCode(String code) {
+		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
+			if (provider.getCode().equals(code)) {
+				return provider;
+			}
+		}
+		return null;
+	}
+
+	private static Activity getActivityByCode(String providerCode, String activityCode) {
+		ActivityProvider provider = getActivityProviderByCode(providerCode);
+
+		if (provider == null)
+			return null;
+
+		for (Activity activity : provider.getActivitySet()) {
+			if (activity.getCode().equals(activityCode)) {
+				return activity;
+			}
+		}
+		return null;
+	}
+
+	public static List<ActivityData> getActivities(String providerCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Atomic(mode = TxMode.WRITE)
+	public static void createActivityOffer(String providerCode, String activityCode, ActivityOfferData offerData) {
+		Activity activity = getActivityByCode(providerCode, activityCode);
+		if(activity == null){
+			throw new ActivityException("No such activity.");
+		}
+		new ActivityOffer(activity, offerData.getBegin(), offerData.getEnd());
+	}
+
+	@Atomic(mode = TxMode.WRITE)
+	public static void createActivity(String providerCode, ActivityData activity) {
+		// TODO Auto-generated method stub
+		ActivityProvider provider = getActivityProviderByCode(providerCode);
+		if(provider == null)
+			throw new ActivityException("No such provider: " + providerCode);
+		
+		new Activity(provider, activity.getName(), activity.getMinAge(), activity.getMaxAge(), activity.getCapacity());
+	}
+	
 }
