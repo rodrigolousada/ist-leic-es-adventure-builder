@@ -16,7 +16,7 @@
 		<br/>
 		<h3>Create Activity Offer</h3>
 		<p class="text-danger" th:text="${error}">Error</p>
-		<form class="form-inline" th:action="@{/providers/{providerCode}/activity/{activityCode}/offers(providerCode=${providerCode}, activityCode=${activityCode})" th:object="${offer}" method="post">
+		<form class="form-inline" th:action="@{/provider/{providerCode}/activity/{activityCode}(providerCode=${providerCode}, activityCode=${activityCode})}" th:object="${offer}" method="post">
 		  <label>Begin: </label> <input class="form-control" type="date" th:field="*{begin}" />
                   <label>End: </label> <input class="form-control" type="date" th:field="*{end}" />
                   <label>Capacity: </label> <input class="form-control" type="number" th:field="*{capacity}" /> 
@@ -35,8 +35,8 @@
 			</thead>
 			<tbody>
 				<tr th:each="offer: ${offers}">
-					<td th:text="${offer.name}">Name</td>
-					<td th:text="${offer.code}">Code</td>
+					<td th:text="${offer.begin}">Begin</td>
+					<td th:text="${offer.end}">End</td>
 					<td>Capacity</td>
                                         <td>
                                           <table class="table table-striped">

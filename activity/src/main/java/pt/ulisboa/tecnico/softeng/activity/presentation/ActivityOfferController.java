@@ -83,7 +83,7 @@ public class ActivityOfferController {
 			return "adventures";
 		}
 
-		return "offers";
+		return "redirect:/provider/" + providerCode + "/activity/" + activityCode;
 	}
 
 }

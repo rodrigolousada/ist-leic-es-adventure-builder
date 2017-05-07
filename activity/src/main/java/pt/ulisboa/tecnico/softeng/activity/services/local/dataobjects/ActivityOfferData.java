@@ -57,4 +57,12 @@ public class ActivityOfferData {
 		this.capacity = capacity;
 	}
 
+	public List<BookingData> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(List<BookingData> bookings) {
+		this.bookings = bookings;
+	}
+
 }
