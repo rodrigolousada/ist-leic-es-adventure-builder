@@ -30,7 +30,7 @@ public class HotelPersistenceTest {
 	public void atomicProcess() {
 		this.hotel = new Hotel(HOTEL_CODE, HOTEL_NAME);
 
-		new Room(hotel, ROOM_NUMBER, ROOM_TYPE);
+		new Room(this.hotel, ROOM_NUMBER, ROOM_TYPE);
 	}
 
 	@Atomic(mode = TxMode.READ)

@@ -10,8 +10,8 @@ import org.junit.After;
 import org.junit.Test;
 
 import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.fenixframework.FenixFramework;
 
 public class ActivityPersistanceTest {
 	private static final String PROVIDER_NAME = "ExtremeAdventure";
@@ -33,8 +33,7 @@ public class ActivityPersistanceTest {
 	public void atomicProcess() {
 		this.local_provider = new ActivityProvider(PROVIDER_CODE, PROVIDER_NAME);
 
-		new Activity(local_provider, ACTIVITY_NAME, MIN_AGE, MAX_AGE, CAPACITY);
-
+		new Activity(this.local_provider, ACTIVITY_NAME, MIN_AGE, MAX_AGE, CAPACITY);
 	}
 
 	@Atomic(mode = TxMode.READ)

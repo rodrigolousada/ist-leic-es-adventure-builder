@@ -2,10 +2,11 @@ package pt.ulisboa.tecnico.softeng.bank.domain;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.After;
-import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.After;
+import org.junit.Test;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -37,6 +38,8 @@ public class BankPersistenceTest {
 		assertEquals(0, bank.getClientSet().size());
 		assertEquals(0, bank.getAccountSet().size());
 		assertEquals(0, bank.getOperationSet().size());
+
+		// ERROR: CLIENT, ACCOUNT, OPERATION PERSISTENCE IS NOT TESTED
 	}
 
 	@After

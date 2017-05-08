@@ -20,6 +20,7 @@ public class Account extends Account_Base {
 	public void delete() {
 		setBank(null);
 		setClient(null);
+		// ERROR: ACCOUNT SHOULD DELETE ITS OPERATIONS
 		deleteDomainObject();
 	}
 
