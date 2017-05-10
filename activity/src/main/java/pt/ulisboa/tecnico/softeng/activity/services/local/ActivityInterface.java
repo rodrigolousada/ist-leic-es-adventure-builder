@@ -91,20 +91,22 @@ public class ActivityInterface {
 		new ActivityProvider(providerData.getCode(), providerData.getName());
 	}
 
-//	private static ActivityProvider getActivityProviderByCode(String code) {
-//		for (ActivityProvider provider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
-//			if (provider.getCode().equals(code)) {
-//				return provider;
-//			}
-//		}
-//		return null;
-//	}
+	// private static ActivityProvider getActivityProviderByCode(String code) {
+	// for (ActivityProvider provider :
+	// FenixFramework.getDomainRoot().getActivityProviderSet()) {
+	// if (provider.getCode().equals(code)) {
+	// return provider;
+	// }
+	// }
+	// return null;
+	// }
 
 	private static Activity getActivityByCode(String providerCode, String activityCode) {
 		ActivityProvider provider = getActivityProviderByCode(providerCode);
 
-		if (provider == null)
+		if (provider == null) {
 			return null;
+		}
 
 		for (Activity activity : provider.getActivitySet()) {
 			if (activity.getCode().equals(activityCode)) {
@@ -122,21 +124,23 @@ public class ActivityInterface {
 	@Atomic(mode = TxMode.WRITE)
 	public static void createActivityOffer(String providerCode, String activityCode, ActivityOfferData offerData) {
 		Activity activity = getActivityByCode(providerCode, activityCode);
-		if(activity == null){
+		if (activity == null) {
 			throw new ActivityException("No such activity.");
 		}
 		new ActivityOffer(activity, offerData.getBegin(), offerData.getEnd());
 	}
 
-//	@Atomic(mode = TxMode.WRITE)
-//	public static void createActivity(String providerCode, ActivityData activity) {
-//		// TODO Auto-generated method stub
-//		ActivityProvider provider = getActivityProviderByCode(providerCode);
-//		if(provider == null)
-//			throw new ActivityException("No such provider: " + providerCode);
-//
-//		new Activity(provider, activity.getName(), activity.getMinAge(), activity.getMaxAge(), activity.getCapacity());
-//	}
+	// @Atomic(mode = TxMode.WRITE)
+	// public static void createActivity(String providerCode, ActivityData
+	// activity) {
+	// // TODO Auto-generated method stub
+	// ActivityProvider provider = getActivityProviderByCode(providerCode);
+	// if(provider == null)
+	// throw new ActivityException("No such provider: " + providerCode);
+	//
+	// new Activity(provider, activity.getName(), activity.getMinAge(),
+	// activity.getMaxAge(), activity.getCapacity());
+	// }
 
 	@Atomic(mode = TxMode.READ)
 	public static ActivityProviderData getProviderDataByCode(String providerCode, CopyDepth depth) {
@@ -144,13 +148,15 @@ public class ActivityInterface {
 
 		if (activityProvider != null) {
 			return new ActivityProviderData(activityProvider, depth);
-		} else
+		} else {
 			return null;
+		}
 	}
 
 	@Atomic(mode = TxMode.WRITE)
 	public static String createActivity(String providerCode, ActivityData activityData) {
 		return new Activity(getActivityProviderByCode(providerCode), activityData.getName(), activityData.getMinAge(),
+				// ERROR: CANNOT CONVERT NULL TO INT
 				activityData.getMaxAge(), activityData.getCapacity()).getCode();
 	}
 

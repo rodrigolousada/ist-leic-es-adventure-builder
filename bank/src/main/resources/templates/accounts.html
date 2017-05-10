@@ -18,6 +18,7 @@
 		<h3>Create Account</h3>
 		<p class="text-danger" th:text="${error}">Error</p>
 		<form class="form-inline" th:action="@{/banks/{bankCode}/clients(bankCode=${bankCode})}" th:object="${account}" method="post">
+		<!-- IBAN SHOULD NOT GIVEN BY THE END USER -->
 			<label>Iban: </label> <input class="form-control" type="text" th:field="*{iban}" /> 
 			<input class="btn btn-primary" type="submit" value="Submit" /> 
 		</form>

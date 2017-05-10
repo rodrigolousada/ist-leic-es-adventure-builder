@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.bank.services.local.BankInterface;
 import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.AccountData;
-import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.BankData;
-import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.BankData.CopyDepth;
 import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.ClientData;
 
 @Controller
@@ -35,25 +33,28 @@ public class AccountController {
 		} else {
 			model.addAttribute("account", new AccountData());
 			model.addAttribute("client", clientData);
-			model.addAttribute("bankCode",bankCode);
+			model.addAttribute("bankCode", bankCode);
 			return "accounts";
 		}
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
-	public String submitAccounts(Model model, @PathVariable String bankCode, @ModelAttribute ClientData clientData,@ModelAttribute AccountData accountData, @PathVariable String clientCode) {
-		logger.info("accountSubmit clientCode:{}, iban:{}, balance:{}", clientCode, accountData.getIban(), accountData.getBalance());
+	public String submitAccounts(Model model, @PathVariable String bankCode, @ModelAttribute ClientData clientData,
+			@ModelAttribute AccountData accountData, @PathVariable String clientCode) {
+		logger.info("accountSubmit clientCode:{}, iban:{}, balance:{}", clientCode, accountData.getIban(),
+				accountData.getBalance());
 
 		try {
+			// ERRROR: CREATE ACCOUNT
 			BankInterface.createClient(bankCode, clientData);
 		} catch (BankException be) {
 			model.addAttribute("error", "Error: it was not possible to create the client");
 			model.addAttribute("account", accountData);
-			model.addAttribute("client", BankInterface.getClientDataByCode(bankCode, clientCode, ClientData.CopyDepth.ACCOUNTS));
+			model.addAttribute("client",
+					BankInterface.getClientDataByCode(bankCode, clientCode, ClientData.CopyDepth.ACCOUNTS));
 			return "accounts";
 		}
 
 		return "redirect:/banks/" + bankCode + "/clients/" + clientCode + "/accounts";
 	}
 }
-
