@@ -13,13 +13,13 @@ To run jmeter (nogui) execute in project's top directory: mvn -Pjmeter verify. R
 
 |   Number   |          Name           |            Email        |   Name GitHUb  | Module(s) |
 | ---------- | ----------------------- | ----------------------- | ---------------| --------- |
-|            |                         |                         |                |           |
-|            |                         |                         |                |           |
-|            |                         |                         |                |           |
-|            |                         |                         |                |           |
-|            |                         |                         |                |           |
-|            |                         |                         |                |           |
-|            |                         |                         |                |           |
-|            |                         |                         |                |           |
-|            |                         |                         |                |           |
+|  62511  | João Ricardo Matos   | joao.r.matos@ist.utl.pt        | joaormatos          |           |
+|  64710  | Afonso Águas         | afonsoaguas@gmail.com          | Jackpothead         | 100Writes |        
+|  78076  | André Fernandes      | andre.diegues.f@gmail.com      | Dieguesist          | 30Writes  |
+|  80934  | João Arbués Moreira  | joao123moreira@gmail.com       | JotaMoreira         | 100Reads  |
+|  81026  | Alenjandro Rachadell | alenjandro.rachadell@gmail.com | AlenjandroRachadell | --------  |
+|  81115  | Rodrigo Lousada      | rodrigo.m.lousada@gmail.com    | rodrigolousada      | 30Writes  |
+|  81538  | João Pedrosa         | joaopedrosa15@gmail.com        | joaopedrosa         | 100Reads  |
+|  82304  | André Mendonça       | andremendonca94@gmail.com      | mendonca94          | 100Writes |
+| ---------- | ----------------------- | ----------------------- | ---------------| --------- |
  
