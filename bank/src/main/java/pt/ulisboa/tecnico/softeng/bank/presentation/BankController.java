@@ -40,5 +40,14 @@ public class BankController {
 
 		return "redirect:/banks";
 	}
+	
+	@RequestMapping(method = RequestMethod.DELETE)
+	 public String deleteBanks(Model model) {
+		logger.info("deleteBanks");
+	 
+	 	BankInterface.deleteBanks();
+	 
+	 	return "redirect:/banks";
+	 }
 
 }

@@ -177,5 +177,12 @@ public class BankInterface {
 				.map(b -> b.getAccount(iban)).findFirst().orElse(null);
 		return account;
 	}
+	
+	@Atomic(mode = TxMode.WRITE)
+	public static void deleteBanks() {
+		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
+			bank.delete();
+		}
+	}
 
 }
