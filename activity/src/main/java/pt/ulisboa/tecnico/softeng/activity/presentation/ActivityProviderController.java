@@ -40,5 +40,14 @@ public class ActivityProviderController {
 
 		return "redirect:/providers";
 	}
+	
+	@RequestMapping(method = RequestMethod.DELETE)
+	 public String deleteActivityProviders(Model model) {
+	 	logger.info("deleteActivityProviders");
+	 
+	 	ActivityInterface.deleteActivityProviders();
+	 
+	 	return "redirect:/providers";
+	 }
 
 }
