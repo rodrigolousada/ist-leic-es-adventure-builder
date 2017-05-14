@@ -167,5 +167,12 @@ public class HotelInterface {
 		}
 		return null;
 	}
+	
+	@Atomic(mode = TxMode.WRITE)
+	public static void deleteHotels() {
+		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
+			hotel.delete();
+		}
+	}
 
 }
