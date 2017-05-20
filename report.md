@@ -1,3 +1,8 @@
+# Group 24 Report
+
+
+### 30 Writes
+
 |Label|# Samples|Average|Median|90% Line|95% Line|99% Line|Min|Max|Error %|Throughput|Received KB/sec|Sent KB/sec|
 | ----- | ------ | ----- | ----- | ----- | ----- | ----- | ---- | --- | ---- | ----- | ------ | ---- |
 |Create Broker|1|26|26|26|26|26|26|26|"0,000%"|"38,46154"|"61,60"|"13,22"|
