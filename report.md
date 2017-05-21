@@ -5,6 +5,15 @@ A politica optimista da FénixFramework é responsável por atrasar o reconhecim
 
 ### 100 Reads
 
+| # | Pedidos | Threads | Throughput | Latência |
+|---| ------- | ------- | ---------- | -------- |
+| 1 |    1    |   200   |    827.0   |  319.979 |
+| 2 |    2    |   100   |    723.8   |  340.533 |
+| 3 |    4    |   50    |    978.6   |  267.980 |
+| 4 |    50   |    4    |   1031.9   |  265.002 |
+| 5 |   100   |    2    |   1090.0   |  250.666 |
+| 6 |   200   |    1    |    797.4   |  276.043 |
+
 ### 30 Writes
 
 Devido às limitações impostas pelas máquinas à disposição, este teste foi efectuado apenas simulando no máximo 200 utilizadoes (em vez de 2000). Foi então feita a recolha dos seguintes dados com base na variação proporcional entre pedidos e threads.
