@@ -14,6 +14,8 @@ A politica optimista da FénixFramework é responsável por atrasar o reconhecim
 | 5 |   100   |    2    |   1090.0   |  250.666 |
 | 6 |   200   |    1    |    797.4   |  276.043 |
 
+Nota-se que a melhor configuração será a que tem mais pedidos e menos threas, exatamente 100 pedidos e 2 threads, pois apresenta uma média de latêcia menor.
+
 ### 30 Writes
 
 Devido às limitações impostas pelas máquinas à disposição, este teste foi efectuado apenas simulando no máximo 200 utilizadoes (em vez de 2000). Foi então feita a recolha dos seguintes dados com base na variação proporcional entre pedidos e threads.
