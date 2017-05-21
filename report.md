@@ -18,6 +18,6 @@ Devido às limitações impostas pelas máquinas à disposição, este teste foi
 | 5 |   100   |    2    |    95.1    |  13.271  |
 | 6 |   200   |    1    |   70.0     |  14.516  |
 
-Podemos perceber então que a melhor configuração para evitar situações de conflito será sempre o caso onde apenas temos um utilizador (thread) a correr que pretende efectuar mais pedidos. A melhor configuração para a simulação de número de utilizadores em simultâneo variará com a capacidade do computador e o número de Adventures, Offers, Rooms e Acconts criadas para respectivo process/read.
+Podemos perceber então que a melhor configuração para evitar situações de conflito será sempre o caso onde apenas temos um utilizador (thread) a correr que pretende efectuar mais pedidos. A melhor configuração para a simulação de número de utilizadores em simultâneo variará com a capacidade do computador e o número de Adventures, Offers, Rooms e Accounts criadas para respectivo process/read.
 
 ### 100 Writes
