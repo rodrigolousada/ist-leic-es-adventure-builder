@@ -32,3 +32,31 @@ Devido às limitações impostas pelas máquinas à disposição, este teste foi
 Podemos perceber então que a melhor configuração para evitar situações de conflito será sempre o caso onde apenas temos um utilizador (thread) a correr que pretende efectuar mais pedidos. A melhor configuração para a simulação de número de utilizadores em simultâneo variará com a capacidade do computador e o número de Adventures, Offers, Rooms e Accounts criadas para respectivo process/read.
 
 ### 100 Writes
+
+Parâmetros:
+1 única conta no módulo Bank
+1 única Activity Offer
+1 único Hotel com 100 quartos
+100 Adventures
+
+#### Resultados
+
+##### 100 users
+
+100 utilizadores em simultâneo, 500 pedidos Process Adventure no total
+
+| Label                    | # Samples | Average | Median | 90% Line | 95% Line | 99% Line | Min |   Max | Errors | Throughtput (Hz) | Received (KB/s) | Sent (KB/s) |
+|--------------------------+-----------+---------+--------+----------+----------+----------+-----+-------+--------+------------------+-----------------+-------------|
+| Create Bank              |         1 |     132 |    132 |      132 |      132 |      132 | 132 |   132 | 0 %    |             7.57 |           11.40 |        2.49 |
+| Create Bank Client       |         1 |      71 |     71 |       71 |       71 |       71 |  71 |    71 | 0 %    |            14.08 |           24.88 |        4.88 |
+| Create Bank Account      |         1 |      67 |     67 |       67 |       67 |       67 |  67 |    67 | 0 %    |            14.92 |           22.63 |        6.23 |
+| Deposit Bank Account     |         1 |      82 |     82 |       82 |       82 |       82 |  82 |    82 | 0 %    |            12.19 |           17.50 |        2.95 |
+| Create Activity Provider |         1 |      85 |     85 |       85 |       85 |       85 |  85 |    85 | 0 %    |            11.76 |           18.22 |        4.03 |
+| Create Activity          |         1 |      80 |     80 |       80 |       80 |       80 |  80 |    80 | 0 %    |             12.5 |           24.79 |        4.98 |
+| Create Activity Offer    |         1 |     141 |    141 |      141 |      141 |      141 | 141 |   141 | 0 %    |             7.09 |           12.24 |        2.91 |
+| Create Hotel             |         1 |      64 |     64 |       64 |       64 |       64 |  64 |    64 | 0 %    |            15.62 |           23.75 |        5.35 |
+| Create Hotel Room        |       100 |      97 |     76 |      151 |      185 |      225 |  58 |   342 | 0 %    |            10.28 |           82.25 |        3.68 |
+| Create Brokers           |         1 |      78 |     78 |       78 |       78 |       78 |  78 |    78 | 0 %    |            12.82 |           20.53 |        4.40 |
+| Create Adventures        |       100 |     148 |     90 |      293 |      366 |      575 |  66 |  1228 | 0 %    |             6.70 |          164.45 |        2.69 |
+| Process Adventure        |       500 |    7677 |   3935 |    19898 |    24619 |    39341 |   4 | 49313 | 26 %   |             7.92 |          278.23 |        2.92 |
+| TOTAL                    |       709 |    5450 |    588 |    17484 |    22717 |    37646 |   4 | 49313 | 18 %   |             7.97 |          234.20 |        2.97 |
