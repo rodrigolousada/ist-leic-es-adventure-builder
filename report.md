@@ -1,5 +1,8 @@
 # Group 24 Report
 
+O seguinte relatório tem em vista a análise dos dados recolhidos pelo processamento dos 3 testes de carga.
+A politica optimista da FénixFramework é responsável por atrasar o reconhecimento de erro até ao final, sendo obrigado então a fazer *rollback* nesta eventualidade. Isto tem um impacto negativo, diminuindo o throughput drasticamente, na existância de muitos conflictos de acesso, tal como poderemos verificar a baixo nas análises feitas pelos subgrupos. 
+
 ### 100 Reads
 
 ### 30 Writes
