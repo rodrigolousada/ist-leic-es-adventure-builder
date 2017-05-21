@@ -33,30 +33,39 @@ Podemos perceber então que a melhor configuração para evitar situações de c
 
 ### 100 Writes
 
-Parâmetros:
-1 única conta no módulo Bank
-1 única Activity Offer
-1 único Hotel com 100 quartos
-100 Adventures
+Parâmetros:  
+1 única conta no módulo Bank  
+1 única Activity Offer  
+1 único Hotel com 100 quartos  
+100 Adventures  
+5 pedidos "Process Adventure" por cada Adventure
+
+Sistema:  
+CPU: Intel Core i7-5700HQ @ 2.70GHz  
+Cores físicos: 4  
+Cores lógicos: 8  
+RAM: 8 GiB  
+Armazenamento: Hitachi HTS721010A9 (7200 rpm HDD)  
+Sistema de ficheiros: Btrfs/LUKS/LVM (AES-256)  
+SO: Debian GNU/Linux amd64 (stretch/testing)  
+DB: MariaDB 10.1.22
 
 #### Resultados
+Os dados abaixo são referentes apenas à fase de "Process Adventure"
 
-##### 100 users
+| Threads | req/thr |   Avg | Min |   Max | Errors | Throughtput (Hz) |
+|---------|---------|-------|-----|-------|--------|------------------|
+|     500 |       1 |  9980 | 350 | 31558 | 70 %   |             15.5 |
+|     100 |       5 | 10482 | 119 | 56631 | 8 %    |              7.9 |
+|      50 |      10 |  4149 | 186 | 27316 | 0 %    |             10.4 |
+|      10 |      50 |  1207 | 133 |  8020 | 0 %    |              8.0 |
+|      10 |      50 |  1149 |  76 | 12866 | 0 %    |              8.4 |
+|       5 |     100 |   725 |  83 |  5379 | 0 %    |              6.7 |
+|       4 |     125 |   483 |  75 |  2434 | 0 %    |              8.1 |
+|       2 |     250 |   263 | 275 |  2544 | 0 %    |              7.5 |
+|       1 |     500 |   148 |  75 |  1432 | 0 %    |              6.5 |
 
-100 utilizadores em simultâneo, 500 pedidos Process Adventure no total
-
-| Label                    | # Samples | Average | Median | 90% Line | 95% Line | 99% Line | Min |   Max | Errors | Throughtput (Hz) | Received (KB/s) | Sent (KB/s) |
-|--------------------------|-----------|---------|--------|----------|----------|----------|-----|-------|--------|------------------|-----------------|-------------|
-| Create Bank              |         1 |     132 |    132 |      132 |      132 |      132 | 132 |   132 | 0 %    |             7.57 |           11.40 |        2.49 |
-| Create Bank Client       |         1 |      71 |     71 |       71 |       71 |       71 |  71 |    71 | 0 %    |            14.08 |           24.88 |        4.88 |
-| Create Bank Account      |         1 |      67 |     67 |       67 |       67 |       67 |  67 |    67 | 0 %    |            14.92 |           22.63 |        6.23 |
-| Deposit Bank Account     |         1 |      82 |     82 |       82 |       82 |       82 |  82 |    82 | 0 %    |            12.19 |           17.50 |        2.95 |
-| Create Activity Provider |         1 |      85 |     85 |       85 |       85 |       85 |  85 |    85 | 0 %    |            11.76 |           18.22 |        4.03 |  
-| Create Activity          |         1 |      80 |     80 |       80 |       80 |       80 |  80 |    80 | 0 %    |             12.5 |           24.79 |        4.98 |
-| Create Activity Offer    |         1 |     141 |    141 |      141 |      141 |      141 | 141 |   141 | 0 %    |             7.09 |           12.24 |        2.91 |
-| Create Hotel             |         1 |      64 |     64 |       64 |       64 |       64 |  64 |    64 | 0 %    |            15.62 |           23.75 |        5.35 |
-| Create Hotel Room        |       100 |      97 |     76 |      151 |      185 |      225 |  58 |   342 | 0 %    |            10.28 |           82.25 |        3.68 |
-| Create Brokers           |         1 |      78 |     78 |       78 |       78 |       78 |  78 |    78 | 0 %    |            12.82 |           20.53 |        4.40 |
-| Create Adventures        |       100 |     148 |     90 |      293 |      366 |      575 |  66 |  1228 | 0 %    |             6.70 |          164.45 |        2.69 |
-| Process Adventure        |       500 |    7677 |   3935 |    19898 |    24619 |    39341 |   4 | 49313 | 26 %   |             7.92 |          278.23 |        2.92 |
-| TOTAL                    |       709 |    5450 |    588 |    17484 |    22717 |    37646 |   4 | 49313 | 18 %   |             7.97 |          234.20 |        2.97 |
+Observações:  
+- A latência está inversamente relacionada com o número de utilizadores concorrentes.  
+- É observada a ocorrência de erros para um número muito elevado de utilizadores concorrentes.  
+- O throughtput não parece variar de forma significativa, excepto na ocorrência de uma taxa de erros elevada.  
