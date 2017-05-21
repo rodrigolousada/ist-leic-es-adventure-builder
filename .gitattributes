@@ -6,6 +6,8 @@
 *.properties            text
 *.html                  text
 *.properties.example    text
+*.txt                   text
+*.jmx                   text
 .gitignore              text
 .gitattributes          text
 /bin/*                  text
